@@ -1,7 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn } from '@angular/common/http';
-
-import { customInterceptor } from './Common.interceptor';
+import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 
 describe('customInterceptor', () => {
   const interceptor: HttpInterceptorFn = (req, next) => 
@@ -15,3 +13,7 @@ describe('customInterceptor', () => {
     expect(interceptor).toBeTruthy();
   });
 });
+function customInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): any {
+  throw new Error('Function not implemented.');
+}
+

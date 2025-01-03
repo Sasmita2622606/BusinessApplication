@@ -7,11 +7,18 @@ import { Observable } from 'rxjs';
 })
 export class BusinessService {
   private apiUrl = 'https://localhost:7000/api/Business';
+  private cus_ApiUrl = 'https://localhost:7000/api/Customer';
+
 
   constructor(private http: HttpClient) {}
 
   registerBusiness(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}`, formData);
+  }
+
+  registerCustomer(inputdata:any)
+  {
+    return this.http.post(this.cus_ApiUrl, inputdata);
   }
 
   searchBusinesses(category: string, subcategory: string): Observable<any[]> {

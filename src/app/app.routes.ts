@@ -3,10 +3,12 @@ import { RegisterbusinessComponent } from './registerbusiness/registerbusiness.c
 import { LoginComponent } from './login/login.component';
 import { BusinesssearchComponent } from './businesssearch/businesssearch.component';
 import { authGuard } from './Guard/auth.guard';
+import { CustomerregistrationComponent } from './customerregistration/customerregistration.component';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    //{ path: '', redirectTo: '/login', pathMatch: 'full' },
     {path:'Registerbusiness',component:RegisterbusinessComponent},
+    {path:'Customerregistration',component:CustomerregistrationComponent},
     {path:'Businesssearch',component:BusinesssearchComponent, canActivate:[authGuard]},
 ];

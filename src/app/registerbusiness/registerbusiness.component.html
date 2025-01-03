@@ -13,6 +13,18 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="txtcode">EmailId</label>
+      <input type="email" class="form-control" formControlName="EmailId" autocomplete="off">
+      <!-- <div *ngIf="employeeForm.get('emailID')?.touched && employeeForm.get('emailID')?.invalid">
+          <small class="text-danger">Email is required.</small>
+        </div> -->
+        <div *ngIf="emailID?.touched && emailID?.invalid" class="error">
+          <small *ngIf="emailID?.hasError('required')">Email is required.</small>
+          <small *ngIf="emailID?.hasError('email')">Please enter a valid email address.</small>
+        </div>
+    </div>
+
     <!-- Name -->
     <div class="form-group">
       <label for="password">Password</label>
@@ -35,7 +47,7 @@
       </div>
     </div>
 
-    <!-- Location -->
+    <!-- Location
     <div class="form-group">
       <label for="location">Location</label>
       <input id="location" #searchInput type="text" formControlName="Location" placeholder="Enter location" />
@@ -45,6 +57,22 @@
       <google-map [center]="mapCenter" [zoom]="15" height="500px" width="100%">
         <map-marker [position]="mapCenter"></map-marker>
       </google-map>
+    </div> -->
+
+    <!-- Location Field -->
+    <div class="form-group">
+      <label for="location">Select Location</label>
+      <div class="map-container">
+        <google-map height="400px" width="100%" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
+          <map-marker *ngIf="marker" [position]="marker"></map-marker>
+        </google-map>
+      </div>
+      <input pInputText class="w-full mt-3" id="location" formControlName="location" placeholder="Enter Location"
+        (change)="onLocationInput()" />
+      <small class="block p-error"
+        *ngIf="registerForm.get('location')?.invalid && (registerForm.get('location')?.dirty || registerForm.get('location')?.touched)">
+        Location is required
+      </small>
     </div>
 
     <div class="form-group">
@@ -52,9 +80,9 @@
       <select class="form-control" (change)="onCategoryChange($event)">
         <option *ngFor="let category of categories" [value]="category.categoryID">{{category.categoryName}}</option>
       </select>
-      <div *ngIf="registerForm.get('Category')?.touched && registerForm.get('Category')?.invalid" class="error">
+      <!-- <div *ngIf="registerForm.get('Category')?.touched && registerForm.get('Category')?.invalid" class="error">
         <div *ngIf="registerForm.get('Category')?.hasError('required')">Category is required.</div>
-      </div>
+      </div> -->
     </div>
 
     <!-- SubCategory -->
@@ -64,9 +92,9 @@
         <option *ngFor="let subcategory of subCategories" [value]="subcategory.subCategoryID">
           {{subcategory.subCategoryName}}</option>
       </select>
-      <div *ngIf="registerForm.get('SubCategory')?.touched && registerForm.get('SubCategory')?.invalid" class="error">
+      <!-- <div *ngIf="registerForm.get('SubCategory')?.touched && registerForm.get('SubCategory')?.invalid" class="error">
         <div *ngIf="registerForm.get('SubCategory')?.hasError('required')">SubCategory is required.</div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Visiting Card -->

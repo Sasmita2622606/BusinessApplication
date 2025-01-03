@@ -1,10 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [
+        { 
+          provide: ActivatedRoute, 
+          useValue: { snapshot: { data: {} } } // Mock ActivatedRoute if required
+        },
+      ],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
@@ -16,8 +24,9 @@ describe('AppComponent', () => {
 
   it(`should have the 'business' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('business');
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('business');
   });
 
   it('should render title', () => {

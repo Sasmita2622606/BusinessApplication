@@ -20,8 +20,6 @@ export interface Business {
 })
 export class BusinesssearchComponent implements OnInit {
   searchForm !: FormGroup;
-  //activeTab: string = 'tab1';
-  //categories = ['Medical', 'Furniture', 'General Store', 'Food', 'Catering'];
   categories: any[] = [];
   businessList: any[] = [];
   isTableVisible: boolean = false; // Table visibility flag
@@ -35,7 +33,6 @@ export class BusinesssearchComponent implements OnInit {
   constructor(private fb: FormBuilder, private businessService: BusinessService) { }
 
   ngOnInit(): void {
-    // Initialize reactive form
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required],
       category: ['', Validators.required],
@@ -56,8 +53,6 @@ export class BusinesssearchComponent implements OnInit {
   selectCategory(category: any): void {
     this.selectedCategory = category?.categoryName;
     this.getSubCategories(category?.categoryID)
-
-    // this.searchForm.patchValue({ category, subcategory: '' });
   }
 
   getSubCategories(id: any) {
@@ -76,8 +71,6 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   replacePercentage(val: any) {
-    // val = val.replace('%', '/');
-    // val = val.replace('%%', '/');
     console.log(val);
     return val;
   }
@@ -91,7 +84,6 @@ export class BusinesssearchComponent implements OnInit {
       this.categories = data;
       if (!this.FormVal?.CategoryID) {
         this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)
-        //this.getSubCategories();
       }
     });
   }
@@ -99,7 +91,6 @@ export class BusinesssearchComponent implements OnInit {
   // Handle subcategory selection
   selectSubcategory(subcategory: any): void {
     this.selectedSubCategory = subcategory?.subCategoryName
-    // this.searchForm.patchValue({ subcategory });
   }
 
   // Handle form submission

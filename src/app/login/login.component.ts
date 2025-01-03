@@ -48,21 +48,37 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    debugger
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-      this.service.onSubmit(this.loginForm.value).subscribe(result => {
-        this.responsedata = result;
-        if (this.responsedata != null) {
-          localStorage.setItem('token', this.responsedata.token);
-          this.router.navigateByUrl('/Businesssearch')
-        } else {
-          this.errorMessage="Login Failed"
+      this.service.onSubmit(loginData).subscribe({
+        next: (result) => {
+          this.responsedata = result;
+          if (this.responsedata != null && this.responsedata.token) {
+            // Store the token in local storage
+            localStorage.setItem('token', this.responsedata.token);
+  
+            // Show success message with an alert
+            alert('Successfully logged in!');
+  
+            // Navigate to the business search page
+            this.router.navigateByUrl('/Businesssearch');
+          } else {
+            // If token is not available, show a failed login message
+            alert('Login Failed!');
+          }
+        },
+        error: (error) => {
+          // Handle HTTP error responses like Unauthorized (401)
+          if (error.status === 401) {
+            alert('Incorrect username or password. Unauthorized!');
+          } else {
+            // Generic error message for any other errors
+            alert('An error occurred during login. Please try again.');
+          }
         }
       });
-    } 
-    else{
-      this.errorMessage="Enter valid data"
+    } else {
+      alert('Enter valid data!');
     }
   }
 }

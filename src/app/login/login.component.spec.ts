@@ -18,6 +18,8 @@ describe('LoginComponent', () => {
   });
 
   it('should create', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });

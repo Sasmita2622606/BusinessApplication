@@ -32,11 +32,13 @@
   }
 
   .btn-submit {
-    background-color: #007bff; /* Green */
+    background-color: #428bca;
+    border-color: #357ebd; /* Green */
     color: white;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    width: 365px;
   }
 
   .button-container {
@@ -51,5 +53,30 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+  }
+
+  .links {
+    margin-top: 20px;
+  }
+  
+  .links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: blue;
+  }
+  
+  .links a:hover {
+    color: darkblue;
+    text-decoration: underline;
+  }
+  
+  .snackbar-success {
+    background-color: #4caf50;
+    color: #ffffff;
+  }
+  
+  .snackbar-error {
+    background-color: #f44336;
+    color: #ffffff;
   }
   
