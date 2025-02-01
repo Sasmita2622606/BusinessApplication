@@ -5,7 +5,7 @@
   <div class="section">
     <h6>Category</h6>
     <div class="grid mb-2">
-      <button type="button" class="btn btn-outline-secondary btn-sm category-button" *ngFor="let category of categories" [class.active]="selectedCategory === category"
+      <button style="background-color:lightblue" type="button" class="button-container button" *ngFor="let category of categories" [class.active]="selectedCategory === category"
         (click)="selectCategory(category)">
         {{ category?.categoryName}}
       </button>
@@ -16,7 +16,7 @@
   <div class="section">
     <h6>Subcategory</h6>
     <div class="grid mb-2">
-      <button type="button" class="btn btn-outline-secondary btn-sm category-button" *ngFor="let subcategory of subCategories" (click)="selectSubcategory(subcategory)">
+      <button style="background-color:lightblue" type="button" class="button-container button" *ngFor="let subcategory of subCategories" (click)="selectSubcategory(subcategory)">
         {{ subcategory?.subCategoryName }}
       </button>
     </div>
@@ -24,9 +24,14 @@
 
   <!-- Reactive Form -->
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <input formControlName="searchQuery" placeholder="Search..." class="search-input"
+    <div class="form-group">
+    <input class="form-control" formControlName="searchQuery" placeholder="Search..."
     [value]="selectedCategory + (selectedSubCategory ? ',' + selectedSubCategory : '')" />
-    <button type="submit" (click)="callSearch()">Search</button>
+    <div class="offset-lg-3 col-lg-6">
+    <button class="button-container button" type="submit" (click)="callSearch()">Search</button>
+  </div>
+    </div>
+    
     <!-- Business List Table -->
     <table *ngIf="isTableVisible" border="1" style="width: 100%; margin-top: 10px; text-align: left;">
       <thead>
