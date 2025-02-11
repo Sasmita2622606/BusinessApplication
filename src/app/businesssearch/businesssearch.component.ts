@@ -27,8 +27,8 @@ export class BusinesssearchComponent implements OnInit {
   businessList: any[] = [];
   fileUpload: any;
   isTableVisible: boolean = false; // Table visibility flag
-  //imageBaseUrl = 'https://reg-apis.onrender.com/uploads/';
-  imageBaseUrl = 'https://localhost:7000/uploads/';
+  imageBaseUrl = 'https://reg-apis.onrender.com/uploads/';
+  //imageBaseUrl = 'https://localhost:7000/uploads/';
   latitudeDifference: number | null = null;
   longitudeDifference: number | null = null;
 

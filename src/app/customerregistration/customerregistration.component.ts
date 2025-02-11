@@ -13,6 +13,7 @@ import { BusinessService } from '../service/business.service';
   styleUrl: './customerregistration.component.css'
 })
 export class CustomerregistrationComponent implements OnInit {
+  title = 'Register Customer'
   cusRegisterForm: FormGroup;
   fileUpload: any;
   saveresponse: any;

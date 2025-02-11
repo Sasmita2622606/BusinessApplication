@@ -125,3 +125,9 @@ max-width: 100%;
   *::after {
     box-sizing: border-box;
   }
+
+  .error-snackbar {
+    background-color: red;
+    color: white;
+    font-size: 16px;
+  }
