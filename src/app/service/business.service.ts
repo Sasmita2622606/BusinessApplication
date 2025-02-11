@@ -39,4 +39,12 @@ export class BusinessService {
   getSubCategories(categoryId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/GetSubCategories/${categoryId}`);
   }
+
+  getBusinessDetailById(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/getbusinessdetailbyid/${id}`);
+  }
+
+  updateBusiness(formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}`, formData);
+  }
 }

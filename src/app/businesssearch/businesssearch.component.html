@@ -4,10 +4,10 @@
   <!-- Category Section -->
   <div class="section">
     <h6>Category</h6>
-    <div class="grid mb-2">
-      <button style="background-color:lightblue" type="button" class="button-container button" *ngFor="let category of categories" [class.active]="selectedCategory === category"
-        (click)="selectCategory(category)">
-        {{ category?.categoryName}}
+    <div class="grid">
+      <button type="button" class="category-button" *ngFor="let category of categories"
+        [class.active]="selectedCategory === category" (click)="selectCategory(category)">
+        {{ category?.categoryName }}
       </button>
     </div>
   </div>
@@ -15,57 +15,130 @@
   <!-- Subcategory Section -->
   <div class="section">
     <h6>Subcategory</h6>
-    <div class="grid mb-2">
-      <button style="background-color:lightblue" type="button" class="button-container button" *ngFor="let subcategory of subCategories" (click)="selectSubcategory(subcategory)">
+    <div class="grid">
+      <button type="button" class="category-button" *ngFor="let subcategory of subCategories"
+        (click)="selectSubcategory(subcategory)">
         {{ subcategory?.subCategoryName }}
       </button>
     </div>
   </div>
 
-  <!-- Reactive Form -->
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-    <input class="form-control" formControlName="searchQuery" placeholder="Search..."
-    [value]="selectedCategory + (selectedSubCategory ? ',' + selectedSubCategory : '')" />
-    <div class="offset-lg-3 col-lg-6">
-    <button class="button-container button" type="submit" (click)="callSearch()">Search</button>
-  </div>
-    </div>
-    
-    <!-- Business List Table -->
-    <table *ngIf="isTableVisible" border="1" style="width: 100%; margin-top: 10px; text-align: left;">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Visting Card</th>
-          <th>Distance (KM)</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="businessList.length > 0">
-        <tr *ngFor="let business of businessList">
-          <!-- Clickable Name -->
-          <td>
-            <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a>
-          </td>
-          <td>{{ business.description }}</td>
-          <td>
-            <img [src]="getImageUrl(business.visitingCard)" alt="Visting card" width="100" height="60" />
-          </td>
-          <td>{{ business.distancekm }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">No records found</p>
-    <!-- Popup/Modal -->
-    <div class="popup" *ngIf="selectedBusiness">
-      <div class="popup-content">
-        <span class="close" (click)="closePopup()">&times;</span>
-        <h2>{{ selectedBusiness.name }}</h2>
-        <p><strong>Description:</strong> {{ selectedBusiness.description }}</p>
-        <img [src]="replacePercentage(selectedBusiness.visitingCard)" alt="Visting card" width="200" height="120" />
-        <p><strong>Distance:</strong> {{ selectedBusiness.distancekm }} KM</p>
+  <!-- Search Form -->
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
+    <input type="text" formControlName="searchQuery" placeholder="Search..." class="search-input"
+      [value]="selectedCategory + (selectedSubCategory ? ',' + selectedSubCategory : '')" />
+    <button type="submit" (click)="callSearch()" class="btn-submit">Search</button>
+  </form>
+
+  <!-- Business List Table -->
+  <table *ngIf="isTableVisible" class="business-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Visiting Card</th>
+        <th>New Latitude</th>
+        <th>New Longtitude</th>
+        <th>Distance (KM)</th>        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let business of businessList">
+        <td>
+          <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
+          <a href="javascript:void(0)" (click)="getBusinessDetailById(business.businessID)">{{ business.name }}</a>
+        </td>
+        <td>{{ business.description }}</td>
+        <td>
+          <img [src]="getImageUrl(business.visitingCard)" alt="Visiting card" class="visiting-card" />
+        </td>
+        <td>
+          {{ business.latitude }} 
+       </td>
+       <td>          
+          {{ business.longitude }} 
+       </td>
+        <td>{{ business.distancekm }}</td>        
+      </tr>
+      <tr>
+        <p *ngIf="latitudeDifference !== null">Latitude Difference: {{ latitudeDifference.toFixed(2) }}</p>
+        <p *ngIf="longitudeDifference !== null">Longitude Difference: {{ longitudeDifference.toFixed(2) }}</p>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
+    No records found
+  </p>
+  <!-- Popup/Modal -->
+  <div class="popup" *ngIf="selectedBusiness">
+    <!-- Close Button -->
+    <div class="popup-content">
+      <span class="close" (click)="closePopup()">&times;</span>
+      <!-- Business Details -->
+      <h2 class="popup-title">Business Details</h2>
+
+      <div class="details-container">
+        <!-- Name -->
+        <div class="detail-row">
+          <span class="label">Name:</span>
+          <span class="value">{{ selectedBusiness.name }}</span>
+        </div>
+
+        <!-- Description -->
+        <div class="detail-row">
+          <span class="label">Description:</span>
+          <span class="value">{{ selectedBusiness.description }}</span>
+        </div>
+
+        <!-- Visiting Card -->
+        <div class="detail-row">
+          <span class="label">Visiting Card:</span>
+          <span class="value">
+            <img [src]="getImageUrl(selectedBusiness.visitingCard)" alt="Visiting card" class="visiting-card" />
+          </span>
+        </div>
+
+        <!-- Distance -->
+        <div class="detail-row">
+          <span class="label">Distance:</span>
+          <span class="value">{{ selectedBusiness.distancekm }} KM</span>
+        </div>
+
+        <!-- Location -->
+        <div class="detail-row full-width">
+          <span class="label">Location:</span>
+          <google-map class="map-container" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
+            <map-marker *ngIf="marker" [position]="marker"></map-marker>
+          </google-map>
+        </div>
+
+        <!-- Location Input -->
+        <div class="detail-row full-width">
+          <span class="label">Enter Location:</span>
+          <input type="text" class="form-control" id="location" [(ngModel)]="selectedBusiness.location"
+            placeholder="Enter location manually" (change)="onLocationInput()" />
+        </div>
+
+        <!-- Latitude and Longitude -->
+        <div class="detail-row">
+          <span class="label">Latitude:</span>
+          <input type="text" id="latitude" class="form-control" [(ngModel)]="selectedBusiness.latitude" readonly
+            placeholder="Latitude will appear here" />
+        </div>
+
+        <div class="detail-row">
+          <span class="label">Longitude:</span>
+          <input type="text" class="form-control" id="longitude" [(ngModel)]="selectedBusiness.longitude" readonly
+            placeholder="Longitude will appear here" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="button-container full-width">
+          <button type="submit" class="submit-btn" (click)="submitBusiness(distance)">
+            Update Location
+          </button>
+        </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
