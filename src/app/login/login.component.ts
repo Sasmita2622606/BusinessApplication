@@ -18,6 +18,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   responsedata: any;
   errorMessage: string | null = null;
+  isButtonDisabled: boolean = false;
 
   constructor(private fb: FormBuilder, private service: LoginService, private router: Router) {
     localStorage.clear();
@@ -49,6 +50,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.isButtonDisabled = true;
       const loginData = this.loginForm.value;
       this.service.onSubmit(loginData).subscribe({
         next: (result) => {
@@ -78,7 +80,7 @@ export class LoginComponent {
         }
       });
     } else {
-      alert('Enter valid data!');
+      alert('Enter valid username and password!');
     }
   }
 }

@@ -41,14 +41,13 @@ body {
     height: 150px;            
     background-color: #333;  
     padding: 10px;
+    justify-content: space-between;
   }  
   
   .logo-container {
     height: 100px;
-    display: flex;
     justify-content: left; 
   }
-  
   
   .app-logo {
     height: 43px;  

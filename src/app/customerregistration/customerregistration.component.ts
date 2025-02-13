@@ -3,11 +3,12 @@ import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoogleMapsModule } from "@angular/google-maps";
 import { BusinessService } from '../service/business.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-customerregistration',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, GoogleMapsModule],
+  imports: [ReactiveFormsModule, CommonModule, GoogleMapsModule, RouterLink],
   providers: [BusinessService],
   templateUrl: './customerregistration.component.html',
   styleUrl: './customerregistration.component.css'

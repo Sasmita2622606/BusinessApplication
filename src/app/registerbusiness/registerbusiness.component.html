@@ -1,8 +1,12 @@
 <div class="register-business-container">
   <h1>Register Business</h1>
 
-  <form [formGroup]="registerForm" (ngSubmit)="submit()" class="business-form">
-    <!-- Name -->
+  <form [formGroup]="registerForm" (ngSubmit)="submit()" class="business-form">   
+      <!-- Go to Login Link -->
+    <div class="login-link">
+      <p>Already have an account? <p><a [routerLink]="['/login']" class="link">Login Here</a></p>      
+    </div>
+     <!-- Name -->
     <div class="form-group">
       <label for="name">Business Name</label>
       <input
@@ -169,6 +173,6 @@
       [disabled]="registerForm.invalid"
     >
       Register Business
-    </button>
+    </button>   
   </form>
 </div>

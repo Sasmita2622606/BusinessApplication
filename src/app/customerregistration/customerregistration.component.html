@@ -1,6 +1,10 @@
 <div class="customer-register-container">
   <h1>Register Customer</h1>
   <form [formGroup]="cusRegisterForm" (ngSubmit)="submit()" class="customer-form">
+    <!-- Go to Login Link -->
+    <div class="login-link">
+      <p>Already have an account? <p><a [routerLink]="['/login']" class="link">Login here</a></p>      
+    </div>
     <!-- Email Field -->
     <div class="form-group">
       <label for="email">Email</label>
