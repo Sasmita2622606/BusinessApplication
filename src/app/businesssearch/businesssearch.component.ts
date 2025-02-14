@@ -27,8 +27,8 @@ export class BusinesssearchComponent implements OnInit {
   businessList: any[] = [];
   fileUpload: any;
   isTableVisible: boolean = false; // Table visibility flag
-  imageBaseUrl = 'https://reg-apis.onrender.com/uploads/';
-  //imageBaseUrl = 'https://localhost:7000/uploads/';
+  //imageBaseUrl = 'https://reg-apis.onrender.com/uploads/';
+  imageBaseUrl = 'https://localhost:7000/uploads/';
   latitudeDifference: number | null = null;
   longitudeDifference: number | null = null;
 
@@ -149,9 +149,9 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   // Handle category selection
-  selectCategory(category: any): void {
+  selectCategory(category: any): void {    
     this.selectedCategory = category?.categoryName;
-    this.getSubCategories(category?.categoryID)
+    this.getSubCategories(category?.categoryID)    
   }
 
   getSubCategories(id: any) {
@@ -192,13 +192,13 @@ export class BusinesssearchComponent implements OnInit {
     this.businessService.getCategories().subscribe((data) => {
       this.categories = data;
       if (!this.FormVal?.CategoryID) {
-        this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)
+        this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)        
       }
     });
   }
 
   // Handle subcategory selection
-  selectSubcategory(subcategory: any): void {
+  selectSubcategory(subcategory: any): void {    
     this.selectedSubCategory = subcategory?.subCategoryName
   }
 
