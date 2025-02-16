@@ -38,9 +38,9 @@ export class RegisterbusinessComponent implements OnInit {
       Latitude: [8.3],
       Longitude: [9.3],
 
-      CategoryID: [''],
-      BusinessID: [0],
-      SubCategoryID: [''],
+      CategoryID: ['', [Validators.required]],
+      BusinessID: [0, [Validators.required]],
+      SubCategoryID: ['', [Validators.required]],
     });
   }
 
@@ -149,6 +149,7 @@ export class RegisterbusinessComponent implements OnInit {
 
   onCategoryChange(eve: any): void {
     this.registerForm.controls['CategoryID'].setValue(eve.target.value)
+    this.registerForm.controls['SubCategoryID'].setValue('');
     this.getSubCategories();
   }
 

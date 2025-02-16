@@ -147,7 +147,11 @@
         <option *ngFor="let subcategory of subCategories" [value]="subcategory.subCategoryID">
           {{ subcategory.subCategoryName }}
         </option>
+       
       </select>
+      <small *ngIf="registerForm.get('SubCategoryID')?.invalid && (registerForm.get('SubCategoryID')?.dirty || registerForm.get('SubCategoryID')?.touched)" class="error">
+        SubCategory is required.
+      </small>
     </div>
 
     <!-- Visiting Card Upload -->

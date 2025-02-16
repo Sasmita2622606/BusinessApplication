@@ -374,6 +374,12 @@ input.form-control {
   cursor: not-allowed;
 }
 
+.category-button.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .details-container {

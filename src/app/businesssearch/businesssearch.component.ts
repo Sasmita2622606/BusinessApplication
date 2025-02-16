@@ -151,6 +151,7 @@ export class BusinesssearchComponent implements OnInit {
   // Handle category selection
   selectCategory(category: any): void {    
     this.selectedCategory = category?.categoryName;
+    this.selectedSubCategory = ''; 
     this.getSubCategories(category?.categoryID)    
   }
 
