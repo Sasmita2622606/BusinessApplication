@@ -112,26 +112,7 @@
           </google-map>
         </div>
 
-        <!-- Location Input -->
-        <div class="detail-row full-width">
-          <span class="label">Enter Location:</span>
-          <input type="text" class="form-control" id="location" [(ngModel)]="selectedBusiness.location"
-            placeholder="Enter location manually" (change)="onLocationInput()" />
-        </div>
-
-        <!-- Latitude and Longitude -->
-        <div class="detail-row">
-          <span class="label">Latitude:</span>
-          <input type="text" id="latitude" class="form-control" [(ngModel)]="selectedBusiness.latitude" readonly
-            placeholder="Latitude will appear here" />
-        </div>
-
-        <div class="detail-row">
-          <span class="label">Longitude:</span>
-          <input type="text" class="form-control" id="longitude" [(ngModel)]="selectedBusiness.longitude" readonly
-            placeholder="Longitude will appear here" />
-        </div>
-
+    
         <!-- Submit Button -->
         <div class="button-container full-width">
           <button type="submit" class="submit-btn" (click)="submitBusiness(distance)">
