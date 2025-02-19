@@ -7,6 +7,7 @@ import { BusinessService } from '../service/business.service';
 import { GoogleMapsModule } from '@angular/google-maps';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 export interface Business {
   name: string;
   description: string;
@@ -46,8 +47,11 @@ export class BusinesssearchComponent implements OnInit {
   newLatitude: any;
   newLongtitude: any; 
   distance: any;
+  cusId: any;
+  customerData: any;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router) { }
+  constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -62,6 +66,9 @@ export class BusinesssearchComponent implements OnInit {
     this.getCategories();
     this.getCurrentLocation();
     console.log(this.categories, "test")
+    this.cusId = this.authservice.getEmailFromToken();
+    console.log('Cusid:', this.cusId);  
+    this.getCustomerDetails();
   }
 
   getCurrentLocation(): void {
@@ -82,6 +89,22 @@ export class BusinesssearchComponent implements OnInit {
     } else {
       alert('Geolocation is not supported by your browser.');
     }
+  }
+
+  getCustomerDetails() {
+    debugger
+    this.businessService.getCustomerDetailsByID(this.cusId).subscribe({
+      next: (data) => {
+        this.customerData = data;
+        console.log("customer data", this.customerData)
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        console.error('Error fetching customer details:', error);
+        this.customerData = null;
+        this.errorMessage = 'Customer not found.';
+      }
+    });
   }
 
   onMapClick(event: google.maps.MapMouseEvent) {

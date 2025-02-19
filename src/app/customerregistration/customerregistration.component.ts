@@ -20,6 +20,7 @@ export class CustomerregistrationComponent implements OnInit {
   saveresponse: any;
   messageclass = '';
   message = '';
+  emailExists: boolean = false;
   private messageService = inject(BusinessService);
 
   center: google.maps.LatLngLiteral = { lat: 37.7749, lng: -122.4194 }; // Default to San Francisco
@@ -42,7 +43,20 @@ export class CustomerregistrationComponent implements OnInit {
 
   }
   
-
+  checkEmail() {
+    debugger
+    const email = this.cusRegisterForm.get('Cus_EmailId')?.value;
+    if (email) {
+      this.businessService.checkEmailExists(email).subscribe({
+        next: (exists) => {
+          this.emailExists = exists;
+        },
+        error: () => {
+          this.emailExists = false;
+        }
+      });
+    }
+  }
    // Getter for Email Field
    get emailID() {
     return this.cusRegisterForm.get('Cus_EmailId');
@@ -127,7 +141,10 @@ export class CustomerregistrationComponent implements OnInit {
 
   submit(): void {
     
-  
+    if (this.emailExists) {
+      this.message = 'Email is already registered!';
+      return;
+    }
     // Check if the form is valid
     if (!this.cusRegisterForm.valid) {
       this.showAlert("Form is invalid. Please check the inputs.", "error");
@@ -138,8 +155,7 @@ export class CustomerregistrationComponent implements OnInit {
   
     // Call the service to register the customer
     this.businessService.registerCustomer(this.cusRegisterForm.value).subscribe({
-      next: (response) => this.onRegisterSuccess(response),
-      error: (error) => this.onRegisterError(error),
+      next: (response) => this.onRegisterSuccess(response)
     });
   }
   

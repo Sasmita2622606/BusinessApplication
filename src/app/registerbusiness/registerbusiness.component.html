@@ -32,7 +32,11 @@
         formControlName="EmailId"
         placeholder="Enter email address"
         autocomplete="off"
+        (blur)="checkEmail()"
       />
+      <p *ngIf="emailExists" style="color: red;">
+        This email is already registered.
+      </p>
       <div *ngIf="emailID?.touched && emailID?.invalid" class="error">
         <small *ngIf="emailID?.hasError('required')">Email is required.</small>
         <small *ngIf="emailID?.hasError('email')">Please enter a valid email address.</small>

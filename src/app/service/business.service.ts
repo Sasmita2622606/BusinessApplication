@@ -23,6 +23,20 @@ export class BusinessService {
     return this.http.put(`${this.apiUrl}`, formData);
   }
 
+  checkEmailExists(email: string): Observable<boolean> {
+    debugger
+    return this.http.get<boolean>(`${this.cus_ApiUrl}/check-email?email=${email}`);
+  }
+  checkEmailExistsBusiness(email: string): Observable<boolean> {
+    debugger
+    return this.http.get<boolean>(`${this.apiUrl}/check-email?email=${email}`);
+  }
+
+  getCustomerDetailsByID(cusId: number): Observable<any> {
+    debugger
+    return this.http.get<any>(`${this.cus_ApiUrl}/getcusdetailsbyid?cusId=${cusId}`);
+  }  
+
   registerCustomer(inputdata:any)
   {
     return this.http.post(this.cus_ApiUrl, inputdata);
