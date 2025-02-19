@@ -33,8 +33,8 @@ export class CustomerregistrationComponent implements OnInit {
       Cus_EmailId: ['', [Validators.required, Validators.email]],
       Cus_Password: ['', [Validators.required, Validators.minLength(3)]],
       Cus_Location: ['', [Validators.required]],
-      Latitude: [{ value: '', disabled: true }], // New fields 
-      Longitude: [{ value: '', disabled: true }] 
+      Latitude: [8.3],
+      Longitude: [9.3],
     });
   }
 
