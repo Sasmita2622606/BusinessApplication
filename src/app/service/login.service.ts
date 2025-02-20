@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginService {
 
-  //apiurl='https://localhost:7000/api/Auth/login';
-  apiurl='https://business-11.onrender.com/api/Auth/login';
+  apiurl='https://localhost:7000/api/Auth/login';
+  // apiurl='https://business-11.onrender.com/api/Auth/login';
 
   constructor(private http: HttpClient) { }
 
