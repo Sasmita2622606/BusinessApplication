@@ -38,15 +38,15 @@ export class BusinesssearchComponent implements OnInit {
   zoom = 10;
   marker: google.maps.LatLngLiteral | null = null;
 
-    // Variables to store selected category and subcategory objects
+  // Variables to store selected category and subcategory objects
   selectedCategory: any = null;
   selectedSubCategory: any = null;
   selectedBusiness: any = null; // Initially null
   subCategories: any;
-  businessDetail: any; 
+  businessDetail: any;
   newLocation: any;
   newLatitude: any;
-  newLongtitude: any; 
+  newLongtitude: any;
   distance: any;
   cusId: any;
   customerData: any;
@@ -68,7 +68,7 @@ export class BusinesssearchComponent implements OnInit {
     this.getCurrentLocation();
     console.log(this.categories, "test")
     this.cusId = this.authservice.getEmailFromToken();
-    console.log('Cusid:', this.cusId);  
+    console.log('Cusid:', this.cusId);
     this.getCustomerDetails();
   }
 
@@ -154,7 +154,7 @@ export class BusinesssearchComponent implements OnInit {
     } else {
       this.latitudeDifference = null;
     }
- 
+
     if (this.selectedBusiness.longitude !== null && this.newLongtitude !== null) {
       this.longitudeDifference = this.newLongtitude - this.selectedBusiness.longitude;
     } else {
@@ -173,23 +173,23 @@ export class BusinesssearchComponent implements OnInit {
     return `${this.imageBaseUrl}${visitingCard?.split("\\").pop()}`;
   }
 
- // Handle category selection
-selectCategory(category: any): void {    
-  this.selectedCategory = category; // Store the entire category object
-  this.selectedSubCategory = null; // Reset subcategory when category changes
-  this.getSubCategories(category?.categoryID);    
-}
+  // Handle category selection
+  selectCategory(category: any): void {
+    this.selectedCategory = category; // Store the entire category object
+    this.selectedSubCategory = null; // Reset subcategory when category changes
+    this.getSubCategories(category?.categoryID);
+  }
 
-// Handle subcategory selection
-selectSubcategory(subcategory: any): void {    
-  this.selectedSubCategory = subcategory; // Store the entire subcategory object
-}
+  // Handle subcategory selection
+  selectSubcategory(subcategory: any): void {
+    this.selectedSubCategory = subcategory; // Store the entire subcategory object
+  }
 
   getSubCategories(id: any) {
     this.businessService.getSubCategories(id).subscribe((result: any) => {
       this.subCategories = result;
     })
-  } 
+  }
 
   getBusinessDetailById(id: any) {
     // debugger
@@ -225,12 +225,12 @@ selectSubcategory(subcategory: any): void {
     this.businessService.getCategories().subscribe((data) => {
       this.categories = data;
       if (!this.FormVal?.CategoryID) {
-        this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)        
+        this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)
       }
     });
   }
 
-  
+
   // Handle form submission
   onSubmit(): void {
     if (this.searchForm.valid) {
@@ -256,7 +256,7 @@ selectSubcategory(subcategory: any): void {
   }
 
   submitBusiness(distance: any) {
-    const formData = new FormData();   
+    const formData = new FormData();
 
     Object.keys(this.selectedBusiness).forEach((key) => {
       if (key === 'image') {

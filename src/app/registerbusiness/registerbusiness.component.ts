@@ -43,7 +43,7 @@ export class RegisterbusinessComponent implements OnInit {
       CategoryID: ['', [Validators.required]],
       BusinessID: [0, [Validators.required]],
       SubCategoryID: ['', [Validators.required]],
-      //image: [null, Validators.required]
+      image: [null]
     });
   }
 
@@ -208,12 +208,8 @@ export class RegisterbusinessComponent implements OnInit {
       if (this.registerForm.value.hasOwnProperty(key)) {
         formData.append(key, this.registerForm.value[key]);
       }
-    }
-    
-    if (this.registerForm.invalid) {
-      alert('Please select an image before submitting.');
-      return;
-    }
+    }    
+   
     // Append the file upload data
     formData.append('VisitingCard', this.fileUpload);
   
