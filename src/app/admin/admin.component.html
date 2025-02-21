@@ -1,0 +1,37 @@
+<p> Sub admin works!</p>
+
+<div class="login-container">
+    <form [formGroup]="adminForm" (ngSubmit)="onSubmit()" class="form">        
+      <h2 class="form-title">Add Sub-admin</h2>
+  
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username">EmailId</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          autocomplete="off"
+          placeholder="Enter your username"
+          class="form-control"
+        />
+        <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="form-error">
+          <small *ngIf="username?.errors?.['required']">Username is required.</small>
+        </div>
+      </div>
+      
+      <div>you will receive an e-mail with the default password in the given mail id.</div>
+  
+      <!-- Submit Button -->
+      <div class="button-container">
+        <button type="submit" [disabled]="isButtonDisabled" class="btn-submit">
+          Add
+        </button>
+      </div>
+  
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>

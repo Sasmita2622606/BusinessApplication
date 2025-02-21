@@ -30,6 +30,7 @@ export class RegisterbusinessComponent implements OnInit {
   imagePreview: string | undefined;
 
   constructor(private fb: FormBuilder, private businessService: BusinessService,private router: Router) {
+    debugger;
     this.registerForm = this.fb.group({
       Name: ['', [Validators.required, Validators.minLength(3)]],
       EmailId: ['', [Validators.required, Validators.email]],
