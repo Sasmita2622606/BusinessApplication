@@ -43,7 +43,7 @@ export class RegisterbusinessComponent implements OnInit {
       CategoryID: ['', [Validators.required]],
       BusinessID: [0, [Validators.required]],
       SubCategoryID: ['', [Validators.required]],
-      image: [null, Validators.required]
+      //image: [null, Validators.required]
     });
   }
 
