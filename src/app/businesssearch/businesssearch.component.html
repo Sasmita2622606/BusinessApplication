@@ -5,10 +5,13 @@
   <div class="section">
     <h6>Category</h6>
     <div class="grid">
-      <button type="button" class="category-button" *ngFor="let category of categories"
-        [class.active]="selectedCategory === category" (click)="selectCategory(category)">
-        {{ category?.categoryName }}
-      </button>
+      <button type="button" class="category-button" 
+  *ngFor="let category of categories"
+  [class.active]="selectedCategory === category" 
+  (click)="selectCategory(category)">
+  {{ category?.categoryName }}
+</button>
+
     </div>
   </div>
 
@@ -16,17 +19,21 @@
   <div class="section">
     <h6 style="margin-top: 25px;">Subcategory</h6>
     <div class="grid">
-      <button type="button" class="category-button" *ngFor="let subcategory of subCategories"
-        (click)="selectSubcategory(subcategory)">
-        {{ subcategory?.subCategoryName }}
-      </button>
+      <button type="button" class="category-button" 
+  *ngFor="let subcategory of subCategories"
+  [class.active]="selectedSubCategory === subcategory && selectedCategory" 
+  (click)="selectSubcategory(subcategory)">
+  {{ subcategory?.subCategoryName }}
+</button>
+
     </div>
   </div>
 
   <!-- Search Form -->
   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
     <input type="text" formControlName="searchQuery" placeholder="Search..." class="search-input"
-      [value]="selectedCategory + (selectedSubCategory ? ',' + selectedSubCategory : '')" />
+    [value]="(selectedCategory?.categoryName || '') + (selectedSubCategory ? ', ' + selectedSubCategory?.subCategoryName : '')" readonly />
+  
     <button type="submit" (click)="callSearch()" class="btn-submit">Search</button>
   </form>
 
@@ -36,9 +43,9 @@
       <tr>
         <th>Name</th>
         <th>Description</th>
-        <th>Visiting Card</th>
-        <th>New Latitude</th>
-        <th>New Longtitude</th>
+        <!-- <th>Visiting Card</th> -->
+        <!-- <th>New Latitude</th> -->
+        <th>Address</th>
         <th>Distance (KM)</th>        
       </tr>
     </thead>
@@ -49,15 +56,15 @@
           <a href="javascript:void(0)" (click)="getBusinessDetailById(business.businessID)">{{ business.name }}</a>
         </td>
         <td>{{ business.description }}</td>
-        <td>
+        <!-- <td>
           <img [src]="getImageUrl(business.visitingCard)" class="visiting-card" />
-        </td>
+        </td> -->
         <td>
-          {{ business.latitude }} 
+          {{ business.location }} 
        </td>
-       <td>          
+       <!-- <td>          
           {{ business.longitude }} 
-       </td>
+       </td> -->
         <td>{{ business.distancekm }}</td>        
       </tr>
       <tr>
@@ -91,12 +98,12 @@
         </div>
 
         <!-- Visiting Card -->
-        <div class="detail-row">
+        <!-- <div class="detail-row">
           <span class="label">Visiting Card:</span>
           <span class="value">
             <img [src]="getImageUrl(selectedBusiness.visitingCard)" class="visiting-card" />
           </span>
-        </div>
+        </div> -->
 
         <!-- Distance -->
         <div class="detail-row">
