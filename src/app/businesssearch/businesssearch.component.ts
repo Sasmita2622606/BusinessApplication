@@ -37,8 +37,9 @@ export class BusinesssearchComponent implements OnInit {
   zoom = 10;
   marker: google.maps.LatLngLiteral | null = null;
 
-  selectedCategory!: string;
-  selectedSubCategory!: string;
+    // Variables to store selected category and subcategory objects
+  selectedCategory: any = null;
+  selectedSubCategory: any = null;
   selectedBusiness: any = null; // Initially null
   subCategories: any;
   businessDetail: any; 
@@ -149,12 +150,17 @@ export class BusinesssearchComponent implements OnInit {
     return `${this.imageBaseUrl}${visitingCard?.split("\\").pop()}`;
   }
 
-  // Handle category selection
-  selectCategory(category: any): void {    
-    this.selectedCategory = category?.categoryName;
-    this.selectedSubCategory = ''; 
-    this.getSubCategories(category?.categoryID)    
-  }
+ // Handle category selection
+selectCategory(category: any): void {    
+  this.selectedCategory = category; // Store the entire category object
+  this.selectedSubCategory = null; // Reset subcategory when category changes
+  this.getSubCategories(category?.categoryID);    
+}
+
+// Handle subcategory selection
+selectSubcategory(subcategory: any): void {    
+  this.selectedSubCategory = subcategory; // Store the entire subcategory object
+}
 
   getSubCategories(id: any) {
     this.businessService.getSubCategories(id).subscribe((result: any) => {
@@ -172,7 +178,9 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   callSearch() {
-    this.businessService.searchBusinesses(this.selectedCategory, this.selectedSubCategory).subscribe((result: any) => {
+    const categoryName = this.selectedCategory?.categoryName || '';
+    const subCategoryName = this.selectedSubCategory?.subCategoryName || '';
+    this.businessService.searchBusinesses(categoryName, subCategoryName).subscribe((result: any) => {
       this.businessList = result;
 
       console.log(this.businessList, "bus")
@@ -199,11 +207,7 @@ export class BusinesssearchComponent implements OnInit {
     });
   }
 
-  // Handle subcategory selection
-  selectSubcategory(subcategory: any): void {    
-    this.selectedSubCategory = subcategory?.subCategoryName
-  }
-
+  
   // Handle form submission
   onSubmit(): void {
     if (this.searchForm.valid) {
