@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,EventEmitter,Input,Output} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BusinessService } from '../service/business.service';
@@ -23,6 +22,15 @@ export interface Business {
   styleUrl: './businesssearch.component.css'
 })
 export class BusinesssearchComponent implements OnInit {
+  title = 'starrating';
+   rating: number = 0;
+  maxStars: number = 5;
+  @Output() ratingChange = new EventEmitter<number>();
+ 
+  setRating(value: number): void {
+    this.rating = value;
+    this.ratingChange.emit(this.rating);
+  }
   searchForm !: FormGroup;
   categories: any[] = [];
   businessList: any[] = [];
@@ -55,6 +63,7 @@ export class BusinesssearchComponent implements OnInit {
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
+ 
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required],
       category: ['', Validators.required],
@@ -255,6 +264,9 @@ export class BusinesssearchComponent implements OnInit {
     this.selectedBusiness = null;
   }
 
+  submitRating(comments:any){
+
+  }
   submitBusiness(distance: any) {
     const formData = new FormData();
 

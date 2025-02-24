@@ -10,7 +10,14 @@
     color: #333;
     margin-bottom: 20px;
   }
-
+  .filled {
+    color: gold;
+    cursor: pointer;
+  }
+  .material-icons:hover {
+    color: gold;
+    cursor: pointer;
+  }
   .container{
     max-width: 600px;
     margin: 0 auto;
@@ -85,6 +92,7 @@
   width: 437px;
   text-align: center;
   position: relative;
+  overflow-y: scroll;
 }
 
 /* Close Button */
@@ -138,6 +146,12 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+.card-textalign {
+  text-align: left !important;
+}
+.card-top {
+  margin-top:40px
 }
 
 .category-button {
@@ -241,8 +255,8 @@ h2 {
   bottom: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
-  max-width: 500px; /* Limit maximum width to 500px */
+  width: 700px;
+  max-width: 700px; /* Limit maximum width to 500px */
   background: #fff;
   border: 1px;
   display: flex;
@@ -250,15 +264,17 @@ h2 {
   align-items: center;
   z-index: 1000;
   font-size: 0.9rem; /* Small text size */
-  height: 97%;
+  height: 80%;
 }
 
 
 .popup-content {
+  width: 700px;
   padding: 15px; /* Reduce padding for a compact layout */
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Reduce the gap between elements */
+  height: 100%;
+  /*gap: 15px; /* Reduce the gap between elements */
 }
 
 
@@ -410,6 +426,19 @@ input.form-control {
   .submit-btn {
     font-size: 0.8rem;
   }
+
+.star-container {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+  .material-icons {
+    font-size: 30px;
+    color: gray;
+    transition: color 0.2s;
+  }
+
+ 
 }
 
 

@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class BusinessService {
 
-  //private apiUrl = 'https://localhost:7000/api/Business';
-  //private cus_ApiUrl = 'https://localhost:7000/api/Customer';
+  private apiUrl = 'https://localhost:44387/api/Business';
+  private cus_ApiUrl = 'https://localhost:44387/api/Customer';
+  private businessRating_ApiUrl = 'https://localhost:44387/api/BusinessRatings';
   
-  private apiUrl = 'https://business-11.onrender.com/api/Business';
-  private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
+  // private apiUrl = 'https://business-11.onrender.com/api/Business';
+  // private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
 
   constructor(private http: HttpClient) {}
 
@@ -20,9 +21,12 @@ export class BusinessService {
   }
 
   updateBusiness(formData: FormData): Observable<any> {
-    return this.http.put(`${this.apiUrl}`, formData);
+    return this.http.put(`${this.businessRating_ApiUrl}`, formData);
   }
 
+  addBusinessRating(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, formData);
+  }
   checkEmailExists(email: string): Observable<boolean> {
     debugger
     return this.http.get<boolean>(`${this.cus_ApiUrl}/check-email?email=${email}`);
