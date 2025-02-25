@@ -5,6 +5,7 @@ import { BusinesssearchComponent } from './businesssearch/businesssearch.compone
 import { authGuard } from './Guard/auth.guard';
 import { CustomerregistrationComponent } from './customerregistration/customerregistration.component';
 import { AdminComponent } from './admin/admin.component';
+import { SubadminComponent } from './subadmin/subadmin.component';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
@@ -12,5 +13,6 @@ export const routes: Routes = [
     {path:'Registerbusiness',component:RegisterbusinessComponent},
     {path:'Customerregistration',component:CustomerregistrationComponent},
     {path:'Businesssearch',component:BusinesssearchComponent, canActivate:[authGuard]},
-    {path: 'Admin', component:AdminComponent}
+    {path: 'Admin', component:AdminComponent},
+    {path: 'Subadmin', component:SubadminComponent}
 ];

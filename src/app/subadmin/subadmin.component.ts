@@ -2,63 +2,53 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { LoginService } from '../service/login.service';
+import { AdminService } from '../service/admin.service';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-subadmin',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,],
-  providers: [LoginService],
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css'
+  imports: [ReactiveFormsModule, CommonModule],
+  providers: [AdminService],
+  templateUrl: './subadmin.component.html',
+  styleUrl: './subadmin.component.css'
 })
-export class AdminComponent {
-  adminLoginForm: FormGroup;
+export class SubadminComponent {
+  loginFormSubadmin: FormGroup;
+  responsedata: any;
   errorMessage: string | null = null;
   isButtonDisabled: boolean = false;
-  responsedata: any;
+  getemail: string ='';
 
-  constructor(private router: Router, private fb: FormBuilder, private service: LoginService) {
+  constructor(private fb: FormBuilder,private subadminservice: AdminService,private router: Router) {
+    localStorage.clear();
     // Initialize the form
-    this.adminLoginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+    this.loginFormSubadmin = this.fb.group({
+      email: ['', Validators.required],
     });
   }
 
-  // Getters for form controls
-  get username() {
-    return this.adminLoginForm.get('username');
+  ngOnInit(): void {
+    console.log("this", this.email);
   }
 
-  get password() {
-    return this.adminLoginForm.get('password');
+  //Getters for form controls
+  get email() {
+    return this.loginFormSubadmin.get("email");
   }
 
-  // Example method to set an error message
-  handleLoginError() {
-    this.errorMessage = 'Invalid username or password';
-  }
-
-  // Method to clear the error message
-  clearError() {
-    this.errorMessage = null;
-  }
-
-  onSubmitSuperAdmin() {
+  onSubmitSubadmin() {
     debugger
-    if (this.adminLoginForm.valid) {
-      this.isButtonDisabled = true;
-      const loginData = this.adminLoginForm.value;
-      this.service.onSubmit(loginData).subscribe({
-        next: (result) => {
+    if (this.loginFormSubadmin.valid) {
+      this.isButtonDisabled = true;      
+      this.subadminservice.addSubAdmin("").subscribe({
+        next: (result : any) => {
           this.responsedata = result;
           if (this.responsedata != null && this.responsedata.token) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
-
-            // Navigate to the sub admin page
-            this.router.navigateByUrl('/Subadmin');
+  
+            // Navigate to the business search page
+            this.router.navigateByUrl('/subadmin');
           } else {
             // If token is not available, show a failed login message
             alert('Login Failed!');
@@ -80,5 +70,7 @@ export class AdminComponent {
       alert('Enter valid username and password!');
       this.isButtonDisabled = false;
     }
+
   }
+
 }

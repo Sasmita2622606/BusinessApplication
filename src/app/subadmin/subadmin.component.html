@@ -1,0 +1,35 @@
+<p>subadmin works!</p>
+
+<div class="login-container">
+    <form [formGroup]="loginFormSubadmin" (ngSubmit)="onSubmitSubadmin()" class="form">
+      <h2 class="form-title">Add Sub-admin</h2>
+  
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          formControlName="email"
+          autocomplete="off"
+          placeholder="Enter Email Here"
+          class="form-control"
+        />
+        <!-- <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="form-error">
+          <small *ngIf="email?.errors?.['required']">Emailid is required.</small>
+        </div> -->
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="button-container">
+        <button type="submit" [disabled]="isButtonDisabled" class="btn-submit">
+          Add Sub-admin
+        </button>
+      </div>
+  
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
