@@ -75,26 +75,28 @@
     No records found
   </p>
   <!-- Popup/Modal -->
-  <div class="popup" *ngIf="selectedBusiness">
+  <div class="popup business-popup" *ngIf="selectedBusiness">
     <!-- Close Button -->
     <div class="popup-content">
       <span class="close" (click)="closePopup()">&times;</span>
       <!-- Business Details -->
       <h2 class="popup-title">Business Details</h2>
 
-      <div class="details-container">
+      <div class="row">
         <!-- Name -->
-        <div class="detail-row">
+        <div class="col-sm-12 col-lg-5 col-md-5" style="height:35px">
           <span class="label">Name:</span>
           <span class="value">{{ selectedBusiness.name }}</span>
         </div>
 
         <!-- Description -->
-        <div class="detail-row">
+        <!-- <div class="col-sm-12 col-lg-1 col-md-1"></div> -->
+
+        <div class="col-sm-12 col-lg-6 col-md-6">
           <span class="label">Description:</span>
           <span class="value">{{ selectedBusiness.description }}</span>
         </div>
-
+      </div>
         <!-- Visiting Card -->
         <!-- <div class="detail-row">
           <span class="label">Visiting Card:</span>
@@ -102,29 +104,146 @@
             <img [src]="getImageUrl(selectedBusiness.visitingCard)" class="visiting-card" />
           </span>
         </div> -->
-
-        <!-- Distance -->
-        <div class="detail-row">
+        <div class="row">
+          <div class="col-sm-12 col-lg-5 col-md-5">
           <span class="label">Distance:</span>
           <span class="value">{{ selectedBusiness.distancekm }} KM</span>
+          </div>
         </div>
-
-        <!-- Location -->
-        <div class="detail-row full-width">
-          <span class="label">Location:</span>
-          <google-map class="map-container" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
-            <map-marker *ngIf="marker" [position]="marker"></map-marker>
-          </google-map>
-        </div>
-
-
-        <!-- Submit Button -->
-        <div class="button-container full-width">
-          <!-- <button type="submit" class="submit-btn" (click)="submitBusiness(distance)">
-            Update Location
-          </button> -->
-        </div>
+        <div class="detail-row"></div>
+        <!-- Distance -->
+        <!--Add Comment Start-->
+   
+    
+    <div class="row">
+      <div class="col-sm-2 col-md-1 col-lg-1"></div>
+      <!--Add Comment Start-->
+      <div class="col-sm-12 col-md-11 col-lg-11">
+      <div class="card bg-light card-top ">
+       <header class="card-header border-0 bg-transparent card-textalign">
+         <img
+          
+           class="rounded-circle me-2"
+         /><a class="fw-semibold text-decoration-none">JohnDoe </a>
+<div class="star-container">
+  <span *ngFor="let star of [].constructor(maxStars); let i = index"
+        (click)="setRating(i + 1)"
+        class="material-icons"
+        [ngClass]="{'filled': i < rating}">
+    star
+  </span>
+</div>
+         <!-- <span class="ms-3 small text-muted">2 months ago</span> -->
+       </header>
+       <div class="card-body py-1">
+         <form>
+           <div>
+             <label for="exampleFormControlTextarea1" class="visually-hidden">
+               Comment</label
+             >
+             <textarea
+               class="form-control form-control-sm border border-2 rounded-1"
+               id="exampleFormControlTextarea1"
+               style="height: 50px"
+               placeholder="Add a comment..."
+               minlength="3"
+               maxlength="255"
+               required
+             ></textarea>
+           </div>
+         </form>
+       </div>
+       <footer class="card-footer bg-transparent border-0 text-end">
+         <button class="btn btn-link btn-sm me-2 text-decoration-none">
+           Cancel
+         </button>
+         <button
+           type="submit"
+           class="btn btn-primary btn-sm" (click)="submitRating(selectedBusiness)"
+         >
+           Submit
+         </button>
+       </footer>
+     </div>
+   
       </div>
+    </div> 
+      <div class="row">
+        <div class="col-sm-2 col-md-1 col-lg-1"></div>
+      <div class="col-sm-12 col-md-11 col-lg-11">
+        <aside class="d-flex justify-content-between align-items-center my-4">
+       <h4 class="h6">3 Comments</h4>
+       </aside>
+   
+       <article class="card bg-light">
+         <header class="card-header border-0 bg-transparent d-flex align-items-center">
+           <div>
+          <a class="fw-semibold text-decoration-none">JohnDoe</a>
+           
+          </div>
+           <div class="dropdown ms-auto">
+           <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <i class="bi bi-three-dots-vertical"></i>
+           </button>
+           <ul class="dropdown-menu">
+             <li><a class="dropdown-item" href="#">Report</a></li>
+           </ul>
+         </div>
+         </header>
+         <div class="card-body py-2 px-3">
+           some text asdlaksd asndasd allal ? asdfasd lkakdaa akla akdn adnot!
+         </div>
+         <footer class="card-footer bg-white border-0 py-1 px-3">
+         
+         
+         </footer>
+       </article>
+      <br>
+       <article class="card bg-light">
+        <header class="card-header border-0 bg-transparent d-flex align-items-center">
+          <div>
+        <a class="fw-semibold text-decoration-none">JohnDoe</a>
+          
+         </div>
+          <div class="dropdown ms-auto">
+          <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Report</a></li>
+          </ul>
+        </div>
+        </header>
+        <div class="card-body py-2 px-3">
+          some text asdlaksd asndasd allal ? asdfasd lkakdaa akla akdn adnot!
+        </div>
+        <footer class="card-footer bg-white border-0 py-1 px-3">
+        
+        
+        </footer>
+      </article>
+     </div>
     </div>
+     <!--Add Comment End-->
+
+     <!-- Location -->
+     <!-- <div class="detail-row full-width">
+       <span class="label">Location:</span>
+       <google-map class="map-container" [center]="center" [zoom]="zoom" (mapClick)="onMapClick($event)">
+         <map-marker *ngIf="marker" [position]="marker"></map-marker>
+       </google-map>
+     </div>
+-->
+     <!--Add Comment Start-->
+  
+     <!--Add Comment End-->
+
+     <!-- Submit Button -->
+     <div class="button-container full-width">
+       <!-- <button type="submit" class="submit-btn" (click)="submitBusiness(distance)">
+         Update Location
+       </button> -->
+     </div>
+   
   </div>
 </div>
