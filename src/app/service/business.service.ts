@@ -20,9 +20,12 @@ export class BusinessService {
   }
 
   updateBusiness(formData: FormData): Observable<any> {
-    return this.http.put(`${this.apiUrl}`, formData);
+    return this.http.put(`${this.businessRating_ApiUrl}`, formData);
   }
 
+  addBusinessRating(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, formData);
+  }
   checkEmailExists(email: string): Observable<boolean> {
     debugger
     return this.http.get<boolean>(`${this.cus_ApiUrl}/check-email?email=${email}`);
