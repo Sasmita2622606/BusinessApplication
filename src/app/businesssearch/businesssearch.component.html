@@ -92,20 +92,22 @@
       <!-- Business Details -->
       <h2 class="popup-title">Business Details</h2>
 
-      <div class="row">
+      <div class="row" style="margin-bottom:40px">
         <!-- Name -->
-        <div class="col-sm-12 col-lg-5 col-md-5" style="height:35px">
-          <span class="label">Name:</span>
-          <span class="value">{{ selectedBusiness.name }}</span>
-        </div>
+       
+          <span class="label col-sm-6 col-lg-2 col-md-2 text-align-right" >Name:</span>
+          <span class="value col-sm-6 col-lg-4 col-md-4 text-align-left">{{ selectedBusiness.name }}</span>
+          <span class="label col-sm-6 col-lg-2 col-md-2 text-align-left">Description:</span>
+          <span class="value col-sm-6 col-lg-4 col-md-4 text-align-left">{{ selectedBusiness.description }}</span>
+       
 
         <!-- Description -->
         <!-- <div class="col-sm-12 col-lg-1 col-md-1"></div> -->
 
-        <div class="col-sm-12 col-lg-6 col-md-6">
+        <!-- <div class="col-sm-12 col-lg-6 col-md-6">
           <span class="label">Description:</span>
           <span class="value">{{ selectedBusiness.description }}</span>
-        </div>
+        </div> -->
       </div>
         <!-- Visiting Card -->
         <!-- <div class="detail-row">
@@ -115,18 +117,17 @@
           </span>
         </div> -->
         <div class="row">
-          <div class="col-sm-12 col-lg-5 col-md-5">
-          <span class="label">Distance:</span>
-          <span class="value">{{ selectedBusiness.distancekm }} KM</span>
-          </div>
+         
+          <span class="label col-sm-6 col-lg-2 col-md-2 text-align-right">Distance:</span>
+          <span class="value col-sm-6 col-lg-4 col-md-4 text-align-left">{{ selectedBusiness.distancekm }} KM</span>
+          
         </div>
         <div class="detail-row"></div>
         <!-- Distance -->
         <!--Add Comment Start-->
    
     
-    <div class="row">
-      <div class="col-sm-2 col-md-1 col-lg-1"></div>
+    <div class="row" style="margin-left:10px;">
       <!--Add Comment Start-->
       <div class="col-sm-12 col-md-11 col-lg-11">
       <div class="card bg-light card-top ">
@@ -180,8 +181,7 @@
    
       </div>
     </div> 
-      <div class="row">
-        <div class="col-sm-2 col-md-1 col-lg-1"></div>
+      <div class="row" style="margin-left:10px;">
       <div class="col-sm-12 col-md-11 col-lg-11">
         <aside class="d-flex justify-content-between align-items-center my-4">
        <h4 class="h6">{{buisnessRatingList.length}} Comments</h4>

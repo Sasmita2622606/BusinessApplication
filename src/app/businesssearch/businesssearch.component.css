@@ -365,6 +365,14 @@ h2 {
   /*end*/
 
 }
+.text-align-left{
+  text-align:left
+}
+
+.text-align-right{
+  text-align:right
+}
+
 
 /* Form Controls */
 input.form-control {
