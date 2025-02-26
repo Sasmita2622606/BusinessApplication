@@ -106,7 +106,8 @@ export class BusinesssearchComponent implements OnInit {
     this.businessService.getCustomerDetailsByID(this.cusId).subscribe({
       next: (data) => {
         this.customerData = data;
-        console.log("customer data", this.customerData)
+        localStorage.setItem('customerLatitude',data[0].latitude)
+        localStorage.setItem('customerLongitude',data[0].longitude)
         this.errorMessage = null;
       },
       error: (error) => {
@@ -210,12 +211,16 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   callSearch() {
-    const categoryName = this.selectedCategory?.categoryName || '';
-    const subCategoryName = this.selectedSubCategory?.subCategoryName || '';
-    this.businessService.searchBusinesses(categoryName, subCategoryName).subscribe((result: any) => {
+    let customerLatitude = localStorage.getItem('customerLatitude')
+    let customerLongitude = localStorage.getItem('customerLongitude')
+    this.businessService.searchBusinesses(this.selectedCategory, this.selectedSubCategory).subscribe((result: any) => {
       this.businessList = result;
-
-      console.log(this.businessList, "bus")
+      this.businessList.forEach((item:any) =>{
+        let distance = this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude).subscribe((response:any)=>{
+          item.distancekm = response.rows[0].elements[0].distance.text;
+          console.log(response.rows[0].elements[0].distance.text);
+        });
+      });
       this.isTableVisible = true;
     })
   }
