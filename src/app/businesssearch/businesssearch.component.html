@@ -45,13 +45,14 @@
         <!-- <th>New Latitude</th> -->
         <th>Address</th>
         <th>Distance (KM)</th>
+        <th>Average Rating </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let business of businessList">
         <td>
           <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
-          <a href="javascript:void(0)" (click)="getBusinessDetailById(business.businessID)">{{ business.name }}</a>
+          <a href="javascript:void(0)" (click)="getBusinessDetailById(business.businessID);getRating(business.businessID)">{{ business.name }}</a>
         </td>
         <td>{{ business.description }}</td>
         <!-- <td>
@@ -64,11 +65,20 @@
           {{ business.longitude }} 
        </td> -->
         <td>{{ business.distancekm }}</td>
+        <td>
+          <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
+           class="material-icons"
+           [ngClass]="{'filled': i < business?.averageRating}" aria-disabled="true">
+       star
+     </span>
+  </div>
+        </td>
       </tr>
       <tr>
         <p *ngIf="latitudeDifference !== null">Latitude Difference: {{ latitudeDifference.toFixed(2) }}</p>
         <p *ngIf="longitudeDifference !== null">Longitude Difference: {{ longitudeDifference.toFixed(2) }}</p>
       </tr>
+   
     </tbody>
   </table>
   <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
@@ -124,28 +134,30 @@
          <img
           
            class="rounded-circle me-2"
-         /><a class="fw-semibold text-decoration-none">JohnDoe </a>
+         /><a class="fw-semibold text-decoration-none">{{emailId }}</a>
 <div class="star-container">
-  <span *ngFor="let star of [].constructor(maxStars); let i = index"
+   <span *ngFor="let star of [].constructor(maxStars); let i = index"
         (click)="setRating(i + 1)"
         class="material-icons"
         [ngClass]="{'filled': i < rating}">
     star
   </span>
+  <div *ngIf="ratingErrorMessage" class="text-danger">Rating is required</div>
 </div>
          <!-- <span class="ms-3 small text-muted">2 months ago</span> -->
        </header>
        <div class="card-body py-1">
          <form>
            <div>
-             <label for="exampleFormControlTextarea1" class="visually-hidden">
+             <!-- <label for="exampleFormControlTextarea1"  ngclass="visually-hidden">
                Comment</label
-             >
+             > -->
              <textarea
                class="form-control form-control-sm border border-2 rounded-1"
                id="exampleFormControlTextarea1"
                style="height: 50px"
-               placeholder="Add a comment..."
+               placeholder="Add a comment..." type="text" [(ngModel)]="ratingComment"  [ngModelOptions]=" 
+               {standalone: true}" 
                minlength="3"
                maxlength="255"
                required
@@ -154,8 +166,8 @@
          </form>
        </div>
        <footer class="card-footer bg-transparent border-0 text-end">
-         <button class="btn btn-link btn-sm me-2 text-decoration-none">
-           Cancel
+         <button class="btn btn-link btn-sm me-2 text-decoration-none" (click)="clearRating()">
+           Clear
          </button>
          <button
            type="submit"
@@ -172,14 +184,19 @@
         <div class="col-sm-2 col-md-1 col-lg-1"></div>
       <div class="col-sm-12 col-md-11 col-lg-11">
         <aside class="d-flex justify-content-between align-items-center my-4">
-       <h4 class="h6">3 Comments</h4>
+       <h4 class="h6">{{buisnessRatingList.length}} Comments</h4>
        </aside>
    
-       <article class="card bg-light">
+       <article class="card bg-light" *ngFor="let buisnessRat of  buisnessRatingList">
          <header class="card-header border-0 bg-transparent d-flex align-items-center">
            <div>
-          <a class="fw-semibold text-decoration-none">JohnDoe</a>
-           
+          <a class="fw-semibold text-decoration-none">{{buisnessRat?.ratedBy}}  </a>
+          <span style="padding-left:10px">{{buisnessRat?.dateTime|date: 'dd/MM/yyyy'}}</span>
+           <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
+            class="material-icons"
+            [ngClass]="{'filled': i < buisnessRat?.rating}" aria-disabled="true">
+        star
+      </span></div>
           </div>
            <div class="dropdown ms-auto">
            <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -190,38 +207,17 @@
            </ul>
          </div>
          </header>
-         <div class="card-body py-2 px-3">
-           some text asdlaksd asndasd allal ? asdfasd lkakdaa akla akdn adnot!
+         <div class="card-body py-2 px-3" style="text-align:left">
+          {{buisnessRat?.comment}}
          </div>
          <footer class="card-footer bg-white border-0 py-1 px-3">
          
          
          </footer>
+         <br>
        </article>
-      <br>
-       <article class="card bg-light">
-        <header class="card-header border-0 bg-transparent d-flex align-items-center">
-          <div>
-        <a class="fw-semibold text-decoration-none">JohnDoe</a>
-          
-         </div>
-          <div class="dropdown ms-auto">
-          <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-three-dots-vertical"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Report</a></li>
-          </ul>
-        </div>
-        </header>
-        <div class="card-body py-2 px-3">
-          some text asdlaksd asndasd allal ? asdfasd lkakdaa akla akdn adnot!
-        </div>
-        <footer class="card-footer bg-white border-0 py-1 px-3">
-        
-        
-        </footer>
-      </article>
+    
+     
      </div>
     </div>
      <!--Add Comment End-->

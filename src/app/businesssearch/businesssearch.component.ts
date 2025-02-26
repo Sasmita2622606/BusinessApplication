@@ -26,7 +26,15 @@ export class BusinesssearchComponent implements OnInit {
    rating: number = 0;
   maxStars: number = 5;
   @Output() ratingChange = new EventEmitter<number>();
- 
+   buisnessRating ={
+    businessID : 0,
+    rating:0,
+    ratedBy:'',
+    comment:''
+    
+   }
+   buisnessRatingList:any;
+   ratingErrorMessage =false;
   setRating(value: number): void {
     this.rating = value;
     this.ratingChange.emit(this.rating);
@@ -37,7 +45,7 @@ export class BusinesssearchComponent implements OnInit {
   fileUpload: any;
   isTableVisible: boolean = false; // Table visibility flag
 
-  imageBaseUrl = 'http://localhost:4200/.com/';
+  imageBaseUrl = 'https://business-11.onrender.com/';
 
   latitudeDifference: number | null = null;
   longitudeDifference: number | null = null;
@@ -57,9 +65,10 @@ export class BusinesssearchComponent implements OnInit {
   newLongtitude: any;
   distance: any;
   cusId: any;
+  emailId:any;
   customerData: any;
   errorMessage: string | null = null;
-
+  ratingComment:string='' ;
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
@@ -77,6 +86,7 @@ export class BusinesssearchComponent implements OnInit {
     this.getCurrentLocation();
     console.log(this.categories, "test")
     this.cusId = this.authservice.getEmailFromToken();
+    this.emailId =this.authservice.getEmailIDFromToken()
     console.log('Cusid:', this.cusId);
     this.getCustomerDetails();
   }
@@ -183,6 +193,9 @@ export class BusinesssearchComponent implements OnInit {
     return `${this.imageBaseUrl}${visitingCard?.split("\\").pop()}`;
   }
 
+  onCommentChange(event:any){
+   this.ratingComment = event?.target?.value;
+  }
   // Handle category selection
   selectCategory(category: any): void {
     this.selectedCategory = category; // Store the entire category object
@@ -268,10 +281,57 @@ export class BusinesssearchComponent implements OnInit {
   closePopup(): void {
     this.selectedBusiness = null;
   }
+  
+  getRating(buisnessId:any){
+    this.businessService.getBusinessRating(buisnessId).subscribe(result=>{
+      this.buisnessRatingList = result;
+    }) ;
+  }
 
+  clearRating(){
+    this.rating=0;
+    this.ratingComment = '';
+  }
   submitRating(comments:any){
+    this.ratingErrorMessage = false;
+
+   this.buisnessRating.businessID =comments.businessID;
+   this.buisnessRating.comment =this.ratingComment;
+   this.buisnessRating.rating =this.rating;
+   this.buisnessRating.ratedBy =this.emailId;
+   if(this.rating <= 0){
+    this.ratingErrorMessage = true;
+    return ;
+   }
+  this.businessService.addBusinessRating(this.buisnessRating ).subscribe({
+    next:(result) =>{
+  
+      this.buisnessRating.businessID =0;
+      this.buisnessRating.comment ='';
+      this.buisnessRating.rating =0;
+      this.buisnessRating.ratedBy = '';
+      this.ratingComment ='';
+      this.rating =0;
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Successfully updated!',
+        confirmButtonText: 'OK',
+      });
+    
+    this.getRating(comments.businessID);
+   },error:(error:any)=>{
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.error,
+      confirmButtonText: 'Close',
+    });
+  }
+   });
 
   }
+ 
   submitBusiness(distance: any) {
     const formData = new FormData();
 

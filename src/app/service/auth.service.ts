@@ -17,6 +17,20 @@ export class AuthService {
     return localStorage.getItem('token'); // Assuming token is stored in localStorage
   }
 
+  getEmailIDFromToken(): string | null {
+    debugger
+    const token = this.getToken();
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        return decodedToken.EmailId || null; // Ensure the token contains an "email" claim
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+      }
+    }
+    return null;
+  }
   // Decode token and get email
   getEmailFromToken(): string | null {
     debugger

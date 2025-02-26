@@ -9,9 +9,9 @@ import { environment } from './../../environments/environment';
 })
 export class BusinessService {
 
-  private apiUrl = 'https://localhost:44387/api/Business';
-  private cus_ApiUrl = 'https://localhost:44387/api/Customer';
-  private businessRating_ApiUrl = 'https://localhost:44387/api/BusinessRatings';
+  private apiUrl = 'https://business-11.onrender.com/api/Business';
+  private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
+  private businessRating_ApiUrl = 'https://business-11.onrender.com/api/BusinessRating';
   
   // private apiUrl = 'https://business-11.onrender.com/api/Business';
   // private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
@@ -23,11 +23,14 @@ export class BusinessService {
   }
 
   updateBusiness(formData: FormData): Observable<any> {
-    return this.http.put(`${this.businessRating_ApiUrl}`, formData);
+    return this.http.put(`${this.apiUrl}`, formData);
   }
 
-  addBusinessRating(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, formData);
+  addBusinessRating(formData: any): Observable<any> {
+    return this.http.post(`${this.businessRating_ApiUrl}/Add`, formData);
+  }
+  getBusinessRating(buisnessID: any): Observable<any> {
+    return this.http.get(`${this.businessRating_ApiUrl}/${buisnessID}`);
   }
   checkEmailExists(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.cus_ApiUrl}/check-email?email=${email}`);
