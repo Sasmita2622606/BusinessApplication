@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from './../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -31,16 +33,13 @@ export class BusinessService {
     return this.http.get(`${this.businessRating_ApiUrl}/${buisnessID}`);
   }
   checkEmailExists(email: string): Observable<boolean> {
-    debugger
     return this.http.get<boolean>(`${this.cus_ApiUrl}/check-email?email=${email}`);
   }
   checkEmailExistsBusiness(email: string): Observable<boolean> {
-    debugger
     return this.http.get<boolean>(`${this.apiUrl}/check-email?email=${email}`);
   }
 
   getCustomerDetailsByID(cusId: number): Observable<any> {
-    debugger
     return this.http.get<any>(`${this.cus_ApiUrl}/getcusdetailsbyid?cusId=${cusId}`);
   }  
 
@@ -66,5 +65,11 @@ export class BusinessService {
   }
   getBusinessDetailById(id: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/getbusinessdetailbyid/${id}`);
+  }
+  
+  getDistance(originLatitude:any, originLongitude:any, destLatitude:any, destLongitude:any): Observable<any[]>{
+    
+    const url = `https://maps.gomaps.pro/maps/api/distancematrix/json?units=metric&origins=${originLatitude},${originLongitude}&destinations=${destLatitude},${destLongitude}&key=${environment.API_KEY}`;
+    return this.http.get<any>(url);
   }
 }
