@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class BusinessService {
 
-  private apiUrl = 'https://localhost:44387/api/Business';
-  private cus_ApiUrl = 'https://localhost:44387/api/Customer';
-  private businessRating_ApiUrl = 'https://localhost:44387/api/BusinessRating';
+  private apiUrl = 'https://business-11.onrender.com/api/Business';
+  private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
+  private businessRating_ApiUrl = 'https://business-11.onrender.com/api/BusinessRating';
   
   // private apiUrl = 'https://business-11.onrender.com/api/Business';
   // private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
