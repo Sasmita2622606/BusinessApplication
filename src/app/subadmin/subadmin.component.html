@@ -1,5 +1,3 @@
-<p>subadmin works!</p>
-
 <div class="login-container">
     <form [formGroup]="loginFormSubadmin" (ngSubmit)="onSubmitSubadmin()" class="form">
       <h2 class="form-title">Add Sub-admin</h2>
@@ -12,12 +10,17 @@
           id="email"
           formControlName="email"
           autocomplete="off"
-          placeholder="Enter Email Here"
+          (blur)="checkEmailAdmin()"
+          placeholder="Enter Email Here"          
           class="form-control"
         />
-        <!-- <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="form-error">
-          <small *ngIf="email?.errors?.['required']">Emailid is required.</small>
-        </div> -->
+        <p *ngIf="emailExists" style="color: red;">
+          This email is already registered.
+        </p>
+      <div *ngIf="email?.touched && email?.invalid" class="error">
+        <small *ngIf="email?.hasError('required')">Email is required.</small>
+        <small *ngIf="email?.hasError('email')">Please enter a valid email address.</small>
+      </div>
       </div>
   
       <!-- Submit Button -->

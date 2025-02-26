@@ -17,13 +17,14 @@ export class SubadminComponent {
   responsedata: any;
   errorMessage: string | null = null;
   isButtonDisabled: boolean = false;
-  getemail: string ='';
+  getemail: string = '';
+  emailExists: boolean = false;
 
-  constructor(private fb: FormBuilder,private subadminservice: AdminService,private router: Router) {
+  constructor(private fb: FormBuilder, private subadminservice: AdminService, private router: Router) {
     localStorage.clear();
     // Initialize the form
     this.loginFormSubadmin = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
@@ -36,41 +37,43 @@ export class SubadminComponent {
     return this.loginFormSubadmin.get("email");
   }
 
+  checkEmailAdmin() {
+    const email = this.loginFormSubadmin.get('email')?.value;
+    if (email) {
+      this.subadminservice.checkEmailExistsAdmin(email).subscribe({
+        next: (exists) => {
+          this.emailExists = exists;
+        },
+        error: () => {
+          this.emailExists = false;
+        }
+      });
+    }
+  }
+
   onSubmitSubadmin() {
     debugger
     if (this.loginFormSubadmin.valid) {
-      this.isButtonDisabled = true;      
-      this.subadminservice.addSubAdmin("").subscribe({
-        next: (result : any) => {
+      this.isButtonDisabled = true;
+      this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({
+        next: (result: any) => {
+          debugger
           this.responsedata = result;
-          if (this.responsedata != null && this.responsedata.token) {
+          if (this.responsedata != null) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
-  
             // Navigate to the business search page
-            this.router.navigateByUrl('/subadmin');
+            this.router.navigateByUrl('/Businesssearch');
           } else {
             // If token is not available, show a failed login message
-            alert('Login Failed!');
             this.isButtonDisabled = false;
           }
         },
-        error: (error) => {
-          this.isButtonDisabled = false;
-          // Handle HTTP error responses like Unauthorized (401)
-          if (error.status === 401) {
-            alert('Incorrect username or password. Unauthorized!');
-          } else {
-            // Generic error message for any other errors
-            alert('An error occurred during login. Please try again.');
-          }
-        }
       });
-    } else {
-      alert('Enter valid username and password!');
+    }
+    else {
+      alert('Please enter a valid EmailId');
       this.isButtonDisabled = false;
     }
-
   }
-
 }
