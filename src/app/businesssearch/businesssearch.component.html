@@ -52,7 +52,7 @@
       <tr *ngFor="let business of businessList">
         <td>
           <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
-          <a href="javascript:void(0)" (click)="getBusinessDetailById(business.businessID);getRating(business.businessID)">{{ business.name }}</a>
+          <a href="javascript:void(0)" (click)="getBusinessDetailById(business.businessID,business.distancekm);getRating(business.businessID)">{{ business.name }}</a>
         </td>
         <td>{{ business.description }}</td>
         <!-- <td>
