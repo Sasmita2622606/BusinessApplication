@@ -112,7 +112,6 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   getCustomerDetails() {
-    debugger
     this.businessService.getCustomerDetailsByID(this.cusId).subscribe({
       next: (data) => {
         this.customerData = data;
@@ -215,7 +214,6 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   getBusinessDetailById(id: any) {
-    // debugger
     this.businessService.getBusinessDetailById(id).subscribe((result: any) => {
       this.selectedBusiness = result[0];
       console.log(this.selectedBusiness, '-ppp');

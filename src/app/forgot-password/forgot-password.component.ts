@@ -25,19 +25,16 @@ export class ForgotPasswordComponent {
   }
 
   onSubmit(): void {
-    debugger
     if (this.forgotPasswordForm.invalid) {
       return;
     }
     const request: ForgotPasswordRequest = this.forgotPasswordForm.value;
     this.loginService.forgotPassword(request).subscribe({
       next: res => {
-        debugger
         this.message = res.message;
         this.error = '';
       },
       error: err => {
-        debugger
         this.error = err.error || 'Something went wrong';
         this.message = '';
       }

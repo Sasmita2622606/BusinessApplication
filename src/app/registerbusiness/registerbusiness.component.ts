@@ -53,16 +53,13 @@ export class RegisterbusinessComponent implements OnInit {
   }
   
   checkEmail() {
-    debugger
     const email = this.registerForm.get('EmailId')?.value;
     if (email) {
       this.businessService.checkEmailExistsBusiness(email).subscribe({
-        next: (exists) => {
-          debugger
+        next: (exists) => {          
           this.emailExists = exists;
         },
-        error: () => {
-          debugger
+        error: () => {          
           this.emailExists = false;
         }
       });

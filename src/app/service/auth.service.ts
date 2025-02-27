@@ -18,7 +18,6 @@ export class AuthService {
   }
 
   getEmailIDFromToken(): string | null {
-    debugger
     const token = this.getToken();
     if (token) {
       try {
@@ -33,7 +32,6 @@ export class AuthService {
   }
   // Decode token and get email
   getEmailFromToken(): string | null {
-    debugger
     const token = this.getToken();
     if (token) {
       try {
