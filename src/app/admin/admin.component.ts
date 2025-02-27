@@ -17,6 +17,7 @@ export class AdminComponent {
   errorMessage: string | null = null;
   isButtonDisabled: boolean = false;
   responsedata: any;
+  roleId: any;
 
   constructor(private router: Router, private fb: FormBuilder, private service: LoginService) {
     // Initialize the form
@@ -57,8 +58,17 @@ export class AdminComponent {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
 
-            // Navigate to the sub admin page
+            if(this.responsedata.roleId == 1)
+            {
+              // Navigate to the add sub admin page
             this.router.navigateByUrl('/Subadmin');
+            }
+            else{
+              // Navigate to the sub admin login page
+            this.router.navigateByUrl('/Businesssearch');
+            }
+
+            
           } else {
             // If token is not available, show a failed login message
             alert('Login Failed!');

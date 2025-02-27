@@ -7,7 +7,7 @@ import { AdminService } from '../service/admin.service';
 @Component({
   selector: 'app-subadmin',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,RouterLink],
   providers: [AdminService],
   templateUrl: './subadmin.component.html',
   styleUrl: './subadmin.component.css'
@@ -63,7 +63,8 @@ export class SubadminComponent {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
             // Navigate to the business search page
-            this.router.navigateByUrl('/Businesssearch');
+            //this.router.navigateByUrl('/Businesssearch');
+            alert('provided user has added as admin and notified the same in the given email.');
           } else {
             // If token is not available, show a failed login message
             this.isButtonDisabled = false;
