@@ -213,11 +213,11 @@ export class BusinesssearchComponent implements OnInit {
     })
   }
 
-  getBusinessDetailById(id: any) {
+  getBusinessDetailById(id: any, distance: number) {
     this.businessService.getBusinessDetailById(id).subscribe((result: any) => {
       this.selectedBusiness = result[0];
       console.log(this.selectedBusiness, '-ppp');
-
+      this.selectedBusiness.distancekm = distance;
     })
   }
 
@@ -234,7 +234,7 @@ export class BusinesssearchComponent implements OnInit {
     }
     let customerLatitude = localStorage.getItem('customerLatitude')
     let customerLongitude = localStorage.getItem('customerLongitude')
-    this.businessService.searchBusinesses(this.selectedCategory, this.selectedSubCategory).subscribe((result: any) => {
+    this.businessService.searchBusinesses(this.selectedCategory.categoryName, this.selectedSubCategory.subCategoryName).subscribe((result: any) => {
       this.businessList = result;
       this.businessList.forEach((item:any) =>{
         let distance = this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude).subscribe((response:any)=>{
