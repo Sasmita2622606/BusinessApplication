@@ -365,7 +365,20 @@ h2 {
   /*end*/
 
 }
+.text-align-left{
+  text-align:left
+}
 
+.text-align-right{
+  text-align:right
+}
+
+.material-icon-size{
+  font-size:16px;
+}
+.material-icon-size1{
+  font-size:20px;
+}
 /* Form Controls */
 input.form-control {
   width: 100%;
