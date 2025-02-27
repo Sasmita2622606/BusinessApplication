@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,EventEmitter,Input,Output} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BusinessService } from '../service/business.service';
@@ -23,6 +22,23 @@ export interface Business {
   styleUrl: './businesssearch.component.css'
 })
 export class BusinesssearchComponent implements OnInit {
+  title = 'starrating';
+   rating: number = 0;
+  maxStars: number = 5;
+  @Output() ratingChange = new EventEmitter<number>();
+   buisnessRating ={
+    businessID : 0,
+    rating:0,
+    ratedBy:'',
+    comment:''
+    
+   }
+   buisnessRatingList:any;
+   ratingErrorMessage =false;
+  setRating(value: number): void {
+    this.rating = value;
+    this.ratingChange.emit(this.rating);
+  }
   searchForm !: FormGroup;
   categories: any[] = [];
   businessList: any[] = [];
@@ -38,22 +54,25 @@ export class BusinesssearchComponent implements OnInit {
   zoom = 10;
   marker: google.maps.LatLngLiteral | null = null;
 
-  selectedCategory!: string;
-  selectedSubCategory!: string;
+  // Variables to store selected category and subcategory objects
+  selectedCategory: any = null;
+  selectedSubCategory: any = null;
   selectedBusiness: any = null; // Initially null
   subCategories: any;
-  businessDetail: any; 
+  businessDetail: any;
   newLocation: any;
   newLatitude: any;
-  newLongtitude: any; 
+  newLongtitude: any;
   distance: any;
   cusId: any;
+  emailId:any;
   customerData: any;
   errorMessage: string | null = null;
-
+  ratingComment:string='' ;
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
+ 
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required],
       category: ['', Validators.required],
@@ -67,7 +86,8 @@ export class BusinesssearchComponent implements OnInit {
     this.getCurrentLocation();
     console.log(this.categories, "test")
     this.cusId = this.authservice.getEmailFromToken();
-    console.log('Cusid:', this.cusId);  
+    this.emailId =this.authservice.getEmailIDFromToken()
+    console.log('Cusid:', this.cusId);
     this.getCustomerDetails();
   }
 
@@ -92,11 +112,11 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   getCustomerDetails() {
-    debugger
     this.businessService.getCustomerDetailsByID(this.cusId).subscribe({
       next: (data) => {
         this.customerData = data;
-        console.log("customer data", this.customerData)
+        localStorage.setItem('customerLatitude',data[0].latitude)
+        localStorage.setItem('customerLongitude',data[0].longitude)
         this.errorMessage = null;
       },
       error: (error) => {
@@ -153,7 +173,7 @@ export class BusinesssearchComponent implements OnInit {
     } else {
       this.latitudeDifference = null;
     }
- 
+
     if (this.selectedBusiness.longitude !== null && this.newLongtitude !== null) {
       this.longitudeDifference = this.newLongtitude - this.selectedBusiness.longitude;
     } else {
@@ -172,21 +192,28 @@ export class BusinesssearchComponent implements OnInit {
     return `${this.imageBaseUrl}${visitingCard?.split("\\").pop()}`;
   }
 
+  onCommentChange(event:any){
+   this.ratingComment = event?.target?.value;
+  }
   // Handle category selection
-  selectCategory(category: any): void {    
-    this.selectedCategory = category?.categoryName;
-    this.selectedSubCategory = ''; 
-    this.getSubCategories(category?.categoryID)    
+  selectCategory(category: any): void {
+    this.selectedCategory = category; // Store the entire category object
+    this.selectedSubCategory = null; // Reset subcategory when category changes
+    this.getSubCategories(category?.categoryID);
+  }
+
+  // Handle subcategory selection
+  selectSubcategory(subcategory: any): void {
+    this.selectedSubCategory = subcategory; // Store the entire subcategory object
   }
 
   getSubCategories(id: any) {
     this.businessService.getSubCategories(id).subscribe((result: any) => {
       this.subCategories = result;
     })
-  } 
+  }
 
   getBusinessDetailById(id: any) {
-    // debugger
     this.businessService.getBusinessDetailById(id).subscribe((result: any) => {
       this.selectedBusiness = result[0];
       console.log(this.selectedBusiness, '-ppp');
@@ -195,10 +222,26 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   callSearch() {
+    if (!this.selectedCategory) {
+      alert('No category selected. Please choose a category.');
+      return;
+    }
+
+    // Check if a category is selected
+    if (!this.selectedSubCategory) {
+      alert('No subcategory selected. Please choose a subcategory.');
+      return;
+    }
+    let customerLatitude = localStorage.getItem('customerLatitude')
+    let customerLongitude = localStorage.getItem('customerLongitude')
     this.businessService.searchBusinesses(this.selectedCategory, this.selectedSubCategory).subscribe((result: any) => {
       this.businessList = result;
-
-      console.log(this.businessList, "bus")
+      this.businessList.forEach((item:any) =>{
+        let distance = this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude).subscribe((response:any)=>{
+          item.distancekm = response.rows[0].elements[0].distance.text;
+          console.log(response.rows[0].elements[0].distance.text);
+        });
+      });
       this.isTableVisible = true;
     })
   }
@@ -217,15 +260,11 @@ export class BusinesssearchComponent implements OnInit {
     this.businessService.getCategories().subscribe((data) => {
       this.categories = data;
       if (!this.FormVal?.CategoryID) {
-        this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)        
+        this.searchForm.controls['CategoryID'].setValue(data[0]?.categoryID)
       }
     });
   }
 
-  // Handle subcategory selection
-  selectSubcategory(subcategory: any): void {    
-    this.selectedSubCategory = subcategory?.subCategoryName
-  }
 
   // Handle form submission
   onSubmit(): void {
@@ -250,9 +289,59 @@ export class BusinesssearchComponent implements OnInit {
   closePopup(): void {
     this.selectedBusiness = null;
   }
+  
+  getRating(buisnessId:any){
+    this.businessService.getBusinessRating(buisnessId).subscribe(result=>{
+      this.buisnessRatingList = result;
+    }) ;
+  }
 
+  clearRating(){
+    this.rating=0;
+    this.ratingComment = '';
+  }
+  submitRating(comments:any){
+    this.ratingErrorMessage = false;
+
+   this.buisnessRating.businessID =comments.businessID;
+   this.buisnessRating.comment =this.ratingComment;
+   this.buisnessRating.rating =this.rating;
+   this.buisnessRating.ratedBy =this.emailId;
+   if(this.rating <= 0){
+    this.ratingErrorMessage = true;
+    return ;
+   }
+  this.businessService.addBusinessRating(this.buisnessRating ).subscribe({
+    next:(result) =>{
+  
+      this.buisnessRating.businessID =0;
+      this.buisnessRating.comment ='';
+      this.buisnessRating.rating =0;
+      this.buisnessRating.ratedBy = '';
+      this.ratingComment ='';
+      this.rating =0;
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Successfully updated!',
+        confirmButtonText: 'OK',
+      });
+    
+    this.getRating(comments.businessID);
+   },error:(error:any)=>{
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.error,
+      confirmButtonText: 'Close',
+    });
+  }
+   });
+
+  }
+ 
   submitBusiness(distance: any) {
-    const formData = new FormData();   
+    const formData = new FormData();
 
     Object.keys(this.selectedBusiness).forEach((key) => {
       if (key === 'image') {

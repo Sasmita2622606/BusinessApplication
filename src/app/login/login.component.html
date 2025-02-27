@@ -32,6 +32,10 @@
         <small *ngIf="password?.errors?.['required']">Password is required.</small>
         <small *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters.</small>
       </div>
+      <!-- Forgot Password Link -->
+      <div class="forgot-password-link">
+        <a [routerLink]="['/Forgot-password']" class="link">Forgot Password?</a>
+      </div> 
     </div>
 
     <!-- Register Links -->

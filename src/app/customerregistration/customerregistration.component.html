@@ -3,7 +3,7 @@
   <form [formGroup]="cusRegisterForm" (ngSubmit)="submit()" class="customer-form">
     <!-- Go to Login Link -->
     <div class="login-link">
-      <p>Already have an account? <p><a [routerLink]="['/login']" class="link">Login here</a></p>      
+      <p>Already have an account? <a [routerLink]="['/login']" class="link">Login here</a></p>     
     </div>
     <!-- Email Field -->
     <div class="form-group">
@@ -91,7 +91,5 @@
 
     <!-- Submit Button -->
     <button type="submit" class="submit-btn" [disabled]="cusRegisterForm.invalid">Register Customer</button>
-    <div style="text-align:center"><a  [routerLink]="['/login']" class="btn btn-link">Back</a></div>
-
   </form>
 </div>

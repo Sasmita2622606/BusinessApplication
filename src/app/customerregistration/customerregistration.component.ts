@@ -44,7 +44,6 @@ export class CustomerregistrationComponent implements OnInit {
   }
   
   checkEmail() {
-    debugger
     const email = this.cusRegisterForm.get('Cus_EmailId')?.value;
     if (email) {
       this.businessService.checkEmailExists(email).subscribe({
