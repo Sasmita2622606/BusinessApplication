@@ -224,6 +224,16 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   callSearch() {
+    if (!this.selectedCategory) {
+      alert('No category selected. Please choose a category.');
+      return;
+    }
+
+    // Check if a category is selected
+    if (!this.selectedSubCategory) {
+      alert('No subcategory selected. Please choose a subcategory.');
+      return;
+    }
     let customerLatitude = localStorage.getItem('customerLatitude')
     let customerLongitude = localStorage.getItem('customerLongitude')
     this.businessService.searchBusinesses(this.selectedCategory, this.selectedSubCategory).subscribe((result: any) => {

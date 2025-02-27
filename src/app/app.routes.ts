@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { BusinesssearchComponent } from './businesssearch/businesssearch.component';
 import { authGuard } from './Guard/auth.guard';
 import { CustomerregistrationComponent } from './customerregistration/customerregistration.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
@@ -11,4 +13,6 @@ export const routes: Routes = [
     {path:'Registerbusiness',component:RegisterbusinessComponent},
     {path:'Customerregistration',component:CustomerregistrationComponent},
     {path:'Businesssearch',component:BusinesssearchComponent, canActivate:[authGuard]},
+    {path:'Forgot-password', component: ForgotPasswordComponent },
+    {path:'Reset-password', component: ResetPasswordComponent },
 ];
