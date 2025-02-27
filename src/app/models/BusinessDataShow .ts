@@ -7,4 +7,5 @@ export interface BusinessDataShow {
     latitude: number;
     visitingCard: string;
     location: string;
+    AverageRating: number
   }
