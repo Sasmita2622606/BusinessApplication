@@ -125,7 +125,7 @@ label {
   position: absolute;
   right: 5%; /* Positioning inside the input field */
   top: 50.5%;
-  transform: translateY(-50%); /* Center the icon vertically */
+  transform: translateY(-50%); /* Center the icon vertically  */
   cursor: pointer;
   align-items: center;
   font-size: 18px;
