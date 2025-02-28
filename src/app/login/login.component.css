@@ -15,6 +15,8 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
+  
+  align-items: center;  
 }
 
 /* Form */
@@ -33,6 +35,7 @@ body {
 
 .form-group {
   margin-bottom: 15px;
+  position: relative;
 }
 
 label {
@@ -117,4 +120,18 @@ label {
   font-weight: bold;
   pointer-events: none; /* Makes it unclickable */
   margin: 0 20px; /* Adds spacing around it */
+}
+.eye-icon {
+  position: absolute;
+  right: 5%; /* Positioning inside the input field */
+  top: 50.5%;
+  transform: translateY(-50%); /* Center the icon vertically */
+  cursor: pointer;
+  align-items: center;
+  font-size: 18px;
+  color: #555;
+}
+
+.eye-icon:hover {
+  color: #000;
 }
