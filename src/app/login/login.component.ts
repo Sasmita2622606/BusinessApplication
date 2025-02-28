@@ -17,6 +17,7 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   responsedata: any;
+  roleId: any;
   errorMessage: string | null = null;
   isButtonDisabled: boolean = false;
 
@@ -49,6 +50,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    debugger
     if (this.loginForm.valid) {
       this.isButtonDisabled = true;
       const loginData = this.loginForm.value;
@@ -58,9 +60,14 @@ export class LoginComponent {
           if (this.responsedata != null && this.responsedata.token) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
-  
-            // Navigate to the business search page
-            this.router.navigateByUrl('/Businesssearch');
+            if (this.responsedata.roleId == 1) {
+              // Navigate to the add sub admin page
+              this.router.navigateByUrl('/Subadmin');
+            }
+            else {
+              // Navigate to the business search page
+              this.router.navigateByUrl('/Businesssearch');
+            }
           } else {
             // If token is not available, show a failed login message
             alert('Login Failed!');

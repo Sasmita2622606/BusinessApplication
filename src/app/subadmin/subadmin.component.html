@@ -29,14 +29,9 @@
           Add Sub-admin
         </button>        
       </div>
-      <br/>
       <div class="form-links">
-      <p><a [routerLink]="['/login']" class="link">Back to Login</a> 
-         <a class="separator">|</a>
-         <a [routerLink]="['/Businesssearch']" class="link">View Business</a>
-      </p>
-      </div>
-  
+      <p><a [routerLink]="['/login']" class="link">Back</a></p>
+      </div>  
       <!-- Error Message -->
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
