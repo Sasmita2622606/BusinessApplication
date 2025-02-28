@@ -69,6 +69,10 @@ export class BusinesssearchComponent implements OnInit {
   customerData: any;
   errorMessage: string | null = null;
   ratingComment:string='' ;
+  currentPage: number = 1;
+  itemsPerPage: number = 4; // Number of businesses per page
+  totalPages: number = 1;
+  isPaginationVisible: boolean = false;
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
@@ -89,6 +93,28 @@ export class BusinesssearchComponent implements OnInit {
     this.emailId =this.authservice.getEmailIDFromToken()
     console.log('Cusid:', this.cusId);
     this.getCustomerDetails();
+  }
+
+  updatePagination(): void {
+    this.totalPages = Math.ceil(this.businessList.length / this.itemsPerPage);
+    this.isPaginationVisible = this.totalPages > 1; // Show pagination if multiple pages exist
+  }
+
+  get paginatedBusinesses(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.businessList.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
   }
 
   getCurrentLocation(): void {
@@ -242,7 +268,8 @@ export class BusinesssearchComponent implements OnInit {
           console.log(response.rows[0].elements[0].distance.text);
         });
       });
-      this.isTableVisible = true;
+      this.updatePagination();
+      this.isTableVisible = true;      
     })
   }
 

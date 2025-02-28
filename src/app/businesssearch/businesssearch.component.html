@@ -49,7 +49,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let business of businessList">
+      <tr *ngFor="let business of businessList && paginatedBusinesses">
         <td>
           <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
           <a href="javascript:void(0)"
@@ -85,6 +85,14 @@
   <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
     No records found
   </p>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="isPaginationVisible" class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+  
   <!-- Popup/Modal -->
   <div class="popup business-popup" *ngIf="selectedBusiness">
     <!-- Close Button -->
