@@ -51,6 +51,7 @@ export class ChangepasswordComponent {
   }
 
   onSubmit(): void {
+    debugger
     if (this.changePasswordForm.invalid) {
       return;
     }    
