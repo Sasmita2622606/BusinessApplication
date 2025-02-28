@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
+import { ChangePasswordRequest } from '../models/ChangePasswordRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +19,7 @@ export class AdminService {
   addSubAdmin(email: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/add-sub-admin?email=${email}`,email);
    }
+   changePassword(request: ChangePasswordRequest): Observable<any> {
+    return this.http.post<any>(this.apiUrl, request);
+  }
 }
