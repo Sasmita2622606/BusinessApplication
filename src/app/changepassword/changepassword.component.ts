@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResetPasswordRequest } from '../models/ResetPasswordRequest';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { AdminService } from '../service/admin.service';
 
 @Component({
@@ -21,10 +19,9 @@ export class ChangepasswordComponent {
   error: string = '';
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private AdminService: AdminService
+    private service: AdminService
   ) {
     this.changePasswordForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -55,7 +52,7 @@ export class ChangepasswordComponent {
     if (this.changePasswordForm.invalid) {
       return;
     }    
-    this.AdminService.changePassword(this.changePasswordForm.value).subscribe({
+    this.service.changePassword(this.changePasswordForm.value).subscribe({
       next: res => {
         this.message = res.text;
         this.error = '';
