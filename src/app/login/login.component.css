@@ -121,17 +121,25 @@ label {
   pointer-events: none; /* Makes it unclickable */
   margin: 0 20px; /* Adds spacing around it */
 }
-.eye-icon {
-  position: absolute;
-  right: 5%; /* Positioning inside the input field */
-  top: 50.5%;
-  transform: translateY(-50%); /* Center the icon vertically  */
-  cursor: pointer;
+
+.password-wrapper {
+  position: relative;
+  display: flex;
   align-items: center;
-  font-size: 18px;
-  color: #555;
 }
 
-.eye-icon:hover {
-  color: #000;
+.password-wrapper input {
+  width: 100%;
+  padding-right: 35px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top:40.5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
 }
