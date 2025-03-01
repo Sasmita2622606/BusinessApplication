@@ -18,6 +18,5 @@ export const routes: Routes = [
     {path:'Forgot-password', component: ForgotPasswordComponent },
     {path:'Reset-password', component: ResetPasswordComponent },
     {path:'Change-password', component: ChangepasswordComponent, canActivate:[authGuard]},
-    //{path: 'Admin', component:AdminComponent},
     {path: 'Subadmin', component:SubadminComponent, canActivate:[authGuard]}
 ];

@@ -65,7 +65,6 @@ export class LoginComponent {
           if (this.responsedata != null && this.responsedata.token) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
-            debugger
             if (this.responsedata.roleId == 3 || this.responsedata.roleId == 4) {
               // Navigate to the business search page
               this.router.navigateByUrl('/Businesssearch');

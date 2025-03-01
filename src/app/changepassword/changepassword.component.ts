@@ -30,7 +30,6 @@ export class ChangepasswordComponent {
     });
   }
   ngOnInit(): void {
-    debugger
     // Retrieve token from query parameter
     //this.route.queryParams.subscribe(params => {
       //this.token = params['token'] || '';
@@ -40,7 +39,6 @@ export class ChangepasswordComponent {
     }
   
     onSubmit(): void {
-      debugger
       if (this.changePasswordForm.invalid) {
         return;
       }

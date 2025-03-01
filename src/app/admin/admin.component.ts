@@ -47,7 +47,6 @@ export class AdminComponent {
   }
 
   onSubmitSuperAdmin() {
-    debugger
     if (this.adminLoginForm.valid) {
       this.isButtonDisabled = true;
       const loginData = this.adminLoginForm.value;
