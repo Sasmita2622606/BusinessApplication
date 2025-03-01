@@ -66,18 +66,22 @@ export class LoginComponent {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
             debugger
-            if (this.responsedata.admin.roleId == 1) {
+            if (this.responsedata.roleId == 3 || this.responsedata.roleId == 4) {
+              // Navigate to the business search page
+              this.router.navigateByUrl('/Businesssearch');
+            }
+            if (this.responsedata.roleId == 1) {
               // Navigate to the add sub admin page
               this.router.navigateByUrl('/Subadmin');
               console.log("return token", this.responsedata)
             }
-            else if(this.responsedata.admin.roleId == 2 && this.responsedata.admin.isPasswordChanged == false) 
+            if(this.responsedata.roleId == 2 && this.responsedata.isPasswordChanged == false) 
             {
               // Navigate to the change password page             
               this.router.navigateByUrl('/Change-password')
               console.log("return token", this.responsedata)
             }
-            else if(this.responsedata.admin.roleId == 2 && this.responsedata.admin.isPasswordChanged == true) 
+            if(this.responsedata.roleId == 2 && this.responsedata.isPasswordChanged == true) 
               {
                 // Navigate to the business search page
                 this.router.navigateByUrl('/Businesssearch');                
