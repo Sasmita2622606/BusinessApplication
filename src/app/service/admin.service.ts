@@ -20,6 +20,7 @@ export class AdminService {
     return this.http.post<any>(`${this.apiUrl}/add-sub-admin?email=${email}`,email);
    }
    changePassword(request: ChangePasswordRequest): Observable<any> {
-    return this.http.post<any>(this.apiUrl, request);
+    debugger
+    return this.http.post(`${this.apiUrl}/change-password`, request);
   }
 }

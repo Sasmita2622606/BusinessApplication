@@ -1,5 +1,5 @@
 export interface ChangePasswordRequest {
-    email: string;
-    oldPassword: string;
-    newpassword: string;
+    token: string;
+    currentPassword: string;
+    newPassword: string;
   }

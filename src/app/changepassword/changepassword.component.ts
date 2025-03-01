@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '../service/admin.service';
+import { ChangePasswordRequest } from '../models/ChangePasswordRequest';
 
 @Component({
   selector: 'app-changepassword',
@@ -17,52 +18,50 @@ export class ChangepasswordComponent {
   token: string = '';
   message: string = '';
   error: string = '';
+  email: string = '';
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private service: AdminService
+  constructor(private fb: FormBuilder, private adminService: AdminService, private router: Router,
+    private route: ActivatedRoute,
   ) {
     this.changePasswordForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, { validator: this.checkPasswords });
-  }
-
-  ngOnInit(): void {
-    console.log("this", this.error);
-    }
-
-  // Custom validator to check if passwords match
-  passwordsMatchValidator(formGroup: AbstractControl) {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { notSame: true };
-  }
-
-  // Custom validator to check if newPassword and confirmPassword match
-  checkPasswords(group: FormGroup) {
-    const pass = group.get('newPassword')?.value;
-    const confirmPass = group.get('confirmPassword')?.value;
-    return pass === confirmPass ? null : { notSame: true };
-  }
-
-  onSubmit(): void {
-    debugger
-    if (this.changePasswordForm.invalid) {
-      return;
-    }    
-    this.service.changePassword(this.changePasswordForm.value).subscribe({
-      next: res => {
-        this.message = res.text;
-        this.error = '';
-        // Optionally navigate to the login page after reset
-        setTimeout(() => this.router.navigate(['/login']), 2000);
-      },
-      error: err => {
-        this.error = err.error || 'Something went wrong';
-        this.message = '';
-      }
+      //email: ['', [Validators.required, Validators.email]]
     });
   }
+  ngOnInit(): void {
+    debugger
+    //   this.changePasswordForm = this.fb.group({
+    //   currentPassword: ['', Validators.required],  // <-- Ensure the control name matches
+    //   newPassword: ['', [Validators.required, Validators.minLength(6)]],
+    //   confirmPassword: ['', Validators.required]
+    // });
+
+    // Retrieve token from query parameter
+    this.route.queryParams.subscribe(params => {
+      this.token = params['token'] || '';
+    });
+    }
+  
+    onSubmit(): void {
+      debugger
+      if (this.changePasswordForm.invalid) {
+        return;
+      }
+      const request: ChangePasswordRequest = {
+        currentPassword: this.changePasswordForm.get('currentPassword')?.value,
+        newPassword: this.changePasswordForm.get('newPassword')?.value,
+        token: ''
+      };    
+          
+      this.adminService.changePassword(request).subscribe({
+        next: res => {
+          this.message = res.message;
+          this.error = '';
+        },
+        error: err => {
+          this.error = err.error || 'Something went wrong';
+          this.message = '';
+        }
+      });
+    }
+  
 }

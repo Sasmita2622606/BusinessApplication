@@ -52,12 +52,10 @@ export class SubadminComponent {
   }
 
   onSubmitSubadmin() {
-    debugger
     if (this.loginFormSubadmin.valid) {
       this.isButtonDisabled = true;
       this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({
         next: (result: any) => {
-          debugger
           this.responsedata = result;
           if (this.responsedata != null) {
             // Store the token in local storage
