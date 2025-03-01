@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AdminService } from '../service/admin.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subadmin',
@@ -54,20 +55,39 @@ export class SubadminComponent {
   onSubmitSubadmin() {
     if (this.loginFormSubadmin.valid) {
       this.isButtonDisabled = true;
-      this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({
-        next: (result: any) => {
-          this.responsedata = result;
-          if (this.responsedata != null) {
-            // Store the token in local storage
-            localStorage.setItem('token', this.responsedata.token);
-            // Navigate to the business search page
-            //this.router.navigateByUrl('/Businesssearch');
-            alert('provided user has added as admin and notified the same in the given email.');
+      this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({       
+        next: (response) => {
+          if (response) {
+            // Show success popup using SweetAlert2
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'User has added as sub-admin and notified the same in email with a default password to login.!',
+              confirmButtonText: 'OK',
+            });   
+            //this.registerForm.reset();
+            this.router.navigateByUrl('/login');
           } else {
-            // If token is not available, show a failed login message
-            this.isButtonDisabled = false;
+            // Show failure popup using SweetAlert2
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed',
+              text: 'Registration failed!',
+              confirmButtonText: 'Try Again',
+            });
           }
         },
+        error: (error) => {
+          // Handle errors during registration
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred during registration. Please try again.',
+            confirmButtonText: 'Close',
+          });
+          this.loginFormSubadmin.reset();
+          console.error('Registration error:', error);
+        }
       });
     }
     else {

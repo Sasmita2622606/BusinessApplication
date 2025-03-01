@@ -65,6 +65,7 @@ export class ResetPasswordComponent {
       next: res => {
         this.message = res.text;
         this.error = '';
+        alert("Password reset successfully.");
         // Optionally navigate to the login page after reset
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
