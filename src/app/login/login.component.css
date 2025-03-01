@@ -15,6 +15,8 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
+  
+  align-items: center;  
 }
 
 /* Form */
@@ -33,6 +35,7 @@ body {
 
 .form-group {
   margin-bottom: 15px;
+  position: relative;
 }
 
 label {
@@ -117,4 +120,26 @@ label {
   font-weight: bold;
   pointer-events: none; /* Makes it unclickable */
   margin: 0 20px; /* Adds spacing around it */
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 35px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top:40.5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
 }

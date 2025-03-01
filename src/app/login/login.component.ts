@@ -21,6 +21,7 @@ export class LoginComponent {
   isPasswordChanged: any;
   errorMessage: string | null = null;
   isButtonDisabled: boolean = false;
+  showPassword: boolean = false;
 
   constructor(private fb: FormBuilder, private service: LoginService, private router: Router) {
     localStorage.clear();
@@ -38,6 +39,10 @@ export class LoginComponent {
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   // Example method to set an error message

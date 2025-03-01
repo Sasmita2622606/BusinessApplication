@@ -4,6 +4,7 @@ import { AuthService } from '../service/auth.service';
 import { ForgotPasswordRequest } from '../models/ForgotPasswordRequest';
 import { CommonModule } from '@angular/common';
 import { LoginService } from '../service/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,10 +19,14 @@ export class ForgotPasswordComponent {
   message: string = '';
   error: string = '';
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) {
+  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']); // Navigate to the login page
   }
 
   onSubmit(): void {
