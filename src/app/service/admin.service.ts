@@ -8,18 +8,18 @@ import { ChangePasswordRequest } from '../models/ChangePasswordRequest';
 })
 export class AdminService {
 
-  apiUrl = 'https://localhost:7000/api/Admin';
-  //apiurl='https://business-11.onrender.com/api/Admin';
+  //apiurl = 'https://localhost:7000/api/Admin';
+  apiurl='https://business-11.onrender.com/api/Admin';
 
   constructor(private http: HttpClient) { }
 
   checkEmailExistsAdmin(email: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/check-email?email=${email}`);
+    return this.http.get<boolean>(`${this.apiurl}/check-email?email=${email}`);
   } 
   addSubAdmin(email: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/add-sub-admin?email=${email}`,email);
+    return this.http.post<any>(`${this.apiurl}/add-sub-admin?email=${email}`,email);
    }
    changePassword(request: ChangePasswordRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/change-password`, request);
+    return this.http.post(`${this.apiurl}/change-password`, request);
   }
 }
