@@ -128,7 +128,7 @@
         <div class="col-sm-12 col-md-11 col-lg-11">
           <div class="card bg-light card-top ">
             <header class="card-header border-0 bg-transparent card-textalign">
-              <img class="rounded-circle me-2" /><a class="fw-semibold text-decoration-none">{{emailId }}</a>
+              <a class="fw-semibold text-decoration-none">{{emailId }}</a>
               <div class="star-container">
                 <span *ngFor="let star of [].constructor(maxStars); let i = index" (click)="setRating(i + 1)"
                   class="material-icons material-icon-size1" [ngClass]="{'filled': i < rating}">
