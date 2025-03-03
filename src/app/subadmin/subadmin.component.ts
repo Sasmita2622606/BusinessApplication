@@ -20,6 +20,7 @@ export class SubadminComponent {
   isButtonDisabled: boolean = false;
   getemail: string = '';
   emailExists: boolean = false;
+  message = '';
 
   constructor(private fb: FormBuilder, private subadminservice: AdminService, private router: Router) {
     localStorage.clear();
@@ -53,6 +54,14 @@ export class SubadminComponent {
   }
 
   onSubmitSubadmin() {
+    debugger
+    if (this.loginFormSubadmin.invalid) {
+      return;
+    }
+    if (this.emailExists) {
+      this.message = 'Email is already registered!';
+      return;
+    }
     if (this.loginFormSubadmin.valid) {
       this.isButtonDisabled = true;
       this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({       
@@ -62,7 +71,7 @@ export class SubadminComponent {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'User has added as sub-admin and notified the same in email with a default password to login.!',
+              text: 'Email user has added as sub-admin and notified the same in email with a default password to login.',
               confirmButtonText: 'OK',
             });   
             //this.registerForm.reset();
