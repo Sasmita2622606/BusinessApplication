@@ -73,6 +73,7 @@ export class BusinesssearchComponent implements OnInit {
   itemsPerPage: number = 4; // Number of businesses per page
   totalPages: number = 1;
   isPaginationVisible: boolean = false;
+  roleID: string | null = null;
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
@@ -93,6 +94,9 @@ export class BusinesssearchComponent implements OnInit {
     this.emailId =this.authservice.getEmailIDFromToken()
     console.log('Cusid:', this.cusId);
     this.getCustomerDetails();
+    this.roleID = this.authservice.getRoleIdFromToken();
+    console.log("token", this.roleID)
+
   }
 
   updatePagination(): void {
