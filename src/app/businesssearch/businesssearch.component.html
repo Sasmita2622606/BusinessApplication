@@ -36,55 +36,58 @@
   </form>
 
   <!-- Business List Table -->
-  <table *ngIf="isTableVisible" class="business-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <!-- <th>Visiting Card</th> -->
-        <!-- <th>New Latitude</th> -->
-        <th>Address</th>
-        <th>Distance (KM)</th>
-        <th>Average Rating </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let business of businessList && paginatedBusinesses">
-        <td>
-          <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
-          <a href="javascript:void(0)"
-            (click)="getBusinessDetailById(business.businessID,business.distancekm);getRating(business.businessID)">{{
-            business.name }}</a>
-        </td>
-        <td>{{ business.description }}</td>
-        <!-- <td>
+  <div class="table-responsive">
+    <table *ngIf="isTableVisible" class="business-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <!-- <th>Visiting Card</th> -->
+          <!-- <th>New Latitude</th> -->
+          <th>Address</th>
+          <th>Distance (KM)</th>
+          <th>Average Rating </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let business of businessList && paginatedBusinesses">
+          <td>
+            <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
+            <a href="javascript:void(0)"
+              (click)="getBusinessDetailById(business.businessID,business.distancekm);getRating(business.businessID)">{{
+              business.name }}</a>
+          </td>
+          <td>{{ business.description }}</td>
+          <!-- <td>
           <img [src]="getImageUrl(business.visitingCard)" class="visiting-card" />
         </td> -->
-        <td>
-          {{ business.location }}
-        </td>
-        <!-- <td>          
+          <td>
+            {{ business.location }}
+          </td>
+          <!-- <td>          
           {{ business.longitude }} 
        </td> -->
-        <td>{{ business.distancekm }}</td>
-        <td>
-          <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
-              class="material-icons material-icon-size" [ngClass]="{'filled': i < business?.averageRating}" aria-disabled="true">
-              star
-            </span>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <p *ngIf="latitudeDifference !== null">Latitude Difference: {{ latitudeDifference.toFixed(2) }}</p>
-        <p *ngIf="longitudeDifference !== null">Longitude Difference: {{ longitudeDifference.toFixed(2) }}</p>
-      </tr>
+          <td>{{ business.distancekm }}</td>
+          <td>
+            <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
+                class="material-icons material-icon-size" [ngClass]="{'filled': i < business?.averageRating}"
+                aria-disabled="true">
+                star
+              </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <p *ngIf="latitudeDifference !== null">Latitude Difference: {{ latitudeDifference.toFixed(2) }}</p>
+          <p *ngIf="longitudeDifference !== null">Longitude Difference: {{ longitudeDifference.toFixed(2) }}</p>
+        </tr>
 
-    </tbody>
-  </table>
-  <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
-    No records found
-  </p>
+      </tbody>
+    </table>
+    <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
+      No records found
+    </p>
+  </div>
 
   <!-- Pagination Controls -->
   <div *ngIf="isPaginationVisible" class="pagination">
@@ -92,7 +95,7 @@
     <span>Page {{ currentPage }} of {{ totalPages }}</span>
     <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
   </div>
-  
+
   <!-- Popup/Modal -->
   <div class="popup business-popup" *ngIf="selectedBusiness">
     <!-- Close Button -->
@@ -172,7 +175,8 @@
                 <a class="fw-semibold text-decoration-none">{{buisnessRat?.ratedBy}} </a>
                 <span style="padding-left:10px">{{buisnessRat?.dateTime|date: 'dd/MM/yyyy'}}</span>
                 <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
-                    class="material-icons material-icon-size1" [ngClass]="{'filled': i < buisnessRat?.rating}" aria-disabled="true">
+                    class="material-icons material-icon-size1" [ngClass]="{'filled': i < buisnessRat?.rating}"
+                    aria-disabled="true">
                     star
                   </span></div>
               </div>

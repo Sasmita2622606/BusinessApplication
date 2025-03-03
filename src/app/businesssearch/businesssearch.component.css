@@ -208,9 +208,10 @@ h2 {
 
 .business-table th,
 .business-table td {
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #dee2e6;
   text-align: left;
+  white-space: nowrap;
 }
 
 .business-table th {
@@ -424,6 +425,15 @@ input.form-control {
   .popup {
     width: 95%;
   }
+
+  .business-table {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+
+  .business-table th,
+  .business-table td {
+    padding: 6px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -485,6 +495,11 @@ input.form-control {
   font-size: 14px;
   font-weight: bold;
   color: #333;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
 }
 
 
