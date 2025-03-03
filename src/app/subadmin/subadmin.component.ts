@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-subadmin',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   providers: [AdminService],
   templateUrl: './subadmin.component.html',
   styleUrl: './subadmin.component.css'
@@ -54,7 +54,6 @@ export class SubadminComponent {
   }
 
   onSubmitSubadmin() {
-    debugger
     if (this.loginFormSubadmin.invalid) {
       return;
     }
@@ -64,7 +63,7 @@ export class SubadminComponent {
     }
     if (this.loginFormSubadmin.valid) {
       this.isButtonDisabled = true;
-      this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({       
+      this.subadminservice.addSubAdmin(this.loginFormSubadmin.get("email")?.value).subscribe({
         next: (response) => {
           if (response) {
             // Show success popup using SweetAlert2
@@ -73,7 +72,7 @@ export class SubadminComponent {
               title: 'Success',
               text: 'Email user has added as sub-admin and notified the same in email with a default password to login.',
               confirmButtonText: 'OK',
-            });   
+            });
             //this.registerForm.reset();
             this.router.navigateByUrl('/login');
           } else {
