@@ -22,6 +22,9 @@
         <small *ngIf="email?.hasError('email')">Please enter a valid email address.</small>
       </div>
       </div>
+      <div *ngIf="loginFormSubadmin.get('email')?.invalid && loginFormSubadmin.get('email')?.touched" class="error-text">
+        Please enter a valid email.
+      </div>
   
       <!-- Submit Button -->
       <div class="button-container">
