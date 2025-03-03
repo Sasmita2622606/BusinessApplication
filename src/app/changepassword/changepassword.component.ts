@@ -22,44 +22,48 @@ export class ChangepasswordComponent {
   email: string = '';
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private router: Router,
-    private route: ActivatedRoute, private authService : AuthService){
-      this.changePasswordForm = this.fb.group({
+    private route: ActivatedRoute, private authService: AuthService) {
+    this.changePasswordForm = this.fb.group({
       currentPassword: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
-    });
+    },{ validator: this.checkPasswords });
   }
   ngOnInit(): void {
-    // Retrieve token from query parameter
-    //this.route.queryParams.subscribe(params => {
-      //this.token = params['token'] || '';
-    //});    
     this.token = this.authService.getToken();
     console.log("token", this.token)
+  }
+
+  // Custom validator to check if newPassword and confirmPassword match
+  checkPasswords(group: FormGroup) {
+    const pass = group.get('newPassword')?.value;
+    const confirmPass = group.get('confirmPassword')?.value;
+    return pass === confirmPass ? null : { notSame: true };
+  }
+
+  onSubmit(): void {
+    if (this.changePasswordForm.invalid) {
+      return;
     }
-  
-    onSubmit(): void {
-      if (this.changePasswordForm.invalid) {
-        return;
+    const request: ChangePasswordRequest = {
+      currentPassword: this.changePasswordForm.get('currentPassword')?.value,
+      newPassword: this.changePasswordForm.get('newPassword')?.value,
+      token: this.token
+    };
+
+    this.adminService.changePassword(request).subscribe({
+      next: res => {
+        this.message = res.text;
+        this.error = '';
+        alert("Password changed successfully.");
+        // Optionally navigate to the login page after reset
+        setTimeout(() => this.router.navigate(['/login']), 2000);
+      },
+      error: err => {
+        this.error = err.error || 'Something went wrong';
+        this.message = '';
       }
-      const request: ChangePasswordRequest = {
-        currentPassword: this.changePasswordForm.get('currentPassword')?.value,
-        newPassword: this.changePasswordForm.get('newPassword')?.value,
-        token: this.token
-      };    
-          
-      this.adminService.changePassword(request).subscribe({
-        next: res => {
-          this.message = res.text;
-          this.error = '';
-          // Optionally navigate to the login page after reset
-          setTimeout(() => this.router.navigate(['/login']), 2000);
-        },
-        error: err => {
-          this.error = err.error || 'Something went wrong';
-          this.message = '';
-        }
-      });
-    }
-  
+    });
+  }
+
 }
