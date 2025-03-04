@@ -501,6 +501,23 @@ input.form-control {
   width: 100%;
   overflow-x: auto;
 }
+.business-table td:nth-child(3) { /* Assuming Address is the third column */
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust this width as needed */
+}
+.business-table td:nth-child(2) { /* Assuming Address is the third column */
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust this width as needed */
+}
+
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust based on your layout */
+  overflow-wrap: break-word;
+}
 
 
 

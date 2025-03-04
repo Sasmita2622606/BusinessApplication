@@ -70,7 +70,7 @@ export class BusinesssearchComponent implements OnInit {
   errorMessage: string | null = null;
   ratingComment:string='' ;
   currentPage: number = 1;
-  itemsPerPage: number = 4; // Number of businesses per page
+  itemsPerPage: number = 10; // Number of businesses per page
   totalPages: number = 1;
   isPaginationVisible: boolean = false;
   roleID: string | null = null;
@@ -319,6 +319,8 @@ export class BusinesssearchComponent implements OnInit {
   // Close the popup
   closePopup(): void {
     this.selectedBusiness = null;
+    this.rating=0;
+    this.ratingComment = '';
   }
   
   getRating(buisnessId:any){
@@ -359,6 +361,7 @@ export class BusinesssearchComponent implements OnInit {
       });
     
     this.getRating(comments.businessID);
+    this.callSearch();
    },error:(error:any)=>{
     Swal.fire({
       icon: 'error',

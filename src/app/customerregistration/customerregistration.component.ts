@@ -32,7 +32,7 @@ export class CustomerregistrationComponent implements OnInit {
     this.cusRegisterForm = this.fb.group({
       Cus_Id: [0],
       Cus_EmailId: ['', [Validators.required, Validators.email]],
-      Cus_Password: ['', [Validators.required, Validators.minLength(3)]],
+      Cus_Password: ['', [Validators.required, Validators.minLength(6)]],
       Cus_Location: ['', [Validators.required]],
       Latitude: [8.3],
       Longitude: [9.3],
