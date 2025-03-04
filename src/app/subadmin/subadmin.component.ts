@@ -54,13 +54,14 @@ export class SubadminComponent {
   }
 
   onSubmitSubadmin() {
-    debugger
     if (this.loginFormSubadmin.invalid) {
       return;
     }
     if (this.emailExists) {
       this.message = 'Email is already registered!';
-      return;
+      if (this.loginFormSubadmin.valid) {
+        return;
+      }
     }
     if (this.loginFormSubadmin.valid) {
       this.isButtonDisabled = true;
