@@ -262,21 +262,36 @@ export class BusinesssearchComponent implements OnInit {
       alert('No subcategory selected. Please choose a subcategory.');
       return;
     }
-    let customerLatitude = localStorage.getItem('customerLatitude')
-    let customerLongitude = localStorage.getItem('customerLongitude')
     this.businessService.searchBusinesses(this.selectedCategory.categoryName, this.selectedSubCategory.subCategoryName).subscribe((result: any) => {
       this.businessList = result;
-      this.businessList.forEach((item:any) =>{
-        let distance = this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude).subscribe((response:any)=>{
-          item.distancekm = response.rows[0].elements[0].distance.text;
-          console.log(response.rows[0].elements[0].distance.text);
-        });
-      });
+      this.updateDistance();
       this.updatePagination();
       this.isTableVisible = true;      
     })
   }
-
+  updateDistance(){
+    
+    let customerLatitude = localStorage.getItem('customerLatitude')
+    let customerLongitude = localStorage.getItem('customerLongitude')
+    // Array to hold all distance fetch Promises
+    let distancePromises = this.businessList.map((item: any) => {
+      return new Promise((resolve) => {
+        this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude)
+          .subscribe((response: any) => {
+            let distance = response.rows[0].elements[0].distance.text;
+            item.distancekm = parseFloat(distance).toFixed(2);
+            resolve(item);  // Resolve the Promise when distance is assigned
+          });
+      });
+    });
+    // Wait for all distance assignments to finish
+    Promise.all(distancePromises).then(() => {
+      // After all distances are assigned, sort the businessList by distancekm
+      this.businessList.sort((a: any, b: any) => {
+        return parseFloat(a.distancekm) - parseFloat(b.distancekm);
+      });
+    });
+}
   replacePercentage(val: any) {
     console.log(val);
     return val;
