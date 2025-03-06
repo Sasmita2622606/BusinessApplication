@@ -36,55 +36,66 @@
   </form>
 
   <!-- Business List Table -->
-  <table *ngIf="isTableVisible" class="business-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <!-- <th>Visiting Card</th> -->
-        <!-- <th>New Latitude</th> -->
-        <th>Address</th>
-        <th>Distance (KM)</th>
-        <th>Average Rating </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let business of businessList">
-        <td>
-          <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
-          <a href="javascript:void(0)"
-            (click)="getBusinessDetailById(business.businessID,business.distancekm);getRating(business.businessID)">{{
-            business.name }}</a>
-        </td>
-        <td>{{ business.description }}</td>
-        <!-- <td>
+  <div class="table-responsive">
+    <table *ngIf="isTableVisible" class="business-table">
+      <thead>
+        <tr>
+          <th style="text-align: center;">Name</th>
+          <th style="text-align: center;">Description</th>
+          <!-- <th>Visiting Card</th> -->
+          <!-- <th>New Latitude</th> -->
+          <th style="text-align: center;">Address</th>
+          <th style="text-align: center;">Distance (KM)</th>
+          <th style="text-align: center;">Average Rating </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let business of businessList && paginatedBusinesses">
+          <td>
+            <!-- <a href="javascript:void(0)" (click)="openPopup(business)">{{ business.name }}</a> -->
+            <a href="javascript:void(0)"
+              (click)="getBusinessDetailById(business.businessID,business.distancekm);getRating(business.businessID)">{{
+              business.name }}</a>
+          </td>
+          <td class="wrap-text">{{ business.description }}</td>
+          <!-- <td>
           <img [src]="getImageUrl(business.visitingCard)" class="visiting-card" />
         </td> -->
-        <td>
-          {{ business.location }}
-        </td>
-        <!-- <td>          
+          <td class="wrap-text">
+            {{ business.location }}
+          </td>
+          <!-- <td>          
           {{ business.longitude }} 
        </td> -->
-        <td>{{ business.distancekm }}</td>
-        <td>
-          <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
-              class="material-icons material-icon-size" [ngClass]="{'filled': i < business?.averageRating}" aria-disabled="true">
-              star
-            </span>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <p *ngIf="latitudeDifference !== null">Latitude Difference: {{ latitudeDifference.toFixed(2) }}</p>
-        <p *ngIf="longitudeDifference !== null">Longitude Difference: {{ longitudeDifference.toFixed(2) }}</p>
-      </tr>
+          <td>{{ business.distancekm }}</td>
+          <td>
+            <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
+                class="material-icons material-icon-size" [ngClass]="{'filled': i < business?.averageRating}"
+                aria-disabled="true">
+                star
+              </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <p *ngIf="latitudeDifference !== null">Latitude Difference: {{ latitudeDifference.toFixed(2) }}</p>
+          <p *ngIf="longitudeDifference !== null">Longitude Difference: {{ longitudeDifference.toFixed(2) }}</p>
+        </tr>
 
-    </tbody>
-  </table>
-  <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
-    No records found
-  </p>
+      </tbody>
+    </table>
+    <p *ngIf="isTableVisible && businessList.length === 0" class="no-records-message">
+      No records found
+    </p>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="isPaginationVisible" class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
   <!-- Popup/Modal -->
   <div class="popup business-popup" *ngIf="selectedBusiness">
     <!-- Close Button -->
@@ -112,12 +123,12 @@
       <!--Add Comment Start-->
 
 
-      <div class="row" style="margin-left:10px;" *ngIf="selectedBusiness.roleID==2">
+      <div class="row" style="margin-left:10px;" *ngIf="roleID=='2'">
         <!--Add Comment Start-->
         <div class="col-sm-12 col-md-11 col-lg-11">
           <div class="card bg-light card-top ">
             <header class="card-header border-0 bg-transparent card-textalign">
-              <img class="rounded-circle me-2" /><a class="fw-semibold text-decoration-none">{{emailId }}</a>
+              <a class="fw-semibold text-decoration-none">{{emailId }}</a>
               <div class="star-container">
                 <span *ngFor="let star of [].constructor(maxStars); let i = index" (click)="setRating(i + 1)"
                   class="material-icons material-icon-size1" [ngClass]="{'filled': i < rating}">
@@ -164,7 +175,8 @@
                 <a class="fw-semibold text-decoration-none">{{buisnessRat?.ratedBy}} </a>
                 <span style="padding-left:10px">{{buisnessRat?.dateTime|date: 'dd/MM/yyyy'}}</span>
                 <div style="text-align: left;"> <span *ngFor="let star of [].constructor(maxStars); let i = index"
-                    class="material-icons material-icon-size1" [ngClass]="{'filled': i < buisnessRat?.rating}" aria-disabled="true">
+                    class="material-icons material-icon-size1" [ngClass]="{'filled': i < buisnessRat?.rating}"
+                    aria-disabled="true">
                     star
                   </span></div>
               </div>
@@ -181,10 +193,7 @@
             <div class="card-body py-2 px-3" style="text-align:left">
               {{buisnessRat?.comment}}
             </div>
-            <footer class="card-footer bg-white border-0 py-1 px-3">
-
-
-            </footer>
+        
             <br>
           </article>
 

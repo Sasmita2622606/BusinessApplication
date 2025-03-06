@@ -17,8 +17,11 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   responsedata: any;
+  roleId: any;
+  isPasswordChanged: any;
   errorMessage: string | null = null;
   isButtonDisabled: boolean = false;
+  showPassword: boolean = false;
 
   constructor(private fb: FormBuilder, private service: LoginService, private router: Router) {
     localStorage.clear();
@@ -38,6 +41,10 @@ export class LoginComponent {
     return this.loginForm.get('password');
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   // Example method to set an error message
   handleLoginError() {
     this.errorMessage = 'Invalid username or password';
@@ -53,14 +60,31 @@ export class LoginComponent {
       this.isButtonDisabled = true;
       const loginData = this.loginForm.value;
       this.service.onSubmit(loginData).subscribe({
-        next: (result) => {
+        next: (result) => {          
           this.responsedata = result;
           if (this.responsedata != null && this.responsedata.token) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
-  
-            // Navigate to the business search page
-            this.router.navigateByUrl('/Businesssearch');
+            if (this.responsedata.roleId == 3 || this.responsedata.roleId == 4) {
+              // Navigate to the business search page
+              this.router.navigateByUrl('/Businesssearch');
+            }
+            if (this.responsedata.roleId == 1) {
+              // Navigate to the add sub admin page
+              this.router.navigateByUrl('/Subadmin');
+              console.log("return token", this.responsedata)
+            }
+            if(this.responsedata.roleId == 2 && this.responsedata.isPasswordChanged == false) 
+            {
+              // Navigate to the change password page             
+              this.router.navigateByUrl('/Change-password')
+              console.log("return token", this.responsedata)
+            }
+            if(this.responsedata.roleId == 2 && this.responsedata.isPasswordChanged == true) 
+              {
+                // Navigate to the business search page
+                this.router.navigateByUrl('/Businesssearch');                
+              }
           } else {
             // If token is not available, show a failed login message
             alert('Login Failed!');

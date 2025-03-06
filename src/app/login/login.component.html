@@ -22,12 +22,15 @@
     <div class="form-group">
       <label for="password">Password</label>
       <input
-        type="password"
-        id="password"
-        formControlName="password"
-        placeholder="Enter your password"
-        class="form-control"
-      />
+      [type]="showPassword ? 'text' : 'password'"
+      id="password"
+      formControlName="password"
+      placeholder="Enter your password"
+      class="form-control"
+      />     
+      <button type="button" class="eye-icon" (click)="togglePasswordVisibility()">
+        <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+      </button>
       <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="form-error">
         <small *ngIf="password?.errors?.['required']">Password is required.</small>
         <small *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters.</small>
@@ -43,7 +46,7 @@
       <p>Register as</p>
       <a [routerLink]="['/Registerbusiness']" class="link">Business</a>
       <a class="separator">|</a>
-      <a [routerLink]="['/Customerregistration']" class="link">Customer</a>
+      <a [routerLink]="['/Customerregistration']" class="link">Customer</a>      
     </div>
 
     <!-- Submit Button -->

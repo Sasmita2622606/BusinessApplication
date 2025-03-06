@@ -11,7 +11,9 @@ export class LoginService {
 
  apiurl='https://business-11.onrender.com/api/Auth/login';
  baseUrl = 'https://business-11.onrender.com/api/Auth';
-   //apiurl='https://business-11.onrender.com/api/Auth/login';
+
+ //apiurl='https://localhost:7000/api/Auth/login';
+ //baseUrl = 'https://localhost:7000/api/Auth';
 
   constructor(private http: HttpClient) { }
 

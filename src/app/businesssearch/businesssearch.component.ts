@@ -69,6 +69,11 @@ export class BusinesssearchComponent implements OnInit {
   customerData: any;
   errorMessage: string | null = null;
   ratingComment:string='' ;
+  currentPage: number = 1;
+  itemsPerPage: number = 10; // Number of businesses per page
+  totalPages: number = 1;
+  isPaginationVisible: boolean = false;
+  roleID: string | null = null;
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
 
   ngOnInit(): void {
@@ -89,6 +94,31 @@ export class BusinesssearchComponent implements OnInit {
     this.emailId =this.authservice.getEmailIDFromToken()
     console.log('Cusid:', this.cusId);
     this.getCustomerDetails();
+    this.roleID = this.authservice.getRoleIdFromToken();
+    console.log("token", this.roleID)
+
+  }
+
+  updatePagination(): void {
+    this.totalPages = Math.ceil(this.businessList.length / this.itemsPerPage);
+    this.isPaginationVisible = this.totalPages > 1; // Show pagination if multiple pages exist
+  }
+
+  get paginatedBusinesses(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.businessList.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
   }
 
   getCurrentLocation(): void {
@@ -232,20 +262,36 @@ export class BusinesssearchComponent implements OnInit {
       alert('No subcategory selected. Please choose a subcategory.');
       return;
     }
-    let customerLatitude = localStorage.getItem('customerLatitude')
-    let customerLongitude = localStorage.getItem('customerLongitude')
     this.businessService.searchBusinesses(this.selectedCategory.categoryName, this.selectedSubCategory.subCategoryName).subscribe((result: any) => {
       this.businessList = result;
-      this.businessList.forEach((item:any) =>{
-        let distance = this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude).subscribe((response:any)=>{
-          item.distancekm = response.rows[0].elements[0].distance.text;
-          console.log(response.rows[0].elements[0].distance.text);
-        });
-      });
-      this.isTableVisible = true;
+      this.updateDistance();
+      this.updatePagination();
+      this.isTableVisible = true;      
     })
   }
-
+  updateDistance(){
+    
+    let customerLatitude = localStorage.getItem('customerLatitude')
+    let customerLongitude = localStorage.getItem('customerLongitude')
+    // Array to hold all distance fetch Promises
+    let distancePromises = this.businessList.map((item: any) => {
+      return new Promise((resolve) => {
+        this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude)
+          .subscribe((response: any) => {
+            let distance = response.rows[0].elements[0].distance.text;
+            item.distancekm = parseFloat(distance).toFixed(2);
+            resolve(item);  // Resolve the Promise when distance is assigned
+          });
+      });
+    });
+    // Wait for all distance assignments to finish
+    Promise.all(distancePromises).then(() => {
+      // After all distances are assigned, sort the businessList by distancekm
+      this.businessList.sort((a: any, b: any) => {
+        return parseFloat(a.distancekm) - parseFloat(b.distancekm);
+      });
+    });
+}
   replacePercentage(val: any) {
     console.log(val);
     return val;
@@ -288,6 +334,8 @@ export class BusinesssearchComponent implements OnInit {
   // Close the popup
   closePopup(): void {
     this.selectedBusiness = null;
+    this.rating=0;
+    this.ratingComment = '';
   }
   
   getRating(buisnessId:any){
@@ -328,6 +376,7 @@ export class BusinesssearchComponent implements OnInit {
       });
     
     this.getRating(comments.businessID);
+    this.callSearch();
    },error:(error:any)=>{
     Swal.fire({
       icon: 'error',

@@ -13,8 +13,9 @@ export class BusinessService {
   private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
   private businessRating_ApiUrl = 'https://business-11.onrender.com/api/BusinessRating';
   
-  // private apiUrl = 'https://business-11.onrender.com/api/Business';
-  // private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
+  // private apiUrl = 'https://localhost:7000/api/Business';
+  // private cus_ApiUrl = 'https://localhost:7000/api/Customer';
+  // private businessRating_ApiUrl = 'https://localhost:7000/api/BusinessRating';
 
   constructor(private http: HttpClient) {}
 

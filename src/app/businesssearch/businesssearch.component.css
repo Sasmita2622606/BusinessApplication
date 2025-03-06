@@ -208,9 +208,10 @@ h2 {
 
 .business-table th,
 .business-table td {
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #dee2e6;
   text-align: left;
+  white-space: nowrap;
 }
 
 .business-table th {
@@ -251,12 +252,12 @@ h2 {
 /* Popup Container */
 .popup {
   position: fixed;
-  top: 50%;
+  top: 55%;
   bottom: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 700px;
-  max-width: 700px; /* Limit maximum width to 500px */
+  width: 900px;
+  max-width: 900px; /* Limit maximum width to 500px */
   background: #fff;
   border: 1px;
   display: flex;
@@ -264,12 +265,12 @@ h2 {
   align-items: center;
   z-index: 1000;
   font-size: 0.9rem; /* Small text size */
-  height: 80%;
+  height: 90%;
 }
 
 
 .popup-content {
-  width: 700px;
+  width: 900px;
   padding: 15px; /* Reduce padding for a compact layout */
   display: flex;
   flex-direction: column;
@@ -424,6 +425,15 @@ input.form-control {
   .popup {
     width: 95%;
   }
+
+  .business-table {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+
+  .business-table th,
+  .business-table td {
+    padding: 6px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -449,9 +459,65 @@ input.form-control {
     font-size: 30px;
     color: gray;
     transition: color 0.2s;
-  }
-
- 
+  } 
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+.business-table td:nth-child(3) { /* Assuming Address is the third column */
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust this width as needed */
+}
+.business-table td:nth-child(2) { /* Assuming Address is the third column */
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust this width as needed */
+}
+
+.wrap-text {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 200px; /* Adjust based on your layout */
+  overflow-wrap: break-word;
+}
+
 
 

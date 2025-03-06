@@ -3,7 +3,8 @@ import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoogleMapsModule } from "@angular/google-maps";
 import { BusinessService } from '../service/business.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customerregistration',
@@ -27,11 +28,11 @@ export class CustomerregistrationComponent implements OnInit {
   zoom = 10;
   marker: google.maps.LatLngLiteral | null = null;
 
-  constructor(private fb: FormBuilder, private businessService: BusinessService) {
+  constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router) {
     this.cusRegisterForm = this.fb.group({
       Cus_Id: [0],
       Cus_EmailId: ['', [Validators.required, Validators.email]],
-      Cus_Password: ['', [Validators.required, Validators.minLength(3)]],
+      Cus_Password: ['', [Validators.required, Validators.minLength(6)]],
       Cus_Location: ['', [Validators.required]],
       Latitude: [8.3],
       Longitude: [9.3],
@@ -42,7 +43,7 @@ export class CustomerregistrationComponent implements OnInit {
     this.getCurrentLocation();
 
   }
-  
+
   checkEmail() {
     const email = this.cusRegisterForm.get('Cus_EmailId')?.value;
     if (email) {
@@ -56,8 +57,8 @@ export class CustomerregistrationComponent implements OnInit {
       });
     }
   }
-   // Getter for Email Field
-   get emailID() {
+  // Getter for Email Field
+  get emailID() {
     return this.cusRegisterForm.get('Cus_EmailId');
   }
 
@@ -91,7 +92,7 @@ export class CustomerregistrationComponent implements OnInit {
       alert('Geolocation is not supported by your browser.');
     }
   }
-  
+
   onMapClick(event: google.maps.MapMouseEvent): void {
     if (event.latLng) {
       const lat = event.latLng.lat();
@@ -100,7 +101,7 @@ export class CustomerregistrationComponent implements OnInit {
       this.getLocationName(lat, lng); // Fetch and display the new location name
     }
   }
-  
+
   onLocationInput(): void {
     const location = this.cusRegisterForm.controls['Cus_Location'].value;
     if (location) {
@@ -118,7 +119,7 @@ export class CustomerregistrationComponent implements OnInit {
       });
     }
   }
-  
+
   getLocationName(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     const latlng = { lat, lng };
@@ -131,7 +132,7 @@ export class CustomerregistrationComponent implements OnInit {
       }
     });
   }
-  
+
   updateLocationFields(location: string, lat: number, lng: number): void {
     this.cusRegisterForm.controls['Cus_Location'].setValue(location);
     this.cusRegisterForm.controls['Latitude'].setValue(lat);
@@ -139,7 +140,7 @@ export class CustomerregistrationComponent implements OnInit {
   }
 
   submit(): void {
-    
+
     if (this.emailExists) {
       this.message = 'Email is already registered!';
       return;
@@ -149,18 +150,48 @@ export class CustomerregistrationComponent implements OnInit {
       this.showAlert("Form is invalid. Please check the inputs.", "error");
       return;
     }
-  
+
     console.log('Form Submitted', this.cusRegisterForm.value);
-  
-    // Call the service to register the customer
     this.businessService.registerCustomer(this.cusRegisterForm.value).subscribe({
-      next: (response) => this.onRegisterSuccess(response)
+      next: (response) => {
+        if (response) {
+          // Show success popup using SweetAlert2
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Successfully registered!',
+            confirmButtonText: 'OK',
+          });
+
+          //this.registerForm.reset();
+          this.router.navigateByUrl('/login');
+        } else {
+          // Show failure popup using SweetAlert2
+          Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Registration failed!',
+            confirmButtonText: 'Try Again',
+          });
+        }
+      },
+      error: (error) => {
+        // Handle errors during registration
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred during registration. Please try again.',
+          confirmButtonText: 'Close',
+        });
+        this.cusRegisterForm.reset();
+        console.error('Registration error:', error);
+      }
     });
   }
-  
+
   private onRegisterSuccess(response: { data?: string }): void {
     this.saveresponse = response;
-  
+
     // Check the response data
     if (response?.data === 'pass') {
       this.showAlert("Saved Successfully", "success");
@@ -169,20 +200,19 @@ export class CustomerregistrationComponent implements OnInit {
       this.showAlert("Save failed", "error");
     }
   }
-  
+
   private onRegisterError(error: any): void {
     console.error("Error during registration:", error);
-  
+
     // Fallback error message
     const errorMessage = error?.message || "An unexpected error occurred. Please try again.";
     this.showAlert(errorMessage, "error");
     this.cusRegisterForm.reset();
   }
-  
+
   private showAlert(message: string, type: "success" | "error"): void {
     // Replace with a UI library like SweetAlert2 or Material Dialog for better user experience
     alert(message);
-  
     // Optional: Log the alert for debugging purposes
     console.log(`[${type.toUpperCase()}] ${message}`);
   }
