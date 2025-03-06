@@ -45,8 +45,11 @@
           <!-- <th>Visiting Card</th> -->
           <!-- <th>New Latitude</th> -->
           <th style="text-align: center;">Address</th>
-          <th style="text-align: center;">Distance (KM)</th>
-          <th style="text-align: center;">Average Rating </th>
+          <th style="text-align: center;">Distance (KM)<i class="fas fa-arrow-up" (click)="sortDistance(true)"></i>
+            <i class="fas fa-arrow-down" (click)="sortDistance(false)"></i></th>
+          <th style="text-align: center;">Average Rating <i class="fas fa-arrow-up"(click)="sortRating(true)"></i>
+            <i class="fas fa-arrow-down" (click)="sortRating(false)"></i>
+          </th>
         </tr>
       </thead>
       <tbody>
