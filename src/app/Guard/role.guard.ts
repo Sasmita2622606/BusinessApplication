@@ -1,5 +1,9 @@
 import { CanActivateFn } from '@angular/router';
 
 export const roleGuard: CanActivateFn = (route, state) => {
-  return true;
+  let roleId = localStorage.getItem('roleId');
+  if (roleId == '1')
+    return true;
+  else
+    return false;
 };
