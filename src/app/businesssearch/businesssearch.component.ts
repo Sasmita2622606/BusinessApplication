@@ -320,7 +320,21 @@ export class BusinesssearchComponent implements OnInit {
       console.error('Form is invalid');
     }
   }
+  sortDistance(value:boolean):any{
+   if(value && this.businessList.length>0){
+    this.businessList =this.businessList?.sort((a,b)=>a.distancekm-b.distancekm);
+   }else{
+    this.businessList =this.businessList?.sort((a,b)=>b.distancekm-a.distancekm);
+   }
 
+  }
+  sortRating(value:boolean):any{
+    if(value && this.businessList.length>0){
+      this.businessList =this.businessList?.sort((a,b)=>a.averageRating-b.averageRating);
+     }else{
+      this.businessList =this.businessList?.sort((a,b)=>b.averageRating-a.averageRating);
+     }
+  }
   // View business details when a name is clicked
   viewBusinessDetails(business: any): void {
     this.selectedBusiness = business;
