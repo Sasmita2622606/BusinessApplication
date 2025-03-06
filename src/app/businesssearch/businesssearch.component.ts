@@ -100,13 +100,45 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   updatePagination(): void {
-    this.totalPages = Math.ceil(this.businessList.length / this.itemsPerPage);
-    this.isPaginationVisible = this.totalPages > 1; // Show pagination if multiple pages exist
+    // this.totalPages = Math.ceil(this.businessList.length / this.itemsPerPage);
+    // this.isPaginationVisible = this.totalPages > 1; // Show pagination if multiple pages exist
+    // Calculate total pages
+  this.totalPages = Math.ceil(this.businessList.length / this.itemsPerPage);
+  
+  // Ensure pagination is visible only if more than one page exists
+  this.isPaginationVisible = this.totalPages > 1;
+
+  // Ensure the current page does not exceed total pages
+  if (this.currentPage > this.totalPages) {
+    this.currentPage = this.totalPages;
+  }
+  
+  // Ensure current page is at least 1
+  if (this.currentPage < 1) {
+    this.currentPage = 1;
+  }
+
+  // // Calculate the start and end index for paginated data
+  // const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  // const endIndex = startIndex + this.itemsPerPage;
+
+  // // Slice the business list based on pagination
+  // this.paginatedBusinesses = this.businessList.slice(startIndex, endIndex);
   }
 
   get paginatedBusinesses(): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.businessList.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  goToFirstPage() {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+  
+  goToLastPage() {
+    this.currentPage = this.totalPages;
+    this.updatePagination();
   }
 
   previousPage(): void {
@@ -320,7 +352,21 @@ export class BusinesssearchComponent implements OnInit {
       console.error('Form is invalid');
     }
   }
+  sortDistance(value:boolean):any{
+   if(value && this.businessList.length>0){
+    this.businessList =this.businessList?.sort((a,b)=>a.distancekm-b.distancekm);
+   }else{
+    this.businessList =this.businessList?.sort((a,b)=>b.distancekm-a.distancekm);
+   }
 
+  }
+  sortRating(value:boolean):any{
+    if(value && this.businessList.length>0){
+      this.businessList =this.businessList?.sort((a,b)=>a.averageRating-b.averageRating);
+     }else{
+      this.businessList =this.businessList?.sort((a,b)=>b.averageRating-a.averageRating);
+     }
+  }
   // View business details when a name is clicked
   viewBusinessDetails(business: any): void {
     this.selectedBusiness = business;

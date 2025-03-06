@@ -45,8 +45,11 @@
           <!-- <th>Visiting Card</th> -->
           <!-- <th>New Latitude</th> -->
           <th style="text-align: center;">Address</th>
-          <th style="text-align: center;">Distance (KM)</th>
-          <th style="text-align: center;">Average Rating </th>
+          <th style="text-align: center;">Distance (KM)<i class="fas fa-arrow-up" (click)="sortDistance(true)"></i>
+            <i class="fas fa-arrow-down" (click)="sortDistance(false)"></i></th>
+          <th style="text-align: center;">Average Rating <i class="fas fa-arrow-up"(click)="sortRating(true)"></i>
+            <i class="fas fa-arrow-down" (click)="sortRating(false)"></i>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -91,9 +94,11 @@
 
   <!-- Pagination Controls -->
   <div *ngIf="isPaginationVisible" class="pagination">
+    <button (click)="goToFirstPage()" [disabled]="currentPage === 1">First</button>
     <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
     <span>Page {{ currentPage }} of {{ totalPages }}</span>
     <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="goToLastPage()" [disabled]="currentPage === totalPages">Last</button>
   </div>
 
   <!-- Popup/Modal -->
@@ -193,10 +198,7 @@
             <div class="card-body py-2 px-3" style="text-align:left">
               {{buisnessRat?.comment}}
             </div>
-            <footer class="card-footer bg-white border-0 py-1 px-3">
-
-
-            </footer>
+        
             <br>
           </article>
 
