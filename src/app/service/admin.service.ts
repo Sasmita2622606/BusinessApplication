@@ -2,14 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { ChangePasswordRequest } from '../models/ChangePasswordRequest';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-
-  //apiurl = 'https://localhost:7000/api/Admin';
-  apiurl='https://business-11.onrender.com/api/Admin';
+  
+  apiurl = environment.baseUrl+'Admin';
 
   constructor(private http: HttpClient) { }
 
