@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AdminService } from '../service/admin.service';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-subadmin',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink,HttpClientModule],
   providers: [AdminService],
   templateUrl: './subadmin.component.html',
   styleUrl: './subadmin.component.css'
@@ -67,16 +68,23 @@ export class SubadminComponent {
         next: (response) => {
           if (response) {
             // Show success popup using SweetAlert2
+            let displayIcon: SweetAlertIcon = response.messege == 'success'? 'success':'error';
+            let title = response.messege == 'success'? 'success':'Duplicate record';
+            let text = response.messege == 'success'? 'Email user has added as sub-admin and notified the same in email with a default password to login.'
+                                                    : 'This email is already registered.';
+            let confirmButtonText = response.messege == 'success'? 'OK':'Try Again!';
             Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Email user has added as sub-admin and notified the same in email with a default password to login.',
-              confirmButtonText: 'OK',
+              icon: displayIcon,
+              title: title,
+              text: text,
+              confirmButtonText: confirmButtonText,
             });
             //this.registerForm.reset();
             this.router.navigateByUrl('/login');
           } else {
             // Show failure popup using SweetAlert2
+            let resp = response;
+
             Swal.fire({
               icon: 'error',
               title: 'Failed',
