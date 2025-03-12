@@ -9,13 +9,9 @@ import { environment } from './../../environments/environment';
 })
 export class BusinessService {
 
-  private apiUrl = 'https://business-11.onrender.com/api/Business';
-  private cus_ApiUrl = 'https://business-11.onrender.com/api/Customer';
-  private businessRating_ApiUrl = 'https://business-11.onrender.com/api/BusinessRating';
-  
-  // private apiUrl = 'https://localhost:7000/api/Business';
-  // private cus_ApiUrl = 'https://localhost:7000/api/Customer';
-  // private businessRating_ApiUrl = 'https://localhost:7000/api/BusinessRating';
+  private apiUrl = environment.baseUrl+'Business';
+  private cus_ApiUrl = environment.baseUrl+'Customer';
+  private businessRating_ApiUrl = environment.baseUrl+'BusinessRating';
 
   constructor(private http: HttpClient) {}
 

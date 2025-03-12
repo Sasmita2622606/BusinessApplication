@@ -3,17 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { ForgotPasswordRequest } from '../models/ForgotPasswordRequest';
 import { Observable } from 'rxjs';
 import { ResetPasswordRequest } from '../models/ResetPasswordRequest';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
- apiurl='https://business-11.onrender.com/api/Auth/login';
- baseUrl = 'https://business-11.onrender.com/api/Auth';
-
- //apiurl='https://localhost:7000/api/Auth/login';
- //baseUrl = 'https://localhost:7000/api/Auth';
+  apiurl= environment.baseUrl+'Auth/login';
+  baseUrl = environment.baseUrl+'Auth';
 
   constructor(private http: HttpClient) { }
 

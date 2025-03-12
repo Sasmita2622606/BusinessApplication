@@ -94,9 +94,11 @@
 
   <!-- Pagination Controls -->
   <div *ngIf="isPaginationVisible" class="pagination">
-    <button  id="previous-button" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+    <button (click)="goToFirstPage()" [disabled]="currentPage === 1">First</button>
+    <button  id="previous-button"  (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
     <span id="page-display">Page {{ currentPage }} of {{ totalPages }}</span>
-    <button id="next-button" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button  id="next-button" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button (click)="goToLastPage()" [disabled]="currentPage === totalPages">Last</button>
   </div>
 
   <!-- Popup/Modal -->
