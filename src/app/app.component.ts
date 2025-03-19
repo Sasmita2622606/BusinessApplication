@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'business';
+  dropdownOpen = false;
   constructor(private router: Router, private authService: AuthService) {}
 
   isLoginPage(): boolean {
@@ -25,7 +26,14 @@ export class AppComponent {
   }
 
   logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('roleId');
+    localStorage.removeItem('email');
     this.authService.logout();
+    this.dropdownOpen = false;
     this.router.navigate(['/login']);
+  }
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
   }
 }

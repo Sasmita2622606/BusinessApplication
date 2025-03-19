@@ -62,10 +62,15 @@ export class LoginComponent {
       this.service.onSubmit(loginData).subscribe({
         next: (result) => {          
           this.responsedata = result;
+          debugger;
           if (this.responsedata != null && this.responsedata.token) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
             localStorage.setItem("roleId",this.responsedata.roleId);
+            const email = this.extractEmailFromToken(this.responsedata.token);
+          if (email) {
+            localStorage.setItem("email", email);
+          }
             if (this.responsedata.roleId == 3 || this.responsedata.roleId == 4) {
               // Navigate to the business search page
               this.router.navigateByUrl('/Businesssearch');
@@ -108,4 +113,18 @@ export class LoginComponent {
       this.isButtonDisabled = false;
     }
   }
+
+  extractEmailFromToken(token: string): string | null {
+    try {
+      // Split the JWT token and decode the payload (Base64)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+  
+      // Extract email from the payload
+      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"] || null;
+    } catch (error) {
+      console.error("Error decoding JWT token", error);
+      return null;
+    }
+  }
+  
 }
