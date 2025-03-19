@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  roleID: any;
+  emailID :any;
   title = 'business';
   dropdownOpen = false;
   constructor(private router: Router, private authService: AuthService) {}
@@ -35,5 +37,8 @@ export class AppComponent {
   }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
+  }
+  ProfileInfo(){
+    this.router.navigateByUrl("/edit-user");
   }
 }

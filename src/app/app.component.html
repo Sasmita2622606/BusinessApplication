@@ -8,7 +8,7 @@
       </div>
 
       <div class="dropdown-menu" *ngIf="dropdownOpen">
-        <a routerLink="/profile" class="dropdown-item">Profile</a>
+        <a (click)="ProfileInfo()" class="dropdown-item">Profile</a>
         <a (click)="logout()" class="dropdown-item">Logout</a>
       </div>
     </div>

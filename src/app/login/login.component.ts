@@ -71,6 +71,10 @@ export class LoginComponent {
           if (email) {
             localStorage.setItem("email", email);
           }
+            const domainID = this.extractDomainIDFromToken(this.responsedata.token);
+            if (domainID) {
+              localStorage.setItem("domainID", domainID);
+            }
             if (this.responsedata.roleId == 3 || this.responsedata.roleId == 4) {
               // Navigate to the business search page
               this.router.navigateByUrl('/Businesssearch');
@@ -126,5 +130,19 @@ export class LoginComponent {
       return null;
     }
   }
+
+  extractDomainIDFromToken(token: string): string | null {
+    try {
+      // Decode the JWT token payload (Base64)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+  
+      // Extract BusinessID or cus_Id (whichever exists)
+      return payload["BusinessID"] || payload["Cus_Id"] || null;
+    } catch (error) {
+      console.error("Error decoding JWT token", error);
+      return null;
+    }
+  }
+  
   
 }
