@@ -70,4 +70,8 @@ export class BusinessService {
     const url = `https://maps.gomaps.pro/maps/api/distancematrix/json?units=metric&origins=${originLatitude},${originLongitude}&destinations=${destLatitude},${destLongitude}&key=${environment.API_KEY}`;
     return this.http.get<any>(url);
   }
+
+  updateBusinessDetails(formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/updatebusinessdetails`, formData);
+  }
 }

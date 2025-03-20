@@ -50,6 +50,7 @@ export class EditUserComponent {
         categoryID: ['', [Validators.required]],
         subCategoryID: ['', [Validators.required]],
         location: ['',[Validators.required]],
+        // Password: ['', [Validators.required, Validators.minLength(6)]]
       });
   
       // Then Fetch Data
@@ -71,12 +72,14 @@ export class EditUserComponent {
     if (this.editBusinessForm.valid) {
       const formData = new FormData();
       console.log('Business Updated:', this.editBusinessForm.value);
+
       for (const key in this.editBusinessForm.value) {
         if (this.editBusinessForm.value.hasOwnProperty(key)) {
           formData.append(key, this.editBusinessForm.value[key]);
         }
-      }    
-      this.businessService.updateBusiness(formData).subscribe({
+      }   
+      formData.append('businessID', this.domainID);  
+      this.businessService.updateBusinessDetails(formData).subscribe({
             next: (response) => {
               if (response) {
                 // Show success popup using SweetAlert2

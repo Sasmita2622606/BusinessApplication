@@ -21,6 +21,20 @@
         <small *ngIf="editBusinessForm.get('emailId')?.hasError('email')">Please enter a valid email address.</small>
       </div>      
     </div>
+     <!-- Password -->
+     <!-- <div class="form-group">
+      <label for="password">Existing Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="Password"
+        placeholder="Enter business password"
+      />
+      <div *ngIf="editBusinessForm.get('Password')?.touched && editBusinessForm.get('Password')?.invalid" class="error">
+        <small *ngIf="editBusinessForm.get('Password')?.hasError('required')">Password is required.</small>
+        <small *ngIf="editBusinessForm.get('Password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
+      </div>
+    </div> -->
     <div class="form-group">
       <label for="description">Existing Description</label>
       <textarea id="description" formControlName="description" placeholder="Describe your business"></textarea>
