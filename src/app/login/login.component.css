@@ -18,7 +18,10 @@ body {
   
   align-items: center;  
 }
-
+.forgot-password-link{
+  padding-top: 5px;
+  font-size: 14px;
+}
 /* Form */
 .form {
   display: flex;

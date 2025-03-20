@@ -5,64 +5,64 @@
   text-align: center;
 }
 
-h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
-}
-.filled {
-  color: gold;
-  cursor: pointer;
-}
-.material-icons:hover {
-  color: gold;
-  cursor: pointer;
-}
-.container{
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}  
-
-.tab-header {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px;
-  border-bottom: 2px solid #ddd;
-}
-
-.tab-item {
-  padding: 10px 20px;
-  cursor: pointer;
-  border: 1px solid #ddd;
-  border-bottom: none;
-  background-color: #f9f9f9;
-  margin-right: 5px;
-  border-radius: 8px 8px 0 0;
-}
-
-.tab-item.active {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
-}
-
-.tab-content {
-  display: none;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 0 0 8px 8px;
-}
-
-.tab-content.active {
-  display: block;
-}
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .filled {
+    color: gold;
+    cursor: pointer;
+  }
+  #set-staxraing.material-icons:hover {
+    color: gold;
+    cursor: pointer;
+  }
+  .container{
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }  
+  
+  .tab-header {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .tab-item {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    background-color: #f9f9f9;
+    margin-right: 5px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .tab-item.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+  
+  .tab-content {
+    display: none;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
 
 table {
   border-collapse: collapse;
