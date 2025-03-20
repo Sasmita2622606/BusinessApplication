@@ -4,11 +4,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BusinessService } from '../service/business.service';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @Component({
   selector: 'app-edit-user',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterOutlet, RouterLink, HttpClientModule, CommonModule],
+  imports: [ReactiveFormsModule,RouterOutlet, RouterLink, HttpClientModule, CommonModule,GoogleMapsModule],
   providers:[BusinessService],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.css'
@@ -45,7 +46,8 @@ export class EditUserComponent {
         emailId: ['', [Validators.required, Validators.email]],
         description: ['', [Validators.required, Validators.maxLength(500)]],
         categoryID: ['', [Validators.required]],
-        subCategoryID: ['', [Validators.required]]
+        subCategoryID: ['', [Validators.required]],
+        location: ['',[Validators.required]],
       });
   
       // Then Fetch Data
@@ -88,7 +90,7 @@ export class EditUserComponent {
             name: this.businessDetails[0].name  || '',
             emailId: this.businessDetails[0].emailId || '',
             description: this.businessDetails[0].description || '',
-            // location: this.businessDetails.location || '',
+            location: this.businessDetails[0].location || '',
             categoryID: categoryID,
             subCategoryID: ''
           });
@@ -157,5 +159,51 @@ export class EditUserComponent {
 
    get FormVal() {
     return this.editBusinessForm.value
+  }
+
+  onMapClick(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      this.getLocationName(event.latLng.lat(), event.latLng.lng());
+    }
+  }
+  
+
+  getLocationName(lat: number, lng: number): void {
+    const geocoder = new google.maps.Geocoder();
+    const latlng = { lat, lng };
+  
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === 'OK' && results?.length) {
+        const locationName = results[0].formatted_address;
+        this.editBusinessForm.controls['location'].setValue(locationName);
+      } else {
+        console.error('Error fetching location:', status);
+      }
+    });
+  }
+  
+
+  updateLocationFields(location: string, lat: number, lng: number): void {
+    this.editBusinessForm.controls['location'].setValue(location);
+    this.editBusinessForm.controls['Latitude'].setValue(lat);
+    this.editBusinessForm.controls['Longitude'].setValue(lng);
+  }
+
+  onLocationInput(): void {
+    const location = this.editBusinessForm.controls['location'].value;
+    if (location) {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: location }, (results, status) => {
+        if (status === 'OK' && results && results[0]) {
+          const lat = results[0].geometry.location.lat();
+          const lng = results[0].geometry.location.lng();
+          this.center = { lat, lng };
+          this.marker = { lat, lng };
+          this.updateLocationFields(location, lat, lng);
+        } else {
+          alert('Could not find the location. Please try again.');
+        }
+      });
+    }
   }
 }

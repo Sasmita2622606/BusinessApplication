@@ -26,6 +26,32 @@
         <small *ngIf="editBusinessForm.get('description')?.hasError('maxlength')">Description cannot exceed 500 characters.</small>
       </div>
     </div>
+     <!-- Location Field -->
+     <div class="form-group">
+      <label for="location">Select Location</label>
+      <div class="map-container">
+        <google-map
+          height="400px"
+          width="100%"
+          [center]="center"
+          [zoom]="zoom"
+          (mapClick)="onMapClick($event)"
+        >
+          <map-marker *ngIf="marker" [position]="marker"></map-marker>
+        </google-map>
+      </div>
+      <input
+        type="text"
+        class="form-control mt-3"
+        id="location"
+        formControlName="location"
+        placeholder="Enter location manually"
+        (change)="onLocationInput()"
+      />
+      <small *ngIf="editBusinessForm.get('location')?.invalid && (editBusinessForm.get('location')?.dirty || editBusinessForm.get('location')?.touched)" class="error">
+        Location is required.
+      </small>
+    </div>
       <!-- Category -->
       <div class="form-group">
         <label for="category">Existing Category</label>
