@@ -1,26 +1,75 @@
-<div class="edit-user-container">
-
+<div class="register-business-container">
   <!-- Business Edit Form -->
-  <form *ngIf="roleID === 3" [formGroup]="editBusinessForm" (ngSubmit)="submitBusinessForm()">
+  <form *ngIf="roleID === 3" [formGroup]="editBusinessForm" (ngSubmit)="submitBusinessForm()" class="business-form">
     <h1>Edit Business User</h1>
     <div class="form-group">
-      <label>Business Name</label>
-      <input type="text" formControlName="businessName" placeholder="Enter business name" />
+      <label>Existing Business Name</label>
+      <input id="name" type="text" formControlName="name" placeholder="Enter business name" autocomplete="off" />
+      <div *ngIf="editBusinessForm.get('name')?.touched && editBusinessForm.get('name')?.invalid" class="error">
+        <small *ngIf="editBusinessForm.get('name')?.hasError('required')">Business name is required.</small>
+        <small *ngIf="editBusinessForm.get('name')?.hasError('minlength')">Business name must be at least 3 characters long.</small>
+      </div>
     </div>
     <div class="form-group">
-      <label>Email</label>
-      <input type="email" formControlName="email" placeholder="Enter email" />
+      <label for="email">Existing Email ID</label>
+      <input class="form-control" type="email" formControlName="emailId" placeholder="Enter email address" />
+      <div *ngIf="editBusinessForm.get('emailId')?.touched && editBusinessForm.get('emailId')?.invalid" class="error">
+        <small *ngIf="editBusinessForm.get('emailId')?.hasError('required')">Email is required.</small>
+        <small *ngIf="editBusinessForm.get('emailId')?.hasError('email')">Please enter a valid email address.</small>
+      </div>      
     </div>
     <div class="form-group">
-      <label>Description</label>
-      <textarea formControlName="description" placeholder="Business description"></textarea>
+      <label for="description">Existing Description</label>
+      <textarea id="description" formControlName="description" placeholder="Describe your business"></textarea>
+      <div *ngIf="editBusinessForm.get('description')?.touched && editBusinessForm.get('description')?.invalid" class="error">
+        <small *ngIf="editBusinessForm.get('description')?.hasError('required')">Description is required.</small>
+        <small *ngIf="editBusinessForm.get('description')?.hasError('maxlength')">Description cannot exceed 500 characters.</small>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Location</label>
-      <input type="text" formControlName="location" placeholder="Enter location" />
-    </div>
-    <button type="submit">Update Business</button>
-  </form>
+      <!-- Category -->
+      <div class="form-group">
+        <label for="category">Existing Category</label>
+        <select
+          id="category"
+          class="form-control"
+          (change)="onCategoryChange($event)"
+          formControlName="categoryID"
+        >
+          <option *ngFor="let category of categories" [value]="category.categoryID">
+            {{ category.categoryName }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- SubCategory -->
+      <div class="form-group">
+        <label for="subCategory">Existing SubCategory</label>
+        <select
+          id="subCategory"
+          class="form-control"
+          (change)="onSubCategoryChange($event)"
+          formControlName="subCategoryID"
+        >
+          <option *ngFor="let subcategory of subCategories" [value]="subcategory.subCategoryID">
+            {{ subcategory.subCategoryName }}
+          </option>
+         
+        </select>
+        <small *ngIf="editBusinessForm.get('subCategoryID')?.invalid && (editBusinessForm.get('subCategoryID')?.dirty || editBusinessForm.get('subCategoryID')?.touched)" class="error">
+          SubCategory is required.
+        </small>
+      </div>
+  
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="submit-btn btn btn-primary"
+        [disabled]="editBusinessForm.invalid"
+      >
+        Edit Business
+      </button>
+    </form>
+  
 
   <!-- Customer Edit Form -->
   <form *ngIf="roleID === 4" [formGroup]="editCustomerForm" (ngSubmit)="submitCustomerForm()">
