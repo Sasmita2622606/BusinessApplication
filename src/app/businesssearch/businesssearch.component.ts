@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit ,EventEmitter,Input,Output} from '@angular/core';
+import { Component, OnInit ,EventEmitter,Input,Output, Renderer2} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BusinessService } from '../service/business.service';
@@ -74,7 +74,9 @@ export class BusinesssearchComponent implements OnInit {
   totalPages: number = 1;
   isPaginationVisible: boolean = false;
   roleID: string | null = null;
-  constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService) { }
+  isModalOpen = false;
+  modalImageUrl = '';
+  constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
  
@@ -97,6 +99,26 @@ export class BusinesssearchComponent implements OnInit {
     this.roleID = this.authservice.getRoleIdFromToken();
     console.log("token", this.roleID)
 
+  }
+
+  openModal(imageUrl: string) {
+    debugger
+    if(imageUrl == 'https://business-11.onrender.com/undefined')
+    {
+      this.isModalOpen = false;
+      alert('Image not found.');
+    }else{
+      this.modalImageUrl = imageUrl;
+      this.isModalOpen = true; }    
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
+  openPopup(business: any) {
+    this.selectedBusiness = business;
+    this.renderer.addClass(document.body, 'no-scroll'); // Lock scrolling
   }
 
   updatePagination(): void {
@@ -310,8 +332,8 @@ export class BusinesssearchComponent implements OnInit {
       return new Promise((resolve) => {
         this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude)
           .subscribe((response: any) => {
-            let distance = (response.rows[0].elements[0].distance.value)/1000;
-            item.distancekm = (distance).toFixed(2);
+            let distance = response.rows[0].elements[0].distance.text;
+            item.distancekm = parseFloat(distance).toFixed(2);
             resolve(item);  // Resolve the Promise when distance is assigned
           });
       });
@@ -373,15 +395,17 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   // Open popup with selected business details
-  openPopup(business: any): void {
-    this.selectedBusiness = business;
-  }
+  // openPopup(business: any): void {
+  //   this.selectedBusiness = business;
+  // }
 
   // Close the popup
   closePopup(): void {
     this.selectedBusiness = null;
     this.rating=0;
     this.ratingComment = '';
+    this.selectedBusiness = null;
+    this.renderer.removeClass(document.body, 'no-scroll'); // Enable scrolling
   }
   
   getRating(buisnessId:any){
