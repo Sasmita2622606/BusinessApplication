@@ -23,6 +23,7 @@ export class EditUserComponent {
   editCustomerForm!: FormGroup;
   categories: any;
   subCategories: any;
+  categoryID: any;
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 }; // Default to San Francisco
   zoom = 10;
   marker: google.maps.LatLngLiteral | null = null;
@@ -83,13 +84,15 @@ export class EditUserComponent {
         // Ensure data exists before patching
         if (this.businessDetails && this.editBusinessForm) {
           this.editBusinessForm.patchValue({
-            name: this.businessDetails.name  || '',
-            emailId: this.businessDetails.emailId || '',
-            description: this.businessDetails.description || '',
+            name: this.businessDetails[0].name  || '',
+            emailId: this.businessDetails[0].emailId || '',
+            description: this.businessDetails[0].description || '',
             // location: this.businessDetails.location || '',
-            categoryID: this.businessDetails.categoryID || '',
-            subCategoryID: this.businessDetails.subCategoryID || ''
+            categoryID: this.businessDetails[0].categoryID || '',
+            subCategoryID: ''
           });
+          
+          this.getSubCategories(this.categoryID, this.businessDetails[0].subCategoryID);
         }
       });
     } else if (roleID === 4) {
@@ -113,24 +116,45 @@ export class EditUserComponent {
     this.businessService.getCategories().subscribe((data) => {
       this.categories = data;
       console.log("Categories:", this.categories);
-      // this.getSubCategories();
+      const selectedCategoryID = this.editBusinessForm?.controls['categoryID'].value;
+      if (selectedCategoryID) {
+        this.getSubCategories(selectedCategoryID, this.editBusinessForm?.controls['subCategoryID'].value);
+      }
     });
   }
+  
 
-  // getSubCategories() {
-  //   this.businessService.getSubCategories(this.businessDetails.categoryID).subscribe((result: any) => {
-  //     this.subCategories = result;
-  //   });
-  // }
+  getSubCategories(categoryID: number, subCategoryID?: number) {
+    this.businessService.getSubCategories(categoryID).subscribe((result: any) => {
+      this.subCategories = result;
+      console.log("Subcategories:", this.subCategories);
+  
+      if (subCategoryID) {
+        // ✅ Automatically Select the Correct Subcategory
+        const foundSubCategory = this.subCategories.find((sub: any) => sub.subCategoryID === subCategoryID);
+        if (foundSubCategory) {
+          this.editBusinessForm.controls['subCategoryID'].setValue(subCategoryID);
+        }
+      }
+    });
+  }
+  
 
   onCategoryChange(eve: any): void {
-    this.editBusinessForm.controls['categoryID'].setValue(eve.target.value)
+    const selectedCategoryID = Number(eve.target.value);
+    this.editBusinessForm.controls['categoryID'].setValue(selectedCategoryID);
     this.editBusinessForm.controls['subCategoryID'].setValue('');
-    // this.getSubCategories();
+  
+    // ✅ Fetch New Subcategories When Category Changes
+    this.getSubCategories(selectedCategoryID);
   }
+  
 
    onSubCategoryChange(eve: any): void {
      this.editBusinessForm.controls['subCategoryID'].setValue(eve.target.value)
    }
 
+   get FormVal() {
+    return this.editBusinessForm.value
+  }
 }
