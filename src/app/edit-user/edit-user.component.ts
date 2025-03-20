@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { BusinessService } from '../service/business.service';
 import { GoogleMapsModule } from '@angular/google-maps';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-user',
@@ -31,7 +32,8 @@ export class EditUserComponent {
   fileName: string | undefined;
   imagePreview: string | undefined;
   fileUpload: any;
-  constructor(private fb: FormBuilder, private businessService: BusinessService) {
+  emailExists: boolean = false;
+  constructor(private fb: FormBuilder, private businessService: BusinessService,private router: Router) {
    
   }
 
@@ -67,9 +69,49 @@ export class EditUserComponent {
 
   submitBusinessForm() {
     if (this.editBusinessForm.valid) {
+      const formData = new FormData();
       console.log('Business Updated:', this.editBusinessForm.value);
-    }
-  }
+      for (const key in this.editBusinessForm.value) {
+        if (this.editBusinessForm.value.hasOwnProperty(key)) {
+          formData.append(key, this.editBusinessForm.value[key]);
+        }
+      }    
+      this.businessService.updateBusiness(formData).subscribe({
+            next: (response) => {
+              if (response) {
+                // Show success popup using SweetAlert2
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Successfully registered!',
+                  confirmButtonText: 'OK',
+                });
+        
+                //this.registerForm.reset();
+                this.router.navigateByUrl('/login');
+              } else {
+                // Show failure popup using SweetAlert2
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Failed',
+                  text: 'Registration failed!',
+                  confirmButtonText: 'Try Again',
+                });
+              }
+            },
+            error: (error) => {
+              // Handle errors during registration
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred during registration. Please try again.',
+                confirmButtonText: 'Close',
+              });
+              console.error('Registration error:', error);
+            }
+          });
+        }
+      }
 
   submitCustomerForm() {
     if (this.editCustomerForm.valid) {
@@ -202,6 +244,22 @@ export class EditUserComponent {
           this.updateLocationFields(location, lat, lng);
         } else {
           alert('Could not find the location. Please try again.');
+        }
+      });
+    }
+  }
+
+  checkEmail() {
+    debugger;
+    const email = this.editBusinessForm.get('emailId')?.value;
+    const presentEmail = localStorage.getItem("email");
+    if (email != presentEmail) {
+      this.businessService.checkEmailExistsBusiness(email).subscribe({
+        next: (exists) => {          
+          this.emailExists = exists;
+        },
+        error: () => {          
+          this.emailExists = false;
         }
       });
     }

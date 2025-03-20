@@ -12,7 +12,10 @@
     </div>
     <div class="form-group">
       <label for="email">Existing Email ID</label>
-      <input class="form-control" type="email" formControlName="emailId" placeholder="Enter email address" />
+      <input class="form-control" type="email" formControlName="emailId" placeholder="Enter email address" (blur)="checkEmail()" />
+      <p *ngIf="emailExists" style="color: red;">
+        This email is already registered.
+      </p>
       <div *ngIf="editBusinessForm.get('emailId')?.touched && editBusinessForm.get('emailId')?.invalid" class="error">
         <small *ngIf="editBusinessForm.get('emailId')?.hasError('required')">Email is required.</small>
         <small *ngIf="editBusinessForm.get('emailId')?.hasError('email')">Please enter a valid email address.</small>
