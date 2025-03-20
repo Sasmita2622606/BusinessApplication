@@ -310,8 +310,8 @@ export class BusinesssearchComponent implements OnInit {
       return new Promise((resolve) => {
         this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude)
           .subscribe((response: any) => {
-            let distance = response.rows[0].elements[0].distance.text;
-            item.distancekm = parseFloat(distance).toFixed(2);
+            let distance = (response.rows[0].elements[0].distance.value)/1000;
+            item.distancekm = (distance).toFixed(2);
             resolve(item);  // Resolve the Promise when distance is assigned
           });
       });
