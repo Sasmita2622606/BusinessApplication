@@ -50,7 +50,7 @@
         id="password"
         type="password"
         formControlName="Password"
-        placeholder="Enter business password"
+        placeholder="Enter business password" maxlength="20"
       />
       <div *ngIf="registerForm.get('Password')?.touched && registerForm.get('Password')?.invalid" class="error">
         <small *ngIf="registerForm.get('Password')?.hasError('required')">Password is required.</small>

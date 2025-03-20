@@ -33,7 +33,7 @@
         id="password" 
         class="form-control" 
         formControlName="Cus_Password" 
-        placeholder="Enter your password">
+        placeholder="Enter your password" maxlength="20">
       <div *ngIf="password?.touched && password?.invalid" class="error">
         <small *ngIf="password?.hasError('required')">Password is required.</small>
         <small *ngIf="password?.hasError('minlength')">Password must be at least 3 characters long.</small>
