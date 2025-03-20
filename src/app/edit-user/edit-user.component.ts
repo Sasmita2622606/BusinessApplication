@@ -80,7 +80,8 @@ export class EditUserComponent {
       this.businessService.getBusinessDetailById(domainID).subscribe((data) => {
         this.businessDetails = data;
         console.log("Business Details: ", this.businessDetails);
-  
+        const categoryID = this.businessDetails[0].categoryID || ''; // Get category ID
+        const subCategoryID = this.businessDetails[0].subCategoryID || '';
         // Ensure data exists before patching
         if (this.businessDetails && this.editBusinessForm) {
           this.editBusinessForm.patchValue({
@@ -88,11 +89,11 @@ export class EditUserComponent {
             emailId: this.businessDetails[0].emailId || '',
             description: this.businessDetails[0].description || '',
             // location: this.businessDetails.location || '',
-            categoryID: this.businessDetails[0].categoryID || '',
+            categoryID: categoryID,
             subCategoryID: ''
           });
           
-          this.getSubCategories(this.categoryID, this.businessDetails[0].subCategoryID);
+          this.getSubCategories(categoryID, subCategoryID);
         }
       });
     } else if (roleID === 4) {
