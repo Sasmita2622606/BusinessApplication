@@ -113,7 +113,6 @@ export class EditUserComponent {
       }
 
   submitCustomerForm()  {
-    debugger;
     if (this.editCustomerForm.valid) {
       const formData = new FormData();
 
@@ -303,7 +302,6 @@ export class EditUserComponent {
   }
 
   checkEmail() {
-    debugger;
     const email = this.editBusinessForm.get('emailId')?.value;
     const presentEmail = localStorage.getItem("email");
     if (email != presentEmail) {

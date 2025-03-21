@@ -62,7 +62,6 @@ export class LoginComponent {
       this.service.onSubmit(loginData).subscribe({
         next: (result) => {          
           this.responsedata = result;
-          debugger;
           if (this.responsedata != null && this.responsedata.token) {
             // Store the token in local storage
             localStorage.setItem('token', this.responsedata.token);
