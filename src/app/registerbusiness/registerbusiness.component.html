@@ -16,6 +16,7 @@
         formControlName="Name"
         placeholder="Enter business name"
         autocomplete="off"
+        maxlength="20"
       />
       <div *ngIf="registerForm.get('Name')?.touched && registerForm.get('Name')?.invalid" class="error">
         <small *ngIf="registerForm.get('Name')?.hasError('required')">Business name is required.</small>
