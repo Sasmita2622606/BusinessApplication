@@ -178,13 +178,10 @@ export class EditUserComponent {
             subCategoryID: ''
           });
             // ✅ Set map center if API provides latitude & longitude
-        if (this.businessDetails[0].Latitude && this.businessDetails[0].Longitude) {
-          this.center = { lat: this.businessDetails[0].Latitude, lng: this.businessDetails[0].Longitude };
-          this.marker = { ...this.center };
-        } else {
-          // Fetch current location only if API doesn't provide one
-          this.getCurrentLocation();
-        }
+            if (this.businessDetails[0].latitude && this.businessDetails[0].longitude) {
+              this.center = { lat: this.businessDetails[0].latitude, lng: this.businessDetails[0].longitude };
+              this.marker = { ...this.center };
+            }
           this.getSubCategories(categoryID, subCategoryID);
         }
       });
@@ -200,12 +197,10 @@ export class EditUserComponent {
             // location: this.customerDetails.location || ''
           });
           // ✅ Set map center if API provides latitude & longitude
-        if (this.customerDetails[0].Latitude && this.customerDetails[0].Longitude) {
-          this.center = { lat: this.customerDetails[0].Latitude, lng: this.customerDetails[0].Longitude };
-          this.marker = { ...this.center };
-        } else {
-          this.getCurrentLocation(); // Fetch current location only if API doesn't provide one
-        }
+          if (this.customerDetails[0].latitude && this.customerDetails[0].longitude) {
+            this.center = { lat: this.customerDetails[0].latitude, lng: this.customerDetails[0].longitude };
+            this.marker = { ...this.center };
+          }
         }
       });
     }
