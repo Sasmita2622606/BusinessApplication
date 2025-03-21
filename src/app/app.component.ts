@@ -21,10 +21,12 @@ export class AppComponent {
 
   isLoginPage(): boolean {
     return this.router.url === '/login';
+    this.dropdownOpen = false;
   }
 
   isLoggedIn(): boolean {
     return this.authService.isAuthenticated();
+    this.dropdownOpen = false;
   }
 
   logout() {
@@ -40,5 +42,6 @@ export class AppComponent {
   }
   ProfileInfo(){
     this.router.navigateByUrl("/edit-user");
+    this.dropdownOpen = false;
   }
 }
