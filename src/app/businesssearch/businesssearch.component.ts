@@ -103,7 +103,6 @@ export class BusinesssearchComponent implements OnInit {
   }
 
   openModal(imageUrl: string) {
-    debugger
     let filePath = this.selectedBusiness.visitingCard;
     if(filePath == null)
       {
