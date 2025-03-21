@@ -41,4 +41,8 @@ export class AppComponent {
   ProfileInfo(){
     this.router.navigateByUrl("/edit-user");
   }
+  ProfileChangePassword(){
+    debugger;
+    this.router.navigateByUrl("/Change-password");
+  }
 }
