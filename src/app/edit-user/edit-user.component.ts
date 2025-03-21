@@ -42,7 +42,6 @@ export class EditUserComponent {
     this.domainID = Number(localStorage.getItem('domainID'));
   
     if (this.roleID === 3) {
-      // ✅ Initialize Form First
       this.editBusinessForm = this.fb.group({
         name: ['', [Validators.required, Validators.minLength(3)]],
         emailId: ['', [Validators.required, Validators.email]],
@@ -52,14 +51,12 @@ export class EditUserComponent {
         location: ['',[Validators.required]],
         // Password: ['', [Validators.required, Validators.minLength(6)]]
       });
-  
-      // Then Fetch Data
       this.getCategories();
       this.getDetailsByID(this.roleID, this.domainID);
     } else if (this.roleID === 4) {
       this.editCustomerForm = this.fb.group({
-        name: ['', [Validators.required, Validators.minLength(3)]],
-        email: ['', [Validators.required, Validators.email]]
+        cus_Location: ['', [Validators.required, Validators.minLength(3)]],
+        cus_EmailId: ['', [Validators.required, Validators.email]]
       });
   
       this.getDetailsByID(this.roleID, this.domainID);
@@ -82,7 +79,6 @@ export class EditUserComponent {
       this.businessService.updateBusinessDetails(formData).subscribe({
             next: (response) => {
               if (response) {
-                // Show success popup using SweetAlert2
                 Swal.fire({
                   icon: 'success',
                   title: 'Success',
@@ -116,11 +112,52 @@ export class EditUserComponent {
         }
       }
 
-  submitCustomerForm() {
+  submitCustomerForm()  {
+    debugger;
     if (this.editCustomerForm.valid) {
-      console.log('Customer Updated:', this.editCustomerForm.value);
-    }
-  }
+      const formData = new FormData();
+
+      for (const key in this.editCustomerForm.value) {
+        if (this.editCustomerForm.value.hasOwnProperty(key)) {
+          formData.append(key, this.editCustomerForm.value[key]);
+        }
+      }   
+      formData.append('cus_Id', this.domainID);  
+      this.businessService.updateCustomerDetails(formData).subscribe({
+            next: (response) => {
+              if (response) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Successfully registered!',
+                  confirmButtonText: 'OK',
+                });
+        
+                //this.registerForm.reset();
+                this.router.navigateByUrl('/login');
+              } else {
+                // Show failure popup using SweetAlert2
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Failed',
+                  text: 'Registration failed!',
+                  confirmButtonText: 'Try Again',
+                });
+              }
+            },
+            error: (error) => {
+              // Handle errors during registration
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred during registration. Please try again.',
+                confirmButtonText: 'Close',
+              });
+              console.error('Registration error:', error);
+            }
+          });
+        }
+      }
   
   getDetailsByID(roleID: number, domainID: number) {
     if (roleID === 3) {
@@ -150,8 +187,8 @@ export class EditUserComponent {
   
         if (this.customerDetails && this.editCustomerForm) {
           this.editCustomerForm.patchValue({
-            name: this.customerDetails.name || '',
-            email: this.customerDetails.emailId || ''
+            cus_Location: this.customerDetails[0].cus_Location || '',
+            cus_EmailId: this.customerDetails[0].cus_EmailId || ''
             // location: this.customerDetails.location || ''
           });
         }

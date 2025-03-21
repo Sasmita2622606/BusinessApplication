@@ -61,7 +61,6 @@ export class BusinessService {
     return this.http.get<any[]>(`${this.apiUrl}/GetSubCategories/${categoryId}`);
   }
   getBusinessDetailById(id: number): Observable<any[]> {
-    debugger;
     return this.http.get<any[]>(`${this.apiUrl}/getbusinessdetailbyid/${id}`);
   }
   
@@ -74,4 +73,9 @@ export class BusinessService {
   updateBusinessDetails(formData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/updatebusinessdetails`, formData);
   }
+
+  updateCustomerDetails(formData: FormData): Observable<any>{
+    return this.http.put(`${this.cus_ApiUrl}/updatecustomerdetails`, formData);
+  }
+
 }
