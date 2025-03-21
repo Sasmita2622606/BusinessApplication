@@ -38,6 +38,7 @@ export class EditUserComponent {
   }
 
   ngOnInit() {
+    // this.getCurrentLocation();
     this.roleID = Number(localStorage.getItem('roleId'));
     this.domainID = Number(localStorage.getItem('domainID'));
   
@@ -176,7 +177,14 @@ export class EditUserComponent {
             categoryID: categoryID,
             subCategoryID: ''
           });
-          
+            // ✅ Set map center if API provides latitude & longitude
+        if (this.businessDetails[0].Latitude && this.businessDetails[0].Longitude) {
+          this.center = { lat: this.businessDetails[0].Latitude, lng: this.businessDetails[0].Longitude };
+          this.marker = { ...this.center };
+        } else {
+          // Fetch current location only if API doesn't provide one
+          this.getCurrentLocation();
+        }
           this.getSubCategories(categoryID, subCategoryID);
         }
       });
@@ -191,6 +199,13 @@ export class EditUserComponent {
             cus_EmailId: this.customerDetails[0].cus_EmailId || ''
             // location: this.customerDetails.location || ''
           });
+          // ✅ Set map center if API provides latitude & longitude
+        if (this.customerDetails[0].Latitude && this.customerDetails[0].Longitude) {
+          this.center = { lat: this.customerDetails[0].Latitude, lng: this.customerDetails[0].Longitude };
+          this.marker = { ...this.center };
+        } else {
+          this.getCurrentLocation(); // Fetch current location only if API doesn't provide one
+        }
         }
       });
     }
@@ -245,31 +260,44 @@ export class EditUserComponent {
 
   onMapClick(event: google.maps.MapMouseEvent) {
     if (event.latLng) {
-      this.getLocationName(event.latLng.lat(), event.latLng.lng());
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      this.marker = { lat, lng };
+      this.getLocationName(lat, lng); // Fetch and set the location name
     }
   }
+  
   
 
   getLocationName(lat: number, lng: number): void {
     const geocoder = new google.maps.Geocoder();
     const latlng = { lat, lng };
-  
     geocoder.geocode({ location: latlng }, (results, status) => {
-      if (status === 'OK' && results?.length) {
+      if (status === 'OK' && results && results[0]) {
         const locationName = results[0].formatted_address;
-        this.editBusinessForm.controls['location'].setValue(locationName);
+        this.updateLocationFields(locationName, lat, lng);
       } else {
-        console.error('Error fetching location:', status);
+        console.error('Error fetching location name:', status);
       }
     });
   }
   
+  
 
   updateLocationFields(location: string, lat: number, lng: number): void {
-    this.editBusinessForm.controls['location'].setValue(location);
-    this.editBusinessForm.controls['Latitude'].setValue(lat);
-    this.editBusinessForm.controls['Longitude'].setValue(lng);
+    if (this.roleID === 3) {
+      this.editBusinessForm.patchValue({
+        location: location,
+        Latitude: lat,
+        Longitude: lng
+      });
+    } else if (this.roleID === 4) {
+      this.editCustomerForm.patchValue({
+        cus_Location: location
+      });
+    }
   }
+  
 
   onLocationInput(): void {
     const location = this.editBusinessForm.controls['location'].value;
@@ -304,4 +332,26 @@ export class EditUserComponent {
       });
     }
   }
+  getCurrentLocation(): void {
+    if (!this.marker) { // Prevent overriding API location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            this.center = { lat, lng };
+            this.marker = { ...this.center };
+            this.getLocationName(lat, lng);
+          },
+          (error) => {
+            console.error('Error getting location:', error);
+            alert('Could not retrieve your location. Default location will be used.');
+          }
+        );
+      } else {
+        alert('Geolocation is not supported by your browser.');
+      }
+    }
+  }
+  
 }
