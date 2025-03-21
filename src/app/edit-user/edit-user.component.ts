@@ -69,7 +69,6 @@ export class EditUserComponent {
   submitBusinessForm() {
     if (this.editBusinessForm.valid) {
       const formData = new FormData();
-      console.log('Business Updated:', this.editBusinessForm.value);
 
       for (const key in this.editBusinessForm.value) {
         if (this.editBusinessForm.value.hasOwnProperty(key)) {
@@ -164,7 +163,6 @@ export class EditUserComponent {
     if (roleID === 3) {
       this.businessService.getBusinessDetailById(domainID).subscribe((data) => {
         this.businessDetails = data;
-        console.log("Business Details: ", this.businessDetails);
         const categoryID = this.businessDetails[0].categoryID || ''; // Get category ID
         const subCategoryID = this.businessDetails[0].subCategoryID || '';
         // Ensure data exists before patching
@@ -177,7 +175,6 @@ export class EditUserComponent {
             categoryID: categoryID,
             subCategoryID: ''
           });
-            // ✅ Set map center if API provides latitude & longitude
             if (this.businessDetails[0].latitude && this.businessDetails[0].longitude) {
               this.center = { lat: this.businessDetails[0].latitude, lng: this.businessDetails[0].longitude };
               this.marker = { ...this.center };
@@ -188,7 +185,6 @@ export class EditUserComponent {
     } else if (roleID === 4) {
       this.businessService.getCustomerDetailsByID(domainID).subscribe((data) => {
         this.customerDetails = data;
-        console.log("Customer Details: ", this.customerDetails);
   
         if (this.customerDetails && this.editCustomerForm) {
           this.editCustomerForm.patchValue({
@@ -196,7 +192,6 @@ export class EditUserComponent {
             cus_EmailId: this.customerDetails[0].cus_EmailId || ''
             // location: this.customerDetails.location || ''
           });
-          // ✅ Set map center if API provides latitude & longitude
           if (this.customerDetails[0].latitude && this.customerDetails[0].longitude) {
             this.center = { lat: this.customerDetails[0].latitude, lng: this.customerDetails[0].longitude };
             this.marker = { ...this.center };
@@ -210,7 +205,6 @@ export class EditUserComponent {
   getCategories(): void {
     this.businessService.getCategories().subscribe((data) => {
       this.categories = data;
-      console.log("Categories:", this.categories);
       const selectedCategoryID = this.editBusinessForm?.controls['categoryID'].value;
       if (selectedCategoryID) {
         this.getSubCategories(selectedCategoryID, this.editBusinessForm?.controls['subCategoryID'].value);
@@ -222,10 +216,8 @@ export class EditUserComponent {
   getSubCategories(categoryID: number, subCategoryID?: number) {
     this.businessService.getSubCategories(categoryID).subscribe((result: any) => {
       this.subCategories = result;
-      console.log("Subcategories:", this.subCategories);
   
       if (subCategoryID) {
-        // ✅ Automatically Select the Correct Subcategory
         const foundSubCategory = this.subCategories.find((sub: any) => sub.subCategoryID === subCategoryID);
         if (foundSubCategory) {
           this.editBusinessForm.controls['subCategoryID'].setValue(subCategoryID);
@@ -239,8 +231,6 @@ export class EditUserComponent {
     const selectedCategoryID = Number(eve.target.value);
     this.editBusinessForm.controls['categoryID'].setValue(selectedCategoryID);
     this.editBusinessForm.controls['subCategoryID'].setValue('');
-  
-    // ✅ Fetch New Subcategories When Category Changes
     this.getSubCategories(selectedCategoryID);
   }
   
