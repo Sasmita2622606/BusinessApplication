@@ -9,6 +9,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SubadminComponent } from './subadmin/subadmin.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { roleGuard } from './Guard/role.guard';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 export const routes: Routes = [
     {path:'login',component:LoginComponent},
@@ -19,5 +20,6 @@ export const routes: Routes = [
     {path:'Forgot-password', component: ForgotPasswordComponent },
     {path:'Reset-password', component: ResetPasswordComponent },
     {path:'Change-password', component: ChangepasswordComponent, canActivate:[authGuard]},
-    {path: 'Subadmin', component:SubadminComponent, canActivate:[authGuard, roleGuard]}
+    {path: 'Subadmin', component:SubadminComponent, canActivate:[authGuard, roleGuard]},
+    {path: 'edit-user', component: EditUserComponent}
 ];

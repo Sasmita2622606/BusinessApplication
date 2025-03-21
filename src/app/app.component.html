@@ -1,9 +1,18 @@
 <div class="header">
   <div class="logo-container">
     <img src="assets/logo1.png" alt="App Logo" class="app-logo" />
-    <a routerLink="/login" *ngIf="isLoggedIn() && !isLoginPage()" (click)="logout()" style="float: right;" class="menulink">Logout</a>
-  </div>  
-  <a routerLink="/login" style="float: right;" class="menulink"></a>
+     <!-- User Profile Dropdown -->
+     <div class="user-profile-container" *ngIf="isLoggedIn() && !isLoginPage()">
+      <div class="user-icon" (click)="toggleDropdown()">
+        <img style="width: 25px;height: 25px; margin-top: 8px;" src="assets/user.png" alt="User Profile" class="profile-icon" />
+      </div>
+
+      <div class="dropdown-menu" *ngIf="dropdownOpen">
+        <a (click)="ProfileInfo()" class="dropdown-item">Profile</a>
+        <a (click)="logout()" class="dropdown-item">Logout</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
