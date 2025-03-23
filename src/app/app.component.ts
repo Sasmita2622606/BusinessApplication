@@ -44,4 +44,8 @@ export class AppComponent {
     this.router.navigateByUrl("/edit-user");
     this.dropdownOpen = false;
   }
+  ProfileChangePassword(){
+    debugger;
+    this.router.navigateByUrl("/Change-password");
+  }
 }
