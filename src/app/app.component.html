@@ -7,8 +7,24 @@
         <img style="width: 25px;height: 25px; margin-top: 8px;" src="assets/user.png" alt="User Profile" class="profile-icon" />
       </div>
 
-      <div class="dropdown-menu" *ngIf="dropdownOpen">
-        <a (click)="ProfileInfo()" class="dropdown-item">Profile</a>
+      <div class="dropdown-menu" *ngIf="dropdownOpen" style="text-align:center">
+
+        
+       <div >
+          <span *ngIf="roleID=='1'"><b>Super Admin</b></span> 
+          <span *ngIf="roleID=='2'"><b>Sub Admin</b></span>
+          <span *ngIf="roleID=='3'"><b>Business</b></span>
+          <span *ngIf="roleID=='4'"><b>Customer</b></span>
+          <p>{{emailID}}</p>
+        </div>
+        <div class="dropdown-divider"></div>
+
+          <a (click)="ProfileInfo()" class="dropdown-item">
+          Profile
+           <i class="bi bi-pencil" style="padding-left:10px"></i>
+          </a>
+          <div class="dropdown-divider"></div>
+
         <a (click)="logout()" class="dropdown-item">Logout</a>
       </div>
     </div>

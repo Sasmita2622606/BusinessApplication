@@ -39,6 +39,8 @@ export class AppComponent {
   }
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
+    this.roleID = localStorage.getItem('roleId');
+    this.emailID=localStorage.getItem('email');
   }
   ProfileInfo(){
     this.router.navigateByUrl("/edit-user");
