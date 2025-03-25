@@ -7,6 +7,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 export interface Business {
   name: string;
   description: string;
@@ -16,7 +18,7 @@ export interface Business {
 @Component({
   selector: 'app-businesssearch',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatTabsModule, GoogleMapsModule, FormsModule],
+  imports: [ReactiveFormsModule, CommonModule, MatTabsModule, GoogleMapsModule, FormsModule, HttpClientModule],
   providers: [BusinessService],
   templateUrl: './businesssearch.component.html',
   styleUrl: './businesssearch.component.css'
@@ -328,18 +330,23 @@ export class BusinesssearchComponent implements OnInit {
       this.isTableVisible = true;      
     })
   }
-  updateDistance(){
-    
+  updateDistance(key_index :any =0){
+    let apikey = environment.API_KEY[key_index];
     let customerLatitude = localStorage.getItem('customerLatitude')
     let customerLongitude = localStorage.getItem('customerLongitude')
     // Array to hold all distance fetch Promises
     let distancePromises = this.businessList.map((item: any) => {
       return new Promise((resolve) => {
-        this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude)
+        this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude, apikey)
           .subscribe((response: any) => {
             let distance = response.rows[0].elements[0].distance.text;
             item.distancekm = parseFloat(distance).toFixed(2);
             resolve(item);  // Resolve the Promise when distance is assigned
+          },
+          (error: any) => {
+            if(error.error.message == 'Plan not found'){
+              this.updateDistance(key_index + 1);
+            }
           });
       });
     });

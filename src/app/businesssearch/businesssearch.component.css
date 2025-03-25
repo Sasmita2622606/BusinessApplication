@@ -635,6 +635,8 @@ z-index: 999;
 background: rgba(137, 132, 132, 0.5); /* Semi-transparent black #212529 */
 }
 
-
+.cat-dropdn{
+  min-width: 12.25rem;
+}
 
 
