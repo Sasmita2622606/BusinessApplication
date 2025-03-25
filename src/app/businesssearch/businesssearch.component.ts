@@ -337,7 +337,7 @@ export class BusinesssearchComponent implements OnInit {
     // Array to hold all distance fetch Promises
     let distancePromises = this.businessList.map((item: any) => {
       return new Promise((resolve) => {
-        this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude, apikey)
+        this.businessService.getDistance(customerLatitude,customerLongitude,item.latitude,item.longitude)
           .subscribe((response: any) => {
             let distance = response.rows[0].elements[0].distance.text;
             item.distancekm = parseFloat(distance).toFixed(2);
