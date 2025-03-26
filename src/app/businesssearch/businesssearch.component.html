@@ -4,8 +4,8 @@
     <div class="col-12  text-center"><h2>Search Business</h2></div>
   </div>
   <div class="row">
-    <div class="col d-flex align-items-center">Category</div>
-    <div class="col">
+    <div class="col-4 col-md-6 d-flex align-items-center">Category</div>
+    <div class="col-8 col-md-6">
       <div class="dropdown">
       <button class="btn btn-primary dropdown-toggle cat-dropdn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         {{ selectedCategory?.categoryName || 'Select Category' }}
@@ -19,9 +19,9 @@
     </div>
   </div>
   <div class="row"> 
-    <div class="col d-flex align-items-center">Subcategory </div>
-    <div class="col"> 
-      <div class="dropdown">
+    <div class="col-4 col-md-6 d-flex align-items-center">Subcategory </div>
+    <div class="col-4 col-md-6"> 
+      <div class="dropdown ">
         <button class="btn btn-primary dropdown-toggle cat-dropdn" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
           {{ selectedSubCategory?.subCategoryName || 'Select Sub-Category' }}
         </button>

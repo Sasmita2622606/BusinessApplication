@@ -640,3 +640,13 @@ background: rgba(137, 132, 132, 0.5); /* Semi-transparent black #212529 */
 }
 
 
+
+@media screen and (min-width: 100px) and (max-width: 400px) {
+  /* Add your styles here for screens between 100px and 400px */
+  .container {
+    padding: 10px;
+  }
+  .dropdownMenuButton{
+    min-width: 11.25rem;
+  }
+}

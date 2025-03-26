@@ -86,6 +86,7 @@ export class BusinesssearchComponent implements OnInit {
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required],
       category: ['', Validators.required],
+      CategoryID: [0],  
       subcategory: ['', Validators.required],
       location: new FormControl('', [Validators.required]),
       Latitude: [8.3],
@@ -330,8 +331,7 @@ export class BusinesssearchComponent implements OnInit {
       this.isTableVisible = true;      
     })
   }
-  updateDistance(key_index :any =0){
-    let apikey = environment.API_KEY[key_index];
+  updateDistance(){
     let customerLatitude = localStorage.getItem('customerLatitude')
     let customerLongitude = localStorage.getItem('customerLongitude')
     // Array to hold all distance fetch Promises
@@ -345,7 +345,7 @@ export class BusinesssearchComponent implements OnInit {
           },
           (error: any) => {
             if(error.error.message == 'Plan not found'){
-              this.updateDistance(key_index + 1);
+              console.log('change distance api key');
             }
           });
       });
