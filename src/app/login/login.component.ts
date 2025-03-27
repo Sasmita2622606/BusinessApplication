@@ -123,7 +123,7 @@ export class LoginComponent {
       const payload = JSON.parse(atob(token.split('.')[1]));
   
       // Extract email from the payload
-      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"] || null;
+      return  payload["EmailId"] || payload["Email"] || null
     } catch (error) {
       console.error("Error decoding JWT token", error);
       return null;
