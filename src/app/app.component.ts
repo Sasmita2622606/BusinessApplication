@@ -47,7 +47,7 @@ export class AppComponent {
     this.dropdownOpen = false;
   }
   ProfileChangePassword(){
-    debugger;
+    this.dropdownOpen = false;
     this.router.navigateByUrl("/Change-password");
   }
 }

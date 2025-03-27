@@ -54,11 +54,19 @@
           <!-- <th>Visiting Card</th> -->
           <!-- <th>New Latitude</th> -->
           <th style="text-align: center;">Address</th>
-          <th style="text-align: center;">Distance (KM)<i class="fas fa-arrow-up" (click)="sortDistance(true)"></i>
-            <i class="fas fa-arrow-down" (click)="sortDistance(false)"></i>
+          <th style="text-align: center;">
+            <button class="sort-button" (click)="toggleSortDistance()">
+              Distance (KM)
+              <span *ngIf="distanceAscending">&#8593;</span> 
+              <span *ngIf="!distanceAscending">&#8595;</span>
+            </button>
           </th>
-          <th style="text-align: center;">Average Rating <i class="fas fa-arrow-up" (click)="sortRating(true)"></i>
-            <i class="fas fa-arrow-down" (click)="sortRating(false)"></i>
+          <th style="text-align: center;">
+            <button class="sort-button" (click)="toggleSortRating()">
+              Rating
+              <span *ngIf="ratingAscending">&#8593;</span>
+              <span *ngIf="!ratingAscending">&#8595;</span>
+            </button>
           </th>
         </tr>
       </thead>
