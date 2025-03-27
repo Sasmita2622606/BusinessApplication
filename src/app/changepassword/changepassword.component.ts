@@ -20,6 +20,9 @@ export class ChangepasswordComponent {
   message: string = '';
   error: string = '';
   email: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+  passwordsMatch: boolean = true;
 
   constructor(private fb: FormBuilder, private adminService: AdminService, private router: Router,
     private route: ActivatedRoute, private authService: AuthService) {
@@ -39,6 +42,22 @@ export class ChangepasswordComponent {
     const pass = group.get('newPassword')?.value;
     const confirmPass = group.get('confirmPassword')?.value;
     return pass === confirmPass ? null : { notSame: true };
+  }
+
+  onConfirmPasswordBlur() {
+    this.checkPasswordsMatch();
+  }
+
+  // Compare new password and confirm password
+  checkPasswordsMatch() {
+    debugger
+    this.newPassword = this.changePasswordForm.get('newPassword')?.value;
+    this.confirmPassword = this.changePasswordForm.get('confirmPassword')?.value;
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordsMatch = false;
+    } else {
+      this.passwordsMatch = true;
+    }
   }
 
   onSubmit(): void {
