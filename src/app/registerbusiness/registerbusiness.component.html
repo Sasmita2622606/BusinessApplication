@@ -107,7 +107,7 @@
         type="text"
         id="latitude"
         class="form-control"
-        formControlName="Latitude"
+        formControlName="Latitude"[hidden]="isHidden"
         readonly
         placeholder="Latitude will appear here"
       />
@@ -120,7 +120,7 @@
         type="text"
         id="longitude"
         class="form-control"
-        formControlName="Longitude"
+        formControlName="Longitude"  [hidden]="isHidden"
         readonly
         placeholder="Longitude will appear here"
       />

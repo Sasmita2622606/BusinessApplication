@@ -21,6 +21,7 @@ export class RegisterbusinessComponent implements OnInit {
   fileUpload: any;
   emailExists: boolean = false;
   message = '';
+  isHidden = true;
   private messageService = inject(BusinessService);
 
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 }; // Default to San Francisco

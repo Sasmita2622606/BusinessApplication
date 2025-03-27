@@ -22,6 +22,7 @@ export class CustomerregistrationComponent implements OnInit {
   messageclass = '';
   message = '';
   emailExists: boolean = false;
+  isHidden = true;
   private messageService = inject(BusinessService);
 
   center: google.maps.LatLngLiteral = { lat: 37.7749, lng: -122.4194 }; // Default to San Francisco
