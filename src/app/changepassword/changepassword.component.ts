@@ -50,7 +50,6 @@ export class ChangepasswordComponent {
 
   // Compare new password and confirm password
   checkPasswordsMatch() {
-    debugger
     this.newPassword = this.changePasswordForm.get('newPassword')?.value;
     this.confirmPassword = this.changePasswordForm.get('confirmPassword')?.value;
     if (this.newPassword !== this.confirmPassword) {

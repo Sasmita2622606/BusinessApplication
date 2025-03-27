@@ -46,7 +46,6 @@ export class AuthService {
   }
 
   getRoleIdFromToken(): string | null {
-    debugger
     const token = this.getToken();
     if (token) {
       try {
