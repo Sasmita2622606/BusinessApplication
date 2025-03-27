@@ -7,7 +7,7 @@
         <img style="width: 25px;height: 25px; margin-top: 8px;" src="assets/user.png" alt="User Profile" class="profile-icon" />
       </div>
 
-      <div class="dropdown-menu" *ngIf="dropdownOpen" style="text-align:center">
+      <div class="dropdown-menu" *ngIf="dropdownOpen" (mouseleave)="dropdownOpen=false" style="text-align:center">
 
         
        <div >
@@ -25,7 +25,7 @@
           </a>
           <div class="dropdown-divider"></div>
        <a (click)="ProfileChangePassword()" class="dropdown-item">Change Password</a>
-                    <div class="dropdown-divider"></div>
+        <div class="dropdown-divider"></div>
 
         <a (click)="logout()" class="dropdown-item">Logout</a>
       </div>
