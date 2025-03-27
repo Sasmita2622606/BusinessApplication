@@ -639,7 +639,24 @@ background: rgba(137, 132, 132, 0.5); /* Semi-transparent black #212529 */
   min-width: 12.25rem;
 }
 
-
+ .sort-button {
+    background-color: #4CAF50; /* Green color */
+    color: white; /* White text */
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sort-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  .sort-button:focus {
+    outline: none; /* Removes focus outline */
+  }
 
 @media screen and (min-width: 100px) and (max-width: 400px) {
   /* Add your styles here for screens between 100px and 400px */
@@ -649,4 +666,7 @@ background: rgba(137, 132, 132, 0.5); /* Semi-transparent black #212529 */
   .dropdownMenuButton{
     min-width: 11.25rem;
   }
+
+ 
+  
 }

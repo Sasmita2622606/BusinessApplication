@@ -79,6 +79,8 @@ export class BusinesssearchComponent implements OnInit {
   roleID: string | null = null;
   isModalOpen = false;
   modalImageUrl = '';
+  distanceAscending:boolean = false;
+  ratingAscending:boolean=false;
   constructor(private fb: FormBuilder, private businessService: BusinessService, private router: Router, private authservice: AuthService, private renderer: Renderer2) { }
 
   ngOnInit(): void {
@@ -102,7 +104,6 @@ export class BusinesssearchComponent implements OnInit {
     this.getCustomerDetails();
     this.roleID = this.authservice.getRoleIdFromToken();
     console.log("token", this.roleID)
-
   }
 
   openModal(imageUrl: string) {
@@ -392,7 +393,6 @@ export class BusinesssearchComponent implements OnInit {
    }else{
     this.businessList =this.businessList?.sort((a,b)=>b.distancekm-a.distancekm);
    }
-
   }
   sortRating(value:boolean):any{
     if(value && this.businessList.length>0){
@@ -520,5 +520,16 @@ export class BusinesssearchComponent implements OnInit {
         console.error('update error:', error);
       }
     });
+  }
+
+  toggleSortDistance() {
+    this.distanceAscending = !this.distanceAscending;
+    this.sortDistance(this.distanceAscending);
+  }
+
+  toggleSortRating()
+  {
+    this.ratingAscending = !this.ratingAscending;
+    this.sortRating(this.ratingAscending);
   }
 }

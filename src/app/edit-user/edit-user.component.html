@@ -4,7 +4,8 @@
     <h1>Edit Business User</h1>
     <div class="form-group">
       <label>Existing Business Name</label>
-      <input id="name" type="text" formControlName="name" placeholder="Enter business name" autocomplete="off" />
+      <input id="name" type="text" formControlName="name" placeholder="Enter business name" autocomplete="off" 
+      maxlength="20" />
       <div *ngIf="editBusinessForm.get('name')?.touched && editBusinessForm.get('name')?.invalid" class="error">
         <small *ngIf="editBusinessForm.get('name')?.hasError('required')">Business name is required.</small>
         <small *ngIf="editBusinessForm.get('name')?.hasError('minlength')">Business name must be at least 3 characters long.</small>
