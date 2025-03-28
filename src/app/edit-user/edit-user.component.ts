@@ -82,7 +82,7 @@ export class EditUserComponent {
                 Swal.fire({
                   icon: 'success',
                   title: 'Success',
-                  text: 'Successfully registered!',
+                  text: 'Details Updated Successfully',
                   confirmButtonText: 'OK',
                 });
         
@@ -93,7 +93,7 @@ export class EditUserComponent {
                 Swal.fire({
                   icon: 'error',
                   title: 'Failed',
-                  text: 'Registration failed!',
+                  text: 'Details Update failed!',
                   confirmButtonText: 'Try Again',
                 });
               }
@@ -128,7 +128,7 @@ export class EditUserComponent {
                 Swal.fire({
                   icon: 'success',
                   title: 'Success',
-                  text: 'Successfully registered!',
+                  text: 'Details Updated Successfully',
                   confirmButtonText: 'OK',
                 });
         
@@ -139,7 +139,7 @@ export class EditUserComponent {
                 Swal.fire({
                   icon: 'error',
                   title: 'Failed',
-                  text: 'Registration failed!',
+                  text: 'Details Update failed!',
                   confirmButtonText: 'Try Again',
                 });
               }

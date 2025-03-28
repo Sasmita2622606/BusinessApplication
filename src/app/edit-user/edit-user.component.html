@@ -103,15 +103,19 @@
           SubCategory is required.
         </small>
       </div>
-  
-      <!-- Submit Button -->
-      <button
-        type="submit"
-        class="submit-btn btn btn-primary"
-        [disabled]="editBusinessForm.invalid"
-      >
-        Edit Business
-      </button>
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <a [routerLink]="['/Businesssearch']" class="link">Back</a>
+        </div>
+        <button style="width: 180px;"
+          type="submit"
+          class="submit-btn btn btn-primary"
+          [disabled]="editBusinessForm.invalid"
+        >
+          Edit Business
+        </button>
+      </div>
+      
     </form>
   
 
@@ -162,7 +166,12 @@
       </div>
     </div>
     <!-- Submit Button -->
-    <button type="submit" class="submit-btn" [disabled]="editCustomerForm.invalid">Edit Customer</button>
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <a [routerLink]="['/Businesssearch']" class="link">Back</a>
+      </div>
+      <button style="width: 180px;" type="submit" class="submit-btn" [disabled]="editCustomerForm.invalid">Edit Customer</button>
+  </div>
   </form>
 </div>
 
