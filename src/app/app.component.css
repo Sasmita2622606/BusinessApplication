@@ -28,6 +28,13 @@
     flex-direction: column;
     z-index: 10;
   }
+
+  .dropdown-menu p {
+    word-wrap: break-word;
+    /* Allows email ID to wrap when it's too long */
+    white-space: normal;
+    /* Ensures text breaks to the next line when necessary */
+  }
   
   .dropdown-item {
     padding: 10px;
